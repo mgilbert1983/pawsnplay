@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Paws n' Play</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@900&family=Josefin+Sans:wght@400;600&display=swap" rel="stylesheet" />
+
+<style>
+/* GLOBAL */
+body {
+  margin: 0;
+  font-family: 'Josefin Sans', sans-serif;
+  color: #7b68ee;
+  background-color: #ffffff;
+}
+
+/* HEADER */
+header {
+  background-color: #fad4fc;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+header img {
+  height: 60px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+header img:hover {
+  transform: scale(1.05);
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 24px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #7b68ee;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #3414fd;
+}
+
+/* PARALLAX */
+.parallax {
+  background-image: url("https://iili.io/Ke63t2I.png");
+  min-height: 50vh;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.parallax-text {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 900;
+  font-size: 3em;
+  color: #fad4fc;
+  text-shadow:
+    -3px -3px 0 #3414fd,
+    3px -3px 0 #3414fd,
+    -3px 3px 0 #3414fd,
+    3px 3px 0 #3414fd;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeSlideUp 1.5s ease forwards;
+}
+
+.popper-img {
+  width: 72px;
+  height: 72px;
+  animation: float 3s ease-in-out infinite;
+  object-fit: contain;
+}
+
+.popper-img.left {
+  transform: scaleX(-1);
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* SECTIONS */
+.section {
+  padding: 80px 10%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.section img {
+  width: 320px;
+  height: 320px;
+  border-radius: 20px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.section-content {
+  flex: 1;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.section.visible img,
+.section.visible .section-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section h2 {
+  font-family: 'League Spartan', sans-serif;
+  font-size: 2.2em;
+  margin-bottom: 16px;
+}
+
+.section p {
+  line-height: 1.6;
+}
+
+.section.reverse {
+  flex-direction: row-reverse;
+}
+
+/* COLOR SPECIFIC SECTIONS */
+.section.pink { background-color: #fad4fc; }
+.section.white { background-color: #ffffff; }
+
+/* SUBSECTIONS */
+.subsection {
+  padding: 60px 10%;
+  text-align: center;
+}
+
+.subsection.white { background-color: #ffffff; }
+.subsection.pink { background-color: #fad4fc; }
+
+.subsection h3 {
+  font-family: 'League Spartan', sans-serif;
+  font-size: 2em;
+  color: #7b68ee;
+  margin-bottom: 40px;
+}
+
+/* --- UPDATED: SEE THE FUN IN ACTION - 6 PANEL GRID --- */
+
+/* container */
+.subsection-gallery {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* make .photo-box a clickable card (anchor) */
+.photo-box {
+  display: block; /* anchor behaves like block */
+  flex: 1 1 calc(33.333% - 24px);
+  max-width: calc(33.333% - 24px);
+  aspect-ratio: 1 / 1;           /* equal width & height */
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-decoration: none;
+  color: inherit;
+  background-color: #fff;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* image fills dominant area */
+.photo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  vertical-align: middle;
+}
+
+/* overlay that appears on hover */
+.photo-box .overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.0) 40%, rgba(52,20,253,0.12) 70%, rgba(250,212,252,0.9) 100%); 
+  opacity: 0;
+  transition: opacity 0.28s ease;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* caption sits inside overlay for consistent placement */
+.photo-box .overlay .caption-inner {
+  width: 100%;
+  text-align: center;
+  font-weight: 700;
+  color: #3414fd;
+  background: rgba(255,255,255,0.85);
+  padding: 8px 10px;
+  border-radius: 8px;
+  transform: translateY(8px);
+  transition: transform 0.28s ease;
+}
+
+/* hover / focus effects (also keyboard-accessible) */
+.photo-box:hover,
+.photo-box:focus {
+  transform: scale(1.04);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.18);
+  z-index: 2;
+}
+
+.photo-box:hover .overlay,
+.photo-box:focus .overlay {
+  opacity: 1;
+}
+
+.photo-box:hover .overlay .caption-inner,
+.photo-box:focus .overlay .caption-inner {
+  transform: translateY(0);
+}
+
+/* responsive adjustments */
+@media (max-width: 900px) {
+  .photo-box {
+    flex: 1 1 calc(50% - 24px);
+    max-width: calc(50% - 24px);
+  }
+}
+@media (max-width: 520px) {
+  .photo-box {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+/* FOOTER */
+footer {
+  background-color: #fad4fc;
+  padding: 40px 10%;
+  text-align: center;
+}
+
+footer input[type="email"] {
+  padding: 10px;
+  border: 2px solid #7b68ee;
+  border-radius: 6px;
+  width: 250px;
+  color: #7b68ee;
+}
+
+footer button {
+  padding: 10px 20px;
+  background-color: #7b68ee;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+footer button:hover {
+  background-color: #3414fd;
+}
+
+.social-icons {
+  margin: 20px 0;
+}
+
+.social-icons a {
+  margin: 0 10px;
+  font-size: 1.5em;
+  color: #7b68ee;
+  transition: transform 0.3s ease;
+}
+
+.social-icons a:hover {
+  transform: scale(1.2);
+}
+
+footer small {
+  display: block;
+  margin-top: 10px;
+}
+
+/* SPLASH */
+#splash {
+  background-color: #fad4fc;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: transform 1s ease-in-out;
+}
+
+#splash img {
+  width: 200px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <img src="https://iili.io/KkTOXcP.md.png" alt="Logo" onclick="hideSplash()" />
+</div>
+
+<!-- MAIN -->
+<div id="mainContent" style="display:none;">
+
+<header>
+  <a href="#"><img src="https://iili.io/KkTOXcP.md.png" alt="Logo" /></a>
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="parallax">
+  <div class="parallax-text">
+    <img src="https://iili.io/Kkx7umG.gif" class="popper-img left" alt="Left Popper" />
+    Vancouver’s First Ever<br>Licensed Dog Cafe
+    <img src="https://iili.io/KkxkRSe.gif" class="popper-img" alt="Right Popper" />
+  </div>
+</div>
+
+<!-- SECTION 1 -->
+<section class="section pink">
+  <img src="https://iili.io/Kkuc8j1.md.png" alt="Dog Cafe" />
+  <div class="section-content">
+    <h2>About Paws n' Play</h2>
+    <p>Welcome to Paws n’ Play — Vancouver’s first comprehensive dog hub, featuring the city’s 
+first licensed Dog Café alongside full-service grooming, walking, and retail. It’s a vibrant 
+community space where pups and their people can relax, refresh, and refuel. </p>
+  </div>
+</section>
+
+<!-- SEE THE FUN IN ACTION (REPLACED WITH 6-PANEL GRID) -->
+<div class="subsection white">
+  <h3>Our Services</h3>
+  <div class="subsection-gallery">
+    <a href="cafe.html" class="photo-box" aria-label="Dog Café">
+      <img src="https://iili.io/Kk13F87.md.png">
+      <div class="overlay"><div class="caption-inner">Dog Café</div></div>
+    </a>
+
+    <a href="lounge.html" class="photo-box" aria-label="Dog Walking">
+      <img src="https://iili.io/Kk1FIxs.md.png">
+      <div class="overlay"><div class="caption-inner">Dog Walking</div></div>
+    </a>
+
+    <a href="events.html" class="photo-box" aria-label="Dog Parties">
+      <img src="https://iili.io/Kk1FEzu.md.png">
+      <div class="overlay"><div class="caption-inner">Dog Parties</div></div>
+    </a>
+
+    <a href="menu.html" class="photo-box" aria-label="Dog Store">
+      <img src="https://iili.io/Kk1FLmX.md.png">
+      <div class="overlay"><div class="caption-inner">Dog Store</div></div>
+    </a>
+
+    <a href="store.html" class="photo-box" aria-label="Grooming">
+      <img src="https://iili.io/Kk1K2p9.md.png">
+      <div class="overlay"><div class="caption-inner">Grooming</div></div>
+    </a>
+
+    <a href="gallery.html" class="photo-box" aria-label="Dog Daycare">
+      <img src="https://iili.io/Kk1Kka2.md.png">
+      <div class="overlay"><div class="caption-inner">Dog Daycare</div></div>
+    </a>
+    <p>And that's just the start! From our exhilarating Dog Daycare and stimulating Activity Groups to a relaxing stop at our Dog Cafe, a shopping spree in our fully stocked Dog Store, and a pampering session with our expert Grooming services, <b>Paws n' Play</b> is your dog's ultimate destination for fun, care, and everything in between! Come discover the full experience and give your best friend the best life. </p>
+  </div>
+</div>
+
+<!-- SECTION 2 -->
+<section class="section pink reverse">
+  <img src="https://iili.io/KkAZ1pa.md.png" alt="Dog Walking" />
+  <div class="section-content">
+    <h2>Happy Tails</h2>
+    <p>Our <b>Paws n' Play</b> walking service offers both economical Group Walks and dedicated Solo Walks seven days a week, ensuring your dog gets the leash life they deserve. Our experienced, well-trained staff tailor every safe adventure to your pup's needs in the busy city, giving you peace of mind while they have a pawsitively great time! </p>
+  </div>
+</section>
+
+<div class="subsection white">
+  <div class="subsection-gallery">
+    <a href="cafe.html" class="photo-box" aria-label="Solo Walks">
+      <img src="https://iili.io/Kkt7Dvt.md.jpg">
+      <div class="overlay"><div class="caption-inner">Solo walks</div></div>
+    </a>
+
+    <a href="lounge.html" class="photo-box" aria-label="Group Walks">
+      <img src="https://iili.io/KktlglR.md.jpg">
+      <div class="overlay"><div class="caption-inner">Group Walks</div></div>
+    </a>
+<p>And while all those services await, remember that every great dog's day starts with a great walk! Our <b>Paws n' Play</b> Walking Service is ready to provide the perfect outing, whether it's an economical and fun Group Walk or a dedicated Solo Walk tailored just for your pup.
+<br><br>
+No matter your dog's needs in this busy city, our experienced staff ensures a safe and pawsitively great adventure, seven days a week. Ready to give your dog the leash life they deserve? Contact us today for more information on scheduling the perfect walk! </p>
+   
+  </div>
+</div>
+
+<!-- SECTION 3 -->
+<section class="section pink">
+  <img src="https://iili.io/KkchYaR.md.png" alt="Grooming" />
+  <div class="section-content">
+    <h2>Grooming & Spa</h2>
+    <p>Your dog deserves to look and feel their best...</p>
+  </div>
+</section>
+
+<div class="subsection white">
+  <h3>Our Services</h3>
+  <div class="subsection-gallery">
+    <a href="cafe.html" class="photo-box" aria-label="Dog Washing">
+      <img src="https://iili.io/KkDC0s1.md.jpg">
+      <div class="overlay"><div class="caption-inner">Dog Washing</div></div>
+    </a>
+
+    <a href="lounge.html" class="photo-box" aria-label="Grooming">
+      <img src="https://iili.io/KkDwGdF.md.jpg">
+      <div class="overlay"><div class="caption-inner">Grooming</div></div>
+    </a>
+
+    <a href="events.html" class="photo-box" aria-label="Dog Parties">
+      <img src="https://iili.io/KkDma9e.md.jpg">
+      <div class="overlay"><div class="caption-inner">Dog Parties</div></div>
+    </a>
+
+    <p>And that's just the start! From our exhilarating Dog Daycare and stimulating Activity Groups to a relaxing stop at our Dog Cafe, a shopping spree in our fully stocked Dog Store, and a pampering session with our expert Grooming services, <b>Paws n' Play</b> is your dog's ultimate destination for fun, care, and everything in between! Come discover the full experience and give your best friend the best life. </p>
+  </div>
+</div>
+
+<!-- SECTION 4 -->
+<section class="section pink reverse">
+  <img src="https://iili.io/KkcjLgf.md.png" alt="Events" />
+  <div class="section-content">
+    <h2>Events & Playdates</h2>
+    <p>We host weekly social events, community meetups, and themed playdates...</p>
+  </div>
+</section>
+
+<div class="subsection white">
+  <h3>Moments to Remember</h3>
+  <div class="subsection-gallery">
+    <div class="photo-box"><img src="https://iili.io/Kkuc8j1.md.png" alt=""><div class="photo-caption">Themed parties</div></div>
+    <div class="photo-box"><img src="https://iili.io/Kkuc8j1.md.png" alt=""><div class="photo-caption">Playdate pals</div></div>
+    <div class="photo-box"><img src="https://iili.io/Kkuc8j1.md.png" alt=""><div class="photo-caption">Holiday events</div></div>
+  </div>
+</div>
+
+<!-- SECTION 5 -->
+<section class="section pink reverse">
+  <img src="https://iili.io/KkcO9cb.md.png" alt="Holler" />
+  <div class="section-content">
+    <h2>In Good Paws</h2>
+    <p>At Paws n’ Play, you and your pup will be greeted by a small, knowledgeable team. Our staff members are trained in dog behavior and certified in Pet First Aid, ensuring safety and comfort during your visit. With attentive care and expertise, we’re here to make your time in the café calm, happy, and stress-free. </p>
+  </div>
+</section>
+
+<div class="subsection white">
+  <h3>Meet our team</h3>
+<div class="subsection-gallery">
+    <a href="cafe.html" class="photo-box" aria-label="Solo Walks">
+      <img src="https://iili.io/KkbBwEF.png">
+      <div class="overlay"><div class="caption-inner">Christiana Taylor <br>Co-owner <br> Head of the pack</div></div>
+    </a>
+
+    <a href="lounge.html" class="photo-box" aria-label="Group Walks">
+      <img src="https://iili.io/Kkbn9NR.png">
+      <div class="overlay"><div class="caption-inner">Tony Ali <br>Co-owner <br> Chief Tail-wagger</div></div>
+    </a>
+<p>At Paws n’ Play, we take care to a whole new leash on life—for both you and your four-legged friends! Our paws-itively passionate team is trained in proper dog handling and dedicated to creating a safe, tail-wagging experience every time you visit. From cozy corners for cuddles to pup-approved play areas, every detail is carefully curated to make you feel right at home. Whether you’re here to sip, sit, or stay, we guarantee a fur-tastic time filled with comfort, compassion, and community. Have a question? Don’t be shy—give us a bark anytime! </p>
+ 
+  </div>
+</div>
+
+<footer>
+  <div>
+    <input type="email" placeholder="Enter your email" />
+    <button>Subscribe</button>
+  </div>
+  <div class="social-icons">
+    <a href="#">🌐</a>
+    <a href="#">📷</a>
+    <a href="#">🐦</a>
+    <a href="#">🎥</a>
+  </div>
+  <small>© 2025 Paws n' Play - All Rights Reserved.</small>
+</footer>
+
+</div>
+
+<script>
+// Splash transition
+function hideSplash() {
+  const splash = document.getElementById('splash');
+  const main = document.getElementById('mainContent');
+  splash.style.transform = 'translateY(-100%)';
+  setTimeout(() => {
+    splash.style.display = 'none';
+    main.style.display = 'block';
+  }, 500);
+}
+
+// Fade-in animation on scroll
+window.addEventListener('scroll', () => {
+  document.querySelectorAll('.section').forEach(section => {
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 100) {
+      section.classList.add('visible');
+    }
+  });
+});
+</script>
+
+</body>
+</html>
