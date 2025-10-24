@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Paws n' Play</title>
+
+ <!-- Main CSS -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Mobile CSS (overrides main CSS on phones) -->
+  <link rel="stylesheet" href="mobile.css">
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@900&family=Josefin+Sans:wght@400;600&display=swap" rel="stylesheet" />
+
+<style>
+/* GLOBAL */
+body {
+  margin: 0;
+  font-family: 'Josefin Sans', sans-serif;
+  color: #7b68ee;
+  background-color: #ffffff;
+}
+
+/* HEADER */
+header {
+  background-color: #fad4fc;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+
+header img {
+  height: 30px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+header img:hover {
+  transform: scale(1.05);
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 24px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #7b68ee;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+
+
+
+
+
+nav a:hover {
+  color: #5b47cf;
+}
+
+/* PARALLAX */
+.parallax {
+  background-image: url("https://iili.io/Ke63t2I.png");
+  min-height: 50vh;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.parallax-text {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 900;
+  font-size: 3em;
+  color: #fff;
+  text-shadow:
+    -3px -3px 0 #3414fd,
+    3px -3px 0 #3414fd,
+    -3px 3px 0 #3414fd,
+    3px 3px 0 #3414fd;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeSlideUp 1.5s ease forwards;
+}
+
+.popper-img {
+  width: 100px;
+  height: 100px;
+  animation: float 3s ease-in-out infinite;
+  object-fit: contain;
+}
+
+.popper-img.left {
+  transform: scaleX(-1);
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* SECTIONS */
+.section {
+  padding: 30px 20%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 55px;
+  flex-wrap: wrap;
+}
+
+.section img {
+  width: 275px;
+  height: 275px;
+  border-radius: 40px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.section-content {
+  flex: 1;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.section.visible img,
+.section.visible .section-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section h2 {
+  font-family: 'League Spartan', sans-serif;
+  font-size: 2.2em;
+  margin-bottom: 16px;
+}
+
+.section p {
+  line-height: 1.6;
+}
+
+.section.reverse {
+  flex-direction: row-reverse;
+}
+
+/* COLOR SPECIFIC SECTIONS */
+.section.pink { background-color: #fad4fc; }
+.section.white { background-color: #ffffff; }
+
+/* SUBSECTIONS */
+.subsection {
+  padding: 100px 20%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 55px;
+  flex-wrap: wrap;
+}
+}
+
+.subsection.white { background-color: #ffffff; }
+.subsection.pink { background-color: #fad4fc; }
+
+.subsection h3 {
+  font-family: 'League Spartan', sans-serif;
+  font-size: 2em;
+  color: #7b68ee;
+  margin-bottom: 40px;
+}
+
+/* --- UPDATED: SEE THE FUN IN ACTION - 6 PANEL GRID --- */
+
+/* container */
+.subsection-gallery {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: center;
+}
+
+/* make .photo-box a clickable card (anchor) */
+.photo-box {
+  display: block; /* anchor behaves like block */
+  flex: 1 1 calc(33.333% - 24px);
+  max-width: calc(33.333% - 24px);
+  aspect-ratio: 1 / 1;           /* equal width & height */
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-decoration: none;
+  color: inherit;
+  background-color: #fff;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* image fills dominant area */
+.photo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  vertical-align: middle;
+}
+
+/* overlay that appears on hover */
+.photo-box .overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.0) 40%, rgba(52,20,253,0.12) 70%, rgba(250,212,252,0.9) 100%); 
+  opacity: 0;
+  transition: opacity 0.28s ease;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* caption sits inside overlay for consistent placement */
+.photo-box .overlay .caption-inner {
+  width: 100%;
+  text-align: center;
+  font-weight: 700;
+  color: #3414fd;
+  background: rgba(255,255,255,0.85);
+  padding: 8px 10px;
+  border-radius: 8px;
+  transform: translateY(8px);
+  transition: transform 0.28s ease;
+}
+
+/* hover / focus effects (also keyboard-accessible) */
+.photo-box:hover,
+.photo-box:focus {
+  transform: scale(1.04);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.18);
+  z-index: 2;
+}
+
+.photo-box:hover .overlay,
+.photo-box:focus .overlay {
+  opacity: 1;
+}
+
+.photo-box:hover .overlay .caption-inner,
+.photo-box:focus .overlay .caption-inner {
+  transform: translateY(0);
+}
+
+/* responsive adjustments */
+@media (max-width: 900px) {
+  .photo-box {
+    flex: 1 1 calc(50% - 24px);
+    max-width: calc(50% - 24px);
+  }
+}
+@media (max-width: 520px) {
+  .photo-box {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+/* FOOTER */
+footer {
+  background-color: #fad4fc;
+  padding: 40px 10%;
+  text-align: center;
+width: 100%; /* ensure it spans the full width */
+  box-sizing: border-box; /* include padding in width calculation */
+}
+}
+
+.contact-section {
+  width: 100%;
+  max-width: 20rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 3rem 1rem;
+}
+
+.contact-intro > * + * {
+  margin-top: 1rem;
+}
+
+.contact-title {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+}
+
+.contact-description {
+  color: rgb(107 114 128);
+}
+
+.form-group-container {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  margin-bottom: 0.5rem;
+}
+
+.form-input,
+.form-textarea {
+  padding: 0.5rem;
+  border: 1px solid #7B68EE;
+  display: flex;
+  height: 2.5rem;
+  width: 100%;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.form-input::placeholder,
+.form-textarea:focus-visible {
+  color: #7B68EE;
+}
+
+.form-input:focus-visible,
+.form-textarea:focus-visible {
+  outline: 2px solid #7B68EE;
+  outline-offset: 2px;
+}
+
+.form-textarea {
+  min-height: 120px;
+}
+
+.form-submit {
+  width: 20%;
+  margin-top: 1.2rem;
+  background-color: #7B68EE;
+  display: flex;
+  color: #fff;
+  padding: 13px 5px;
+  border-radius: 0.375rem;
+}
+
+
+.social-icons {
+  margin: 20px 0;
+}
+
+.social-icons a {
+  margin: 0 10px;
+  font-size: 1.5em;
+  color: #7b68ee;
+  transition: transform 0.3s ease;
+}
+
+.social-icons a:hover {
+  transform: scale(1.2);
+}
+
+footer small {
+  display: block;
+  margin-top: 10px;
+}
+
+/* SPLASH */
+#splash {
+  background-color: #fad4fc;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: transform 1s ease-in-out;
+}
+
+#splash img {
+  width: 200px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <style>
+    /* Apply hover effect to splash image */
+    #splash img {
+      transition: transform 0.3s ease; /* smooth transition */
+      display: block; /* ensures proper centering if needed */
+      margin: 0 auto;
+    }
+    #splash img:hover {
+      transform: scale(1.1) rotate(5deg); /* enlarge 10% and rotate 5 degrees */
+    }
+  </style>
+
+  <img src="https://iili.io/KkTOXcP.md.png" alt="Logo" onclick="hideSplash()" />
+</div>
+
+<!-- MAIN -->
+<div id="mainContent" style="display:none;">
+
+<header>
+  <a href="#"><img src="https://iili.io/KkTOXcP.md.png" alt="Logo" /></a>
+  <nav>
+    <ul>
+     <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    .social-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .social-container a {
+      font-size: 2.0rem;
+      transition: transform 0.3s, color 0.3s;
+      color: #7B68EE;
+    }
+    .social-container a:hover {
+      transform: scale(1.2);
+    }
+    .color-inputs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .color-inputs label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="social-container">
+  <a href="https://www.facebook.com/pawsnplayvancouver/" target="_blank" id="facebook"><i class="fab fa-facebook-f"></i></a>
+  <a href="https://www.instagram.com/pawsnplayvancouver/" target="_blank" id="instagram"><i class="fab fa-instagram"></i></a>
+  <a href="https://www.threads.com/@pawsnplayvancouver" target="_blank" id="threads"><i class="fab fa-threads"></i></a>
+  <a href="https://x.com/pawsnplayyvr" target="_blank" id="x"><i class="fab fa-x-twitter"></i></a>
+  <a href="https://www.tiktok.com/@pawsnplayvancouver" target="_blank" id="tiktok"><i class="fab fa-tiktok"></i></a>
+  <a href="https://www.youtube.com/@pawsnplayyvr" target="_blank" id="youtube"><i class="fab fa-youtube"></i></a>
+</div>
+
+
+
+<script>
+  const socials = [
+    { iconId: 'facebook', inputId: 'color-facebook' },
+    { iconId: 'instagram', inputId: 'color-instagram' },
+    { iconId: 'threads', inputId: 'color-threads' },
+    { iconId: 'x', inputId: 'color-x' },
+    { iconId: 'tiktok', inputId: 'color-tiktok' },
+    { iconId: 'youtube', inputId: 'color-youtube' }
+  ];
+
+  socials.forEach(social => {
+    const icon = document.getElementById(social.iconId);
+    const colorInput = document.getElementById(social.inputId);
+
+    icon.style.color = colorInput.value;
+
+    colorInput.addEventListener('input', () => {
+      icon.style.color = colorInput.value;
+    });
+  });
+</script>
+    </ul>
+  </nav>
+</header>
+
+<div class="parallax">
+  <div class="parallax-text">
+    <img src="https://iili.io/Kkx7umG.gif" class="popper-img left" alt="Left Popper" />
+Vancouver’s First Ever<br>Licensed Dog Café
+    <img src="https://iili.io/KkxkRSe.gif" class="popper-img" alt="Right Popper" />
+  </div>
+</div>
+
+<!-- SECTION 1 -->
+<section class="section pink">
+  <img src="https://iili.io/Kkuc8j1.md.png" alt="Dog Cafe" />
+  <div class="section-content">
+    <h2>Sip. Stay. Play.</h2>
+    <p>Welcome to Vancouver’s first — and only — registered Dog Café! At Paws n’ Play, we’ve created a cozy, canine-friendly space where pups and their people can unwind, connect, and paws for a treat. With tail-wagging vibes, off-leash zones, and delicious drinks for humans, it’s the ulti-mutt hangout. Come for the coffee, stay for the company ... 
+because every good day starts with a wag and a woof. </p>
+  </div>
+</section>
+
+
+
+
+
+<!-- SECTION 1 Content -->
+<section class="section white reverse">
+  <img src="https://iili.io/KgohlEP.md.png" alt="Dog 001" />
+  <div class="section-content">
+    <h2 style="text-align: right;">Pawsitive Social Spaces</h2>
+    <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  line-height: 1.6;">
+  At Paws n’ Play, we’ve built a dog-friendly café where tails wag and conversations flow. Our open, social layout encourages pups and their people to mingle, relax, and make new friends in a cheerful, welcoming space. It’s a place where dogs learn to share, play, and build confidence while owners connect over shared love and good coffee. Every visit strengthens the bond between you and your four-legged companion.
+</p>
+  </div>
+</section>
+
+<!-- Line break 001 -->
+<svg height="200" width="100%" viewBox="0 0 1000 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="120" x2="1000" y2="80" style="stroke:#fad4fc;stroke-width:3" />
+</svg>
+
+
+<section class="section white">
+  <img src="https://iili.io/KgxBdXI.md.png" alt="Dog 002" />
+  <div class="section-content">
+    <h2>Safe & Sound</h2>
+    <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;">Your dog’s safety and comfort come first. Our trained, dog-loving team maintains a clean, secure environment with supervised play areas designed for all sizes and temperaments. Every surface, toy, and bowl is carefully maintained to meet our high standards of care. You can unwind knowing your pup is having fun in a monitored, safe space that feels just like home — only with more friends and treats.</p>
+  </div>
+</section>
+
+
+<!-- Line break 002 -->
+<svg height="200" width="100%" viewBox="0 0 1000 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="80" x2="1000" y2="120" style="stroke:#fad4fc;stroke-width:3" />
+</svg>
+
+<section class="section white reverse">
+  <img src="https://iili.io/KgxYDRS.md.png" alt="Coffee 001" />
+  <div class="section-content">
+    <h2 style="text-align: right;">Crafted Comforts</h2>
+    <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;">While your dog enjoys the good life, you can too. Our café serves artisanal, in-house coffee, hand-crafted desserts, and local treats made with care and quality ingredients. Every detail — from the aroma of freshly ground beans to the cozy design — invites you to sit back, relax, and enjoy the company of fellow dog lovers. At Paws n’ Play, it’s more than coffee — it’s comfort, connection, and community in every cup.</p>
+  </div>
+ 
+</section>
+
+
+<!-- Line break 001 -->
+<svg height="200" width="100%" viewBox="0 0 1000 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="120" x2="1000" y2="80" style="stroke:#fad4fc;stroke-width:3" />
+</svg>
+
+<div class="subsection white">
+  <div class="subsection-gallery">
+    <a href="cafe.html" class="photo-box">
+      <img src="https://iili.io/Kgx6gVt.md.png">
+      <div class="overlay"></div>
+    </a>
+
+    <a href="lounge.html" class="photo-box">
+      <img src="https://iili.io/Kgx8Ttn.md.png">
+      <div class="overlay"></div>
+    </a>
+
+    <a href="events.html" class="photo-box">
+      <img src="https://iili.io/KgxhBVV.md.png">
+      <div class="overlay"></div>
+    </a>
+
+    </a>
+  <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  line-height: 1.6;">
+  At Paws n’ Play, we’ve built a dog-friendly café where tails wag and conversations flow. Our open, social layout encourages pups and their people to mingle, relax, and make new friends in a cheerful, welcoming space. It’s a place where dogs learn to share, play, and build confidence while owners connect over shared love and good coffee. Every visit strengthens the bond between you and your four-legged companion.
+</p>
+  </div>
+</div>
+
+<!-- Centered Call Button -->
+<div style="text-align: center; margin: 0px 0;">
+  <a href="tel:+16043626962"
+     style="
+       display: inline-block;
+       background-color: #7B68EE;
+       color: #FFFFFF;
+       padding: 15px 25px;
+       font-size: 18px;
+       font-weight: bold;
+       text-decoration: none;
+       border-radius: 8px;
+       transition: background-color 0.3s, color 0.3s, transform 0.2s;
+     "
+     onmouseover="this.style.backgroundColor='#FAD4FC'; this.style.color='#FFFFFF'; this.style.transform='scale(1.05)';"
+     onmouseout="this.style.backgroundColor='#7B68EE'; this.style.color='#FFFFFF'; this.style.transform='scale(1)';">
+    Call Us Now
+  </a>
+</div>
+
+  <div style="margin-top: 40px;"></div>
+
+
+
+<!-- SITE STORE -->
+<section class="section pink reverse">
+  <img src="https://iili.io/KkchYaR.md.png" alt="Events" />
+  <div class="section-content">
+    <h2>Shop with us</h2>
+    <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;">At Paws n’ Play, we believe every pup deserves the very best gear for their adventures. We meticulously curate our selection of toys, accessories, and doggy apparel using only safe, high-quality, and ethically-sourced materials. You won't find anything made with harsh, cheap components—only items full of tail-wagging fun and style.
+</p>
+  </div>
+</section>
+
+<div class="subsection white">
+  <div class="subsection-gallery">
+    <a href="cafe.html" class="photo-box" aria-label="Howling Good Looks">
+      <img src="https://iili.io/KvwEwyx.th.png">
+      <div class="overlay"><div class="caption-inner">Howling Good Looks</div></div>
+    </a>
+
+    <a href="lounge.html" class="photo-box" aria-label="It's A Deal">
+      <img src="https://iili.io/KvwOhiv.th.jpg">
+      <div class="overlay"><div class="caption-inner">It's A Deal</div></div>
+    </a>
+
+    <a href="events.html" class="photo-box" aria-label="Gifts They'll Love">
+      <img src="https://iili.io/KvweiQa.th.png">
+      <div class="overlay"><div class="caption-inner">Gifts They'll Love</div></div>
+     
+    </a>
+
+    
+     <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  line-height: 1.6;">Whether you're picking up a durable toy for playtime, a stylish new collar for walks, or a cozy hoodie for chilly days, we treat every item choice with the same love and care you treat your dog. It's not just about what they play with or wear—it’s about enhancing their well-being, expressing their personality, and making every day something to bark about.</p>
+    <h2>COMING SOON</h2>
+  </div>
+</div>
+
+
+
+
+
+<!-- SECTION 3 -->
+<section class="section pink">
+  <img src="https://iili.io/KkAZ1pa.md.png" alt="Dog Walking" />
+  <div class="section-content">
+    <h2>Dog Walking</h2>
+    <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;">Our <b>Paws n' Play</b> walking service offers both economical Group Walks and dedicated Solo Walks seven days a week, ensuring your dog gets the leash life they deserve. Our experienced, well-trained staff tailor every safe adventure to your pup's needs in the busy city, giving you peace of mind while they have a pawsitively great time! </p>
+  </div>
+</section>
+
+
+<!-- SECTION 1 Content -->
+<section class="section white reverse">
+  <img src="https://iili.io/KgxT7n4.md.png" alt="Dog 003" />
+  <div class="section-content">
+    <h2 style="text-align: right;">Paws on the move</h2>
+    <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;">At Paws n’ Play, we’re more than a café — we’re your dog’s new favorite walking buddy. Our dog walking service offers tail-wagging adventures led by trusted handlers who know how to keep things fun, safe, and social. Whether it's a group stroll or a solo sniff, every walk helps dogs build confidence, burn energy, and make furry friends along the way. It’s more than a walk — it’s a chance to grow, explore, and bond with your best pal.</p>
+  </div>
+</section>
+
+<!-- Line break 002 -->
+<svg height="200" width="100%" viewBox="0 0 1000 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="80" x2="1000" y2="120" style="stroke:#fad4fc;stroke-width:3" />
+</svg>
+
+<section class="section white">
+  <img src="https://iili.io/KgzYnrx.md.png" alt="Dog 002" />
+  <div class="section-content">
+    <h2>Strut & Socialize</h2>
+    <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;">Confidence starts on the leash. Our scheduled group walks are designed to help your pup feel more at ease around other dogs while enjoying a fun, structured outing. Led by our experienced, dog-loving team, each walk is tailored to suit a mix of sizes and temperaments, creating a safe space for dogs to sniff, stroll, and slowly build social skills. It’s more than a walk — it’s a step toward a happier, more confident companion.</p>
+  </div>
+</section>
+
+<!-- Line break 001 -->
+<svg height="200" width="100%" viewBox="0 0 1000 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="120" x2="1000" y2="80" style="stroke:#fad4fc;stroke-width:3" />
+</svg>
+
+<!-- 🐾 DOG WALKING & GROOMING SECTION -->
+<section class="section white">
+  <div class="section-content">
+  
+  
+<h2 style="text-align:center; font-weight:bold; color:#7b68ee; font-size:30px;">
+  <i class="fa-solid fa-paw" style="color:#7b68ee; transform:scaleX(-1); margin-right:12px;"></i>
+  Dog Walking Policies & Requirements
+  <i class="fa-solid fa-paw" style="color:#7b68ee; margin-left:12px;"></i>
+</h2>
+
+
+    <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;">Whether it’s a solo stroll or a pack adventure, our professional walkers make every outing engaging, safe, and tail-wagging fun. All our walkers are licensed, insured, bonded, and Pet First Aid certified.</p>
+
+    <style>
+      /* === Grooming & Walking Tables Styling === */
+      .grooming-table {
+        width: 80%; /* matches section content alignment */
+        margin: 0 auto 25px auto;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .grooming-table th {
+        background-color: #7B68EE;
+        color: #FFFFFF;
+        padding: 15px 20px;
+        text-align: left;
+        border: none;
+        font-size: 1.1em;
+        font-weight: bold;
+      }
+
+      .grooming-table td {
+        padding: 15px 20px;
+        border: 1px solid #ccc;
+        border-width: 0 1px 1px 0;
+      }
+
+      .grooming-table td:first-child {
+        border-left-width: 1px;
+        font-weight: bold;
+      }
+
+      .grooming-table tbody tr:nth-child(odd) {
+        background-color: #FAD4FC;
+      }
+
+      .grooming-table tbody tr:nth-child(even) {
+        background-color: #FFFFFF;
+      }
+
+      .section-header td {
+        background-color: #7B68EE !important;
+        color: #FFFFFF;
+        font-weight: bold;
+        text-align: center;
+        font-size: 1.2em;
+        padding: 12px 20px;
+        border: 1px solid #7B68EE;
+      }
+    </style>
+
+
+
+
+    <!-- === DOG WALKING POLICIES & REQUIREMENTS TABLE === -->
+    <table class="grooming-table">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Key Information</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>General Requirements</td>
+          <td>A City of Vancouver Dog License is required. Services must be prepaid.</td>
+        </tr>
+        <tr>
+          <td>Group Walk Commitment</td>
+          <td>A commitment to at least one walk per week is required for Group Walks.</td>
+        </tr>
+        <tr>
+          <td>Cancellations</td>
+          <td>Appointments canceled less than 24 hours before the start time will be billed the full fee.</td>
+        </tr>
+        <tr>
+          <td>Walkers & Safety</td>
+          <td>Our staff are licensed, insured, bonded, and trained in Pet First Aid. All walkers use GPS trackers and carry waste removal supplies.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- === DOG WALKING SERVICES & PRICING TABLE === -->
+  <h2 style="text-align:center; font-weight:bold; color:#7b68ee; font-size:30px;">
+  <i class="fa-solid fa-paw" style="color:#7b68ee; transform:scaleX(-1); margin-right:12px;"></i>
+  Dog Walking Services & Pricing
+  <i class="fa-solid fa-paw" style="color:#7b68ee; margin-left:12px;"></i>
+</h2>
+  
+  
+  
+    <table class="grooming-table">
+      <thead>
+        <tr>
+          <th>Service Type</th>
+          <th>Walk Duration</th>
+          <th>Focus & Details</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Group Walk</td>
+          <td>60 minutes</td>
+          <td>Provides exercise, socialization, and stimulation on city routes, parks, and waterfront areas. Includes a Complimentary Consultation to ensure pack compatibility. Walks run between 10:00am and 4:00pm.</td>
+          <td>$32</td>
+        </tr>
+        <tr>
+          <td>Additional Dog / Same Day Second Walk</td>
+          <td>N/A</td>
+          <td>Special rate for a second walk for the same dog on the same day, or an additional dog from the same household.</td>
+          <td>$12</td>
+        </tr>
+        <tr class="section-header">
+          <td colspan="4">PRIVATE WALKS (One-on-One Attention)</td>
+        </tr>
+        <tr>
+          <td>Relief Break</td>
+          <td>15 minutes</td>
+          <td>A short, one-on-one break for quick relief.</td>
+          <td>$26</td>
+        </tr>
+        <tr>
+          <td>Private Walk</td>
+          <td>30 minutes</td>
+          <td>Individualized attention to cater to specific needs, such as leash manners or slow-paced exercise.</td>
+          <td>$32</td>
+        </tr>
+        <tr>
+          <td>Private Walk</td>
+          <td>60 minutes</td>
+          <td>Extended one-on-one attention for longer neighborhood walks or city adventures.</td>
+          <td>$48</td>
+        </tr>
+        <tr>
+          <td>Private Walk</td>
+          <td>90 minutes</td>
+          <td>Our longest option for a comprehensive, personalized adventure.</td>
+          <td>$60</td>
+        </tr>
+        <tr>
+          <td>Additional Dog / Same Day Second Walk (Private)</td>
+          <td>Varies</td>
+          <td>Special rates available; please inquire.</td>
+          <td>Contact Us</td>
+        </tr>
+      </tbody>
+    </table>
+        <div style="margin-top: 40px;"></div>
+
+    <p style="text-align: center; font-style: italic;">All prices are subject to the GST.</p>
+  </div>
+</section>
+
+<!-- Centered Call Button -->
+<div style="text-align: center; margin: 20px 0;">
+  <a href="tel:+16043626962"
+     style="
+       display: inline-block;
+       background-color: #7B68EE;
+       color: #FFFFFF;
+       padding: 15px 25px;
+       font-size: 18px;
+       font-weight: bold;
+       text-decoration: none;
+       border-radius: 8px;
+       transition: background-color 0.3s, color 0.3s, transform 0.2s;
+     "
+     onmouseover="this.style.backgroundColor='#624fd8'; this.style.color='#FFFFFF'; this.style.transform='scale(1.05)';"
+     onmouseout="this.style.backgroundColor='#7B68EE'; this.style.color='#FFFFFF'; this.style.transform='scale(1)';">
+    Call Us Now
+  </a>
+</div>
+
+  <div style="margin-top: 40px;"></div>
+
+<!-- SECTION 3 -->
+<section class="section pink reverse">
+  <img src="https://iili.io/KgyIu0G.png" alt="KgyIu0G.png" alt="Grooming" />
+  <div class="section-content">
+    <h2>Grooming & Spa</h2>
+    <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;">At Paws n’ Play, we believe every pup deserves a gentle, stress-free clean. Our dog washing service uses only safe, ethical products — free from harsh chemicals and full of tail-wagging goodness. Whether it’s a quick rinse or a full spa day, we treat every dog with the same love and care you do. It’s not just about staying clean — it’s about feeling great, building trust, and making bath time something to bark about.</p>
+  </div>
+</section>
+
+    <div style="margin-top: 40px;"></div>
+
+
+
+
+<!-- SECTION 1 Content -->
+<section class="section white">
+  <img src="https://iili.io/KgIHtBs.md.png" alt="Dog 001" />
+  <div class="section-content">
+    <h2 style="text-align: left;">Spotless Shine</h2>
+    <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;">At Paws n’ Play, we believe every pup deserves a gentle, stress-free clean. Our dog washing service uses only safe, ethical products — free from harsh chemicals and full of tail-wagging goodness. Whether it’s a quick rinse or a full spa day, we treat every dog with the same love and care you do. It’s not just about staying clean — it’s about feeling great, building trust, and making bath time something to bark about.</p>
+  </div>
+</section>
+
+<!-- Line break 002 -->
+<svg height="200" width="100%" viewBox="0 0 1000 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="80" x2="1000" y2="120" style="stroke:#fad4fc;stroke-width:3" />
+</svg>
+
+
+<section class="section white reverse">
+  <img src="https://iili.io/KgIFniF.md.png" alt="Dog 002" />
+  <div class="section-content">
+    <h2 style="text-align: right;">Clip with care</h2>
+    <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;">Your dog’s safety and comfort come first for all grooming. Our trained, dog-loving team maintains a clean, secure environment designed to make nail trims stress-free for all sizes and temperaments. We use gentle handling and positive reinforcement. Every tool and station is carefully maintained to meet our high standards. You can relax knowing your pup is getting expert nail attention in a monitored, safe space that feels like home—only with perfected paw-dicures and calming treats.</p>
+  </div>
+</section>
+
+
+<!-- Line break 001 -->
+<svg height="200" width="100%" viewBox="0 0 1000 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="120" x2="1000" y2="80" style="stroke:#fad4fc;stroke-width:3" />
+</svg>
+
+
+<section class="section white">
+  <img src="https://iili.io/KgIIDG4.md.png" alt="Coffee 001" />
+  <div class="section-content">
+    <h2 style="text-align: left;">Rinse & Repeat</h2>
+    <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;">Your companion's well-being and happiness are our top concern. Our skilled, devoted team provides a pristine, secure setting where bath time is truly relaxing for every breed and personality. We use only ethically sourced, all-natural shampoos and conditioners. Every basin, towel, and piece of equipment is meticulously maintained, upholding our stringent hygiene standards. You can relax knowing your dog is enjoying a wholesome, fun spa session in a supervised, protected spot that offers the comfort of home—but with premium, cruelty-free products and lots of lovely rewards.</p>
+  </div>
+</section>
+
+<!-- Line break 002 -->
+<svg height="200" width="100%" viewBox="0 0 1000 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="80" x2="1000" y2="120" style="stroke:#fad4fc;stroke-width:3" />
+</svg>
+
+<div class="subsection white">
+  <div class="subsection-gallery">
+   
+
+    <a href="lounge.html" class="photo-box" aria-label="Grooming">
+      <img src="https://iili.io/KkDwGdF.md.jpg">
+      <div class="overlay"><div class="caption-inner">Grooming</div></div>
+    </a>
+
+ <a href="cafe.html" class="photo-box" aria-label="Dog Washing">
+      <img src="https://iili.io/Kr9viV2.th.png">
+      <div class="overlay"><div class="caption-inner">Ethical Products</div></div>
+    </a>
+
+    <a href="events.html" class="photo-box" aria-label="Doggie Spa">
+      <img src="https://iili.io/KkDma9e.md.jpg">
+      <div class="overlay"><div class="caption-inner">Doggie Spa</div></div>
+    </a>
+  </div>
+
+
+
+
+    <style>
+    
+        /* General Table Styling */
+        .grooming-table {
+            width: 70%;
+            border-collapse: separate; 
+            border-spacing: 0; 
+            font-family: Arial, sans-serif;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        }
+        
+        /* Table Header Styling */
+        .grooming-table th {
+            background-color: #7B68EE; /* Slate Blue */
+            color: #FFFFFF;
+            padding: 15px 20px; 
+            text-align: left;
+            border: none;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        /* Table Data/Cell Styling */
+        .grooming-table td {
+            padding: 15px 20px; 
+            border: 1px solid #ccc; /* Lighter border */
+            border-width: 0 1px 1px 0;
+        }
+        
+        /* Fix the left border on the first column */
+        .grooming-table td:first-child {
+            border-left-width: 1px;
+            font-weight: bold; /* Making the category names bold */
+        }
+
+        /* Alternating Row Colors */
+        .grooming-table tbody tr:nth-child(odd) {
+            background-color: #FAD4FC; /* Light Pink */
+        }
+        
+        .grooming-table tbody tr:nth-child(even) {
+            background-color: #FFFFFF; /* White */
+        }
+
+        /* Styling for the large section header row */
+        .section-header td {
+            background-color: #7B68EE !important;
+            color: #FFFFFF;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.2em;
+            padding: 12px 20px;
+            border: 1px solid #7B68EE;
+        }
+        
+        /* Top border for the entire table */
+        .grooming-table thead:first-child tr:first-child th {
+            border-top: 1px solid #7B68EE;
+        }
+    </style>
+</head>
+<body>
+
+  <h2 style="text-align:center; font-weight:bold; color:#7b68ee; font-size:30px;">
+  <i class="fa-solid fa-paw" style="color:#7b68ee; transform:scaleX(-1); margin-right:12px;"></i>
+  Dog Grooming Policies & Guidelines
+  <i class="fa-solid fa-paw" style="color:#7b68ee; margin-left:12px;"></i>
+</h2>
+
+   
+    
+    <table class="grooming-table">
+        
+        <tbody>
+            <tr>
+                <td>Pricing Factors</td>
+                <td>Rates vary by size, coat, and behavior. Extra charges apply for matted/dirty coats or behavioral challenges ($15 per 15 min.). 5% GST is added at checkout.</td>
+            </tr>
+            <tr>
+                <td>Health & Safety</td>
+                <td>Must have up-to-date rabies vaccinations. Dogs with fleas/ticks cannot be groomed.</td>
+            </tr>
+            <tr>
+                <td>Booking</td>
+                <td>New clients must register. All appointments require a non-refundable deposit.</td>
+            </tr>
+            <tr>
+                <td>Cancellations</td>
+                <td>Cancellations under 24 hours or no-shows will be charged the full fee.</td>
+            </tr>
+            <tr>
+                <td>Arrival</td>
+                <td>Please be on time. More than 15 minutes late may result in rescheduling and a no-show fee.</td>
+            </tr>
+        </tbody>
+    </table>
+
+  <h2 style="text-align:center; font-weight:bold; color:#7b68ee; font-size:30px;">
+  <i class="fa-solid fa-paw" style="color:#7b68ee; transform:scaleX(-1); margin-right:12px;"></i>
+  Dog Grooming Packages (Starting Prices)
+  <i class="fa-solid fa-paw" style="color:#7b68ee; margin-left:12px;"></i>
+</h2>
+
+    
+    
+    <table class="grooming-table">
+        
+        <tbody>
+            <tr class="section-header">
+              
+            <tr>
+                <td>Bath & Brush</td>
+                <td>Ear cleaning, nail trim & filing, brushing (up to 15 min.), two shampoos.</td>
+                <td>Every 4–6 weeks.</td>
+                <td>$45+ to $100+</td>
+            </tr>
+            <tr>
+                <td>Bath, Brush & Tidy</td>
+                <td>Bath & Brush PLUS sanitary, paw, and bum trims; anal gland expression (if needed).</td>
+                <td>Every 3–4 weeks. (Ideal for Poodles/Doodles)</td>
+                <td>$65+ to $130+</td>
+            </tr>
+            <tr>
+                <td>Full Groom</td>
+                <td>Bath, Brush & Tidy PLUS full body haircut or outline trim.</td>
+                <td>Every 4–6 weeks.</td>
+                <td>$75+ to $150+</td>
+            </tr>
+            <tr>
+                <td>Bath & De-Shedding</td>
+                <td>De-shedding products, blow-dry, brush-out, tool use. (Charge is for labor)</td>
+                <td>Essential for heavy/seasonal shedding breeds.</td>
+                <td>Bath charge + $15 per 15 min.</td>
+            </tr>
+            <tr class="section-header">
+                <td colspan="4">A LA CARTE ADD-ONS</td>
+            </tr>
+            <tr>
+                <td>Face Trim</td>
+                <td>Tidy eyes and mouth area.</td>
+                <td>Every 3–4 weeks.</td>
+                <td>$20</td>
+            </tr>
+            <tr>
+                <td>Nail Trim & Filing</td>
+                <td>Trim to prevent overgrowth, followed by filing.</td>
+                <td>Every 3 weeks.</td>
+                <td>$20</td>
+            </tr>
+            <tr>
+                <td>Pad Trim & Paw Shaping</td>
+                <td>Removes hair between pads; shapes hair around paws.</td>
+                <td>As needed.</td>
+                <td>$20</td>
+            </tr>
+            <tr>
+                <td>Anal Gland Expression</td>
+                <td>Relieves discomfort caused by full glands.</td>
+                <td>As needed.</td>
+                <td>$15</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="margin-top: 40px;"></div>
+
+     <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  line-height: 1.6;">And that's just the start! From our exhilarating Dog Daycare and stimulating Activity Groups to a relaxing stop at our Dog Cafe, a shopping spree in our fully stocked Dog Store, and a pampering session with our expert Grooming services, <b>Paws n' Play</b> is your dog's ultimate destination for fun, care, and everything in between! Come discover the full experience and give your best friend the best life.</p>
+  </div>
+</div>
+</section>
+
+    <!-- Centered Call Button -->
+<div style="text-align: center; margin: 20px 0;">
+  <a href="tel:+16043626962"
+     style="
+       display: inline-block;
+       background-color: #7B68EE;
+       color: #FFFFFF;
+       padding: 15px 25px;
+       font-size: 18px;
+       font-weight: bold;
+       text-decoration: none;
+       border-radius: 8px;
+       transition: background-color 0.3s, color 0.3s, transform 0.2s;
+     "
+     onmouseover="this.style.backgroundColor='#624fd8'; this.style.color='#FFFFFF'; this.style.transform='scale(1.05)';"
+     onmouseout="this.style.backgroundColor='#7B68EE'; this.style.color='#FFFFFF'; this.style.transform='scale(1)';">
+    Call Us Now
+  </a>
+</div>
+
+  <div style="margin-top: 40px;"></div>
+
+
+
+
+
+
+  </div>
+</div>
+
+
+
+
+
+
+<!-- SECTION 3 -->
+<section class="section pink">
+  <img src="https://iili.io/KkcO9cb.md.png" alt="Grooming" />
+  <div class="section-content">
+    <h2>Birthday Parties</h2>
+    <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;">At Paws n’ Play, we believe every pup deserves a fun, stress-free birthday celebration. Our custom party packages use only safe, ethical decorations and dog-friendly treats—free from harsh additives and full of tail-wagging goodness. Whether it’s a small gathering or a full Bark-day Bash, we treat every event with the same love and care you do. It’s not just about booking a space—it’s about creating great memories, celebrating your bond, and making their birthday something to bark about!</p>
+  </div>
+</section>
+
+
+
+
+<!-- SECTION 1 Content -->
+<section class="section white reverse">
+  <img src="https://iili.io/KgIV7iN.md.png" alt="Dog 001" />
+  <div class="section-content">
+    <h2 style="text-align: right;">Pawty Animals</h2>
+    <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;">At Paws n’ Play, we believe every pup deserves a gentle, stress-free clean. Our dog washing service uses only safe, ethical products — free from harsh chemicals and full of tail-wagging goodness. Whether it’s a quick rinse or a full spa day, we treat every dog with the same love and care you do. It’s not just about staying clean — it’s about feeling great, building trust, and making bath time something to bark about.</p>
+  </div>
+</section>
+
+<!-- Line break 001 -->
+<svg height="200" width="100%" viewBox="0 0 1000 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="120" x2="1000" y2="80" style="stroke:#fad4fc;stroke-width:3" />
+</svg>
+
+<section class="section white">
+  <img src="https://iili.io/KgINi1R.md.png" alt="Dog 001" />
+  <div class="section-content">
+    <h2 style="text-align: left;">Make a wish! </h2>
+    <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;"> Your dog’s joy and celebration are our main priority. Our experienced, caring team prepares a clean, festive area dedicated to making every birthday a memorable event for all sizes and temperaments. We ensure every party surface, decoration, and treat is carefully set up to meet our high standards for safety and fun. You can relax knowing your pup is having a truly special wish-come-true party in a supervised, protected space that provides the happiness of home—but with more canine companions and extra gourmet birthday goodies.</p>
+  </div>
+</section>
+
+<!-- Line break 002 -->
+<svg height="200" width="100%" viewBox="0 0 1000 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="80" x2="1000" y2="120" style="stroke:#fad4fc;stroke-width:3" />
+</svg>
+
+   <!-- 🎉 BIRTHDAY PARTY PRICING SECTION -->
+<section class="section white">
+  <div class="section-content">
+  
+    <h2 style="text-align:center; font-weight:bold; color:#7b68ee; font-size:30px;">
+  <i class="fa-solid fa-paw" style="color:#7b68ee; transform:scaleX(-1); margin-right:12px;"></i>
+  Birthday Party Pricing
+  <i class="fa-solid fa-paw" style="color:#7b68ee; margin-left:12px;"></i>
+</h2>
+  
+
+    <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;">Celebrate your pup’s special day with a private party designed for fun, safety, and tail-wagging excitement. Below are our current offerings and guidelines:</p>
+
+    <style>
+      /* === Birthday Party Table Styling (Flush Width Match) === */
+      .grooming-table {
+        width: 100%; /* consistent width with section content */
+        margin: 0 auto 25px auto; /* centered, aligned with text/images */
+        border-collapse: separate;
+        border-spacing: 0;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .grooming-table th {
+        background-color: #7B68EE;
+        color: #FFFFFF;
+        padding: 15px 20px;
+        text-align: left;
+        border: none;
+        font-size: 1.1em;
+        font-weight: bold;
+      }
+
+      .grooming-table td {
+        padding: 15px 20px;
+        border: 1px solid #ccc;
+        border-width: 0 1px 1px 0;
+      }
+
+      .grooming-table td:first-child {
+        border-left-width: 1px;
+        font-weight: bold;
+      }
+
+      .grooming-table tbody tr:nth-child(odd) {
+        background-color: #FAD4FC;
+      }
+
+      .grooming-table tbody tr:nth-child(even) {
+        background-color: #FFFFFF;
+      }
+
+      .section-header td {
+        background-color: #7B68EE !important;
+        color: #FFFFFF;
+        font-weight: bold;
+        text-align: center;
+        font-size: 1.2em;
+        padding: 12px 20px;
+        border: 1px solid #7B68EE;
+      }
+
+      .grooming-table thead:first-child tr:first-child th {
+        border-top: 1px solid #7B68EE;
+      }
+    </style>
+
+    <!-- === DOG PARTY GUIDELINES TABLE === -->
+
+    <table class="grooming-table">
+     
+      <tbody>
+        <tr>
+          <td>Duration</td>
+          <td>1.5 hours</td>
+        </tr>
+        <tr>
+          <td>Capacity</td>
+          <td>Up to 5 dogs + Birthday/Gotcha Day Dog</td>
+        </tr>
+        <tr>
+          <td>Human Guests</td>
+          <td>1 guardian per 2 dogs. No children under 10; all minors must be accompanied by a parent.</td>
+        </tr>
+        <tr>
+          <td>Hosted By</td>
+          <td>1 LAPS Staff Member</td>
+        </tr>
+        <tr class="section-header">
+          <td colspan="2">Includes</td>
+        </tr>
+        <tr>
+          <td>Exclusive Use</td>
+          <td>Private rental of a decorated play yard with agility equipment and a digging box.</td>
+        </tr>
+        <tr>
+          <td>Supplies Provided</td>
+          <td>Poop bags, waste disposal, and three clean water buckets.</td>
+        </tr>
+        <tr>
+          <td>Delicious Treats</td>
+          <td>6 Elaine’s Canine Cookies pup cakes for a special Happy Birthday/Gotcha Day moment.</td>
+        </tr>
+        <tr>
+          <td>Gifts</td>
+          <td>A present for the Birthday/Gotcha Day pup and a LAPS bandana for each dog guest.</td>
+        </tr>
+      </tbody>
+    </table>
+        <div style="margin-top: 40px;"></div>
+
+         <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  line-height: 1.6;">And that's just the start! From our exhilarating Dog Daycare and stimulating Activity Groups to a relaxing stop at our Dog Cafe, a shopping spree in our fully stocked Dog Store, and a pampering session with our expert Grooming services, <b>Paws n' Play</b> is your dog's ultimate destination for fun, care, and everything in between! Come discover the full experience and give your best friend the best life. </p>
+  </div>
+</section>
+
+<!-- Centered Call Button -->
+<div style="text-align: center; margin: 20px 0;">
+  <a href="tel:+16043626962"
+     style="
+       display: inline-block;
+       background-color: #7B68EE;
+       color: #FFFFFF;
+       padding: 15px 25px;
+       font-size: 18px;
+       font-weight: bold;
+       text-decoration: none;
+       border-radius: 8px;
+       transition: background-color 0.3s, color 0.3s, transform 0.2s;
+     "
+     onmouseover="this.style.backgroundColor='#624fd8'; this.style.color='#FFFFFF'; this.style.transform='scale(1.05)';"
+     onmouseout="this.style.backgroundColor='#7B68EE'; this.style.color='#FFFFFF'; this.style.transform='scale(1)';">
+    Call Us Now
+  </a>
+</div>
+
+  <div style="margin-top: 75px;"></div>
+
+  </div>
+</div>
+
+
+<!-- SECTION 5 -->
+<section class="section pink reverse">
+  <img src="https://iili.io/KkcjLgf.md.png" alt="Holler" />
+  <div class="section-content">
+    <h2>In Good Paws</h2>
+    <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;">At Paws n’ Play, you and your pup will be greeted by a small, knowledgeable team. Our staff members are trained in dog behavior and certified in Pet First Aid, ensuring safety and comfort during your visit. With attentive care and expertise, we’re here to make your time in the café calm, happy, and stress-free. </p>
+  </div>
+</section>
+
+<div class="subsection white">
+
+    <h2 style="text-align:center; font-weight:bold; color:#7b68ee; font-size:30px;">
+  <i class="fa-solid fa-paw" style="color:#7b68ee; transform:scaleX(-1); margin-right:12px;"></i>
+  Our dedicated team
+  <i class="fa-solid fa-paw" style="color:#7b68ee; margin-left:12px;"></i>
+</h2>
+
+
+<div class="subsection-gallery">
+    <a href="cafe.html" class="photo-box" aria-label="Solo Walks">
+      <img src="https://iili.io/Kg7BZap.th.png" alt=Christiana>
+      <div class="overlay"><div class="caption-inner">Christiana Taylor <br>Co-owner <br> Head of the pack</div></div>
+    </a>
+
+    <a href="lounge.html" class="photo-box" aria-label="Group Walks">
+      <img src="https://iili.io/Kg7fmUN.th.png" alt="Tony">
+      <div class="overlay"><div class="caption-inner">Tony Ali <br>Co-owner <br> Chief Tail-wagger</div></div>
+    </a>
+ <p style="
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  line-height: 1.6;">At Paws n’ Play, we take care to a whole new leash on life—for both you and your four-legged friends! Our paws-itively passionate team is trained in proper dog handling and dedicated to creating a safe, tail-wagging experience every time you visit. From cozy corners for cuddles to pup-approved play areas, every detail is carefully curated to make you feel right at home. Whether you’re here to sip, sit, or stay, we guarantee a fur-tastic time filled with comfort, compassion, and community. Have a question? Don’t be shy—give us a bark anytime! </p>
+
+
+ 
+     <h2 style="text-align:center; font-weight:bold; color:#7b68ee; font-size:30px;">
+  <i class="fa-solid fa-paw" style="color:#7b68ee; transform:scaleX(-1); margin-right:12px;"></i>
+  What Our Customers Are Saying
+  <i class="fa-solid fa-paw" style="color:#7b68ee; margin-left:12px;"></i>
+</h2>
+ 
+    
+  
+  <div class="reviews-container" style="display:flex; flex-wrap:wrap; justify-content:center; gap:24px; margin-top:40px;">
+
+    <!-- Review 1 -->
+    <div class="review-card" style="flex:1 1 calc(45% - 24px); max-width:calc(45% - 24px); background-color:#fad4fc; border-radius:16px; padding:24px; box-shadow:0 3px 8px rgba(0,0,0,0.08); text-align:left; transition:transform 0.3s ease;">
+      <div class="review-stars" style="color:#7b68ee; font-size:1.2em;">★★★★★</div>
+      <p style="margin:12px 0; line-height:1.6;">“Christiana has this calm, nurturing presence that instantly puts my pup at ease. I’ve never seen my dog so relaxed during grooming — she’s an absolute gem.”</p>
+      <p style="font-weight:700; color:#3414fd;">— Emily Zhang</p>
+    </div>
+
+    <!-- Review 2 -->
+    <div class="review-card" style="flex:1 1 calc(45% - 24px); max-width:calc(45% - 24px); background-color:#fad4fc; border-radius:16px; padding:24px; box-shadow:0  rgba(0,0,0,0.08); text-align:left; transition:transform 0.3s ease;">
+      <div class="review-stars" style="color:#7b68ee; font-size:1.2em;">★★★★★</div>
+      <p style="margin:12px 0; line-height:1.6;">“Tony somehow manages to get my husky to behave on group walks — a miracle in itself. He’s friendly, patient, and clearly loves what he does.”</p>
+      <p style="font-weight:700; color:#3414fd;">— Jaspreet Singh</p>
+    </div>
+
+   
+
+    <!-- Review 4 -->
+    <div class="review-card" style="flex: 0 0 auto; calc(45% - 24px); max-width:calc(45% - 24px); background-color:#fad4fc; border-radius:16px; padding:24px; box-shadow:0  rgba(0,0,0,0.08); text-align:left; transition:transform 0.3s ease;">
+      <div class="review-stars" style="color:#7b68ee; font-size:1.2em;">★★★★★</div>
+      <p style="margin:12px 0; line-height:1.6;">“Tony turned our routine walk into a social adventure. My golden retriever, Maple, practically dances when he sees him coming. Couldn’t recommend more highly!”</p>
+      <p style="font-weight:700; color:#3414fd;">— David O’Leary</p>
+    </div>
+    
+    <!-- Review 3 -->
+    <div class="review-card" style="flex: 0 0 auto; calc(45% - 24px); max-width:calc(45% - 24px); background-color:#fad4fc; border-radius:16px; padding:24px; box-shadow:0  rgba(0,0,0,0.08); text-align:left; transition:transform 0.3s ease;">
+      <div class="review-stars" style="color:#7b68ee; font-size:1.2em;">★★★★★</div>
+      <p style="margin:12px 0; line-height:1.6;">“I’ve been to a lot of dog cafés, but none as warm and well-run as this one. Christiana greeted us by name on our second visit — that personal touch is everything.”</p>
+      <p style="font-weight:700; color:#3414fd;">— Chloe Fernández</p>
+    </div> 
+    
+     <!-- Review 5 -->
+    <div class="review-card" style="flex: 0 0 auto; calc(45% - 24px); max-width:calc(45% - 24px); background-color:#fad4fc; border-radius:16px; padding:24px; box-shadow:0  rgba(0,0,0,0.08); text-align:left; transition:transform 0.3s ease;">
+      <div class="review-stars" style="color:#7b68ee; font-size:1.2em;">★★★★★</div>
+      <p style="margin:12px 0; line-height:1.6;">“The entire experience is wonderful—our routine walks are now eagerly anticipated social adventures! Our dog practically dances with excitement when the caregiver arrives. We couldn’t recommend them more highly and are so grateful for their dedicated care. Thank you, Paws n' Play!”</p>
+      <p style="font-weight:700; color:#3414fd;">— Sarah Ladd</p>
+    </div>
+    
+     <!-- Review 6 -->
+    <div class="review-card" style="flex: 0 0 auto; calc(45% - 24px); max-width:calc(45% - 24px); background-color:#fad4fc; border-radius:16px; padding:24px; box-shadow:0 3px 8px rgba(0,0,0,0.08); text-align:left; transition:transform 0.3s ease;">
+      <div class="review-stars" style="color:#7b68ee; font-size:1.2em;">★★★★★</div>
+      <p style="margin:12px 0; line-height:1.6;">“Paws n' Play is the most professional and reliable pet care service we have ever used. Their consistency is outstanding—they handle everything seamlessly, and I never have a moment's worry while I'm away. It’s not just a walk; it’s trusted, high-quality care. The peace of mind they provide is priceless. Thank you, Paws n' Play, for your exceptional service!”</p>
+      <p style="font-weight:700; color:#3414fd;">— Kurt Stone</p>
+    </div>
+
+  </div>
+</section>
+  </div>
+</div>
+
+
+
+<footer>
+  <div>
+   <!-- 
+    This is a working contact form. To receive email, 
+    Replace YOUR_ACCESS_KEY_HERE with your actual Access Key.
+
+    Create Access Key here 👉 https://web3forms.com/
+ -->
+
+<section class="contact-section">
+  <div class="contact-intro">
+  
+  <h2 style="text-align:center; font-weight:bold; color:#7b68ee; font-size:30px;">
+  <i class="fa-solid fa-paw" style="color:#7b68ee; transform:scaleX(-1); margin-right:12px;"></i>
+  Get in Touch
+  <i class="fa-solid fa-paw" style="color:#7b68ee; margin-left:12px;"></i>
+</h2>
+    
+    <p class="contact-description">
+      Fill out the form below and we'll get back to you as soon as possible.
+    </p>
+  </div>
+
+  <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+
+    <input type="hidden" name="access_key" value="f30fcbc2-6355-465f-8533-6640adb3147b" />
+    <input type="hidden" name="subject" value="New Contact Form Submission from Web3Forms" />
+    <input type="hidden" name="from_name" value="My Website" />
+    <!-- More custom ization options available in the docs: https://docs.web3forms.com -->
+
+    <div class="form-group-container">
+      <div class="form-group">
+        <label for="name" class="form-label">Name</label>
+        <input id="name" name="name" class="form-input" placeholder="Your name" type="text" />
+      </div>
+      <div class="form-group">
+        <label for="email" class="form-label">Email</label>
+        <input id="email" name="email" class="form-input" placeholder="Your email" type="email" />
+      </div>
+      <div class="form-group">
+        <label for="phone" class="form-label">Phone</label>
+        <input id="phone" name="phone" class="form-input" placeholder="+1 (234) 5678" type="text" />
+      </div>
+      <div class="form-group">
+        <label for="message" class="form-label">Message</label>
+        <textarea class="form-textarea" id="message" name="message" placeholder="Your message"></textarea>
+      </div>
+    </div>
+   <!-- Centered submit button with rollover effect -->
+<div style="text-align:center; margin-top:20px;">
+  <button type="submit" 
+          style="
+            background-color:#7b68ee;
+            color:#fff;
+            border:none;
+            padding:12px 30px;
+            font-size:16px;
+            font-weight:bold;
+            border-radius:8px;
+            cursor:pointer;
+            transition:background-color 0.3s ease;
+          "
+          onmouseover="this.style.backgroundColor='#624fd8';" 
+          onmouseout="this.style.backgroundColor='#7b68ee';">
+    Send Message
+  </button>
+</div>
+  </form>
+
+</section>
+
+
+    <div style="margin-top: 40px;"></div>
+
+<!-- Add a style block for hover effect -->
+<style>
+  .hover-enlarge {
+    transition: transform 0.3s ease; /* smooth transition */
+  }
+  .hover-enlarge:hover {
+    transform: scale(1.1); /* enlarge by 10% */
+  }
+</style>
+
+<img src="https://iili.io/KUgdDrB.md.png" 
+     alt="PAWSNPLAY_LOGO" 
+     border="0" 
+     width="200" 
+     height="auto" 
+     class="hover-enlarge">
+     
+     <p>261 Keefer Street, Vancouver BC V6A 1X6<br>Open weekdays 9AM - 5PM</p>
+  <small>© 2025 <b>Paws n' Play</b> - All Rights Reserved.</small>
+</footer>
+
+</div>
+
+<script>
+// Splash transition
+function hideSplash() {
+  const splash = document.getElementById('splash');
+  const main = document.getElementById('mainContent');
+  splash.style.transform = 'translateY(-100%)';
+  setTimeout(() => {
+    splash.style.display = 'none';
+    main.style.display = 'block';
+  }, 500);
+}
+
+// Fade-in animation on scroll
+window.addEventListener('scroll', () => {
+  document.querySelectorAll('.section').forEach(section => {
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 100) {
+      section.classList.add('visible');
+    }
+  });
+});
+</script>
+
+</body>
+</html>
