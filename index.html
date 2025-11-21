@@ -128,14 +128,6 @@ nav a:hover {
   animation-play-state: paused;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .ticker-text {
-    font-size: 12px;
-    padding-right: 30px;
-  }
-}
-
 /* PARALLAX */
 .parallax {
   background-image: url("https://iili.io/Ke63t2I.png");
@@ -322,28 +314,6 @@ nav a:hover {
     -ms-hyphens: auto;
     max-width: 36ch;
     margin: 0 auto;
-}
-
-/* Responsive adjustments */
-@media (max-width: 1024px) {
-    .three-column-section {
-        padding: 40px 5%;
-    }
-    
-    .column {
-        min-width: 250px;
-    }
-}
-
-@media (max-width: 768px) {
-    .three-column-section {
-        flex-direction: column;
-        gap: 40px;
-    }
-    
-    .column {
-        min-width: 100%;
-    }
 }
 
 /* SECTIONS - CONSISTENT WIDTH */
@@ -573,20 +543,6 @@ nav a:hover {
 .photo-box:hover .overlay .caption-inner,
 .photo-box:focus .overlay .caption-inner {
   transform: translateY(0);
-}
-
-/* responsive adjustments */
-@media (max-width: 900px) {
-  .photo-box {
-    flex: 1 1 calc(50% - 24px);
-    max-width: calc(50% - 24px);
-  }
-}
-@media (max-width: 520px) {
-  .photo-box {
-    flex: 1 1 100%;
-    max-width: 100%;
-  }
 }
 
 /* FOOTER */
@@ -996,6 +952,230 @@ footer small {
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
+}
+
+/* ========================================================================== */
+/* MOBILE-SPECIFIC STYLES */
+/* ========================================================================== */
+@media (max-width: 768px) {
+  /* Fix header parallax height */
+  .parallax {
+    min-height: 20vh !important;
+    background-attachment: scroll !important;
+  }
+  
+  .parallax-text {
+    font-size: 1.8rem !important;
+    flex-direction: column;
+    gap: 15px !important;
+  }
+  
+  .popper-img {
+    width: 60px !important;
+    height: 60px !important;
+  }
+  
+  /* Fix parallax section spacing */
+  .parallax-banner,
+  .parallax-section {
+    height: 200px !important;
+    margin-top: 0 !important;
+  }
+  
+  .parallax-banner-image,
+  .parallax-section-image {
+    background-attachment: scroll !important;
+    height: 100% !important;
+  }
+  
+  /* Fix ticker tape readability */
+  .ticker-tape-container {
+    padding: 12px 0 !important;
+  }
+  
+  .ticker-text {
+    font-size: 16px !important;
+    padding-right: 40px !important;
+    white-space: normal !important;
+  }
+  
+  .ticker-content {
+    animation: ticker-scroll-mobile 40s linear infinite !important;
+  }
+  
+  @keyframes ticker-scroll-mobile {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  
+  /* Stack white sections on mobile */
+  .section.white {
+    flex-direction: column !important;
+    gap: 30px !important;
+    padding: 40px 20px !important;
+  }
+  
+  .section.white .section-content {
+    text-align: center !important;
+  }
+  
+  /* Adjust section spacing for mobile */
+  .section {
+    padding: 40px 20px !important;
+    gap: 30px !important;
+  }
+  
+  .section.pink,
+  .section.pink.reverse {
+    flex-direction: column !important;
+  }
+  
+  .section img {
+    width: 100% !important;
+    max-width: 250px !important;
+    height: 250px !important;
+  }
+  
+  /* Adjust three column section for mobile */
+  .three-column-section {
+    padding: 40px 20px !important;
+    margin-top: 30px !important;
+    flex-direction: column !important;
+    gap: 40px !important;
+  }
+  
+  .column {
+    min-width: 100% !important;
+  }
+  
+  /* Adjust subsection padding */
+  .subsection {
+    padding: 60px 20px !important;
+  }
+  
+  /* Make call buttons full width on mobile */
+  .call-button {
+    width: 100% !important;
+    max-width: 280px !important;
+    margin: 15px auto !important;
+    display: block !important;
+  }
+  
+  /* Adjust paw header for mobile */
+  .paw-header {
+    font-size: 1.5rem !important;
+    flex-wrap: wrap !important;
+  }
+  
+  .paw-header i {
+    margin: 0 8px !important;
+  }
+  
+  /* Adjust tables for mobile */
+  .table-container {
+    margin: 0 auto 20px auto !important;
+  }
+  
+  .grooming-table {
+    font-size: 0.9rem !important;
+    min-width: 600px !important;
+  }
+  
+  .grooming-table td,
+  .grooming-table th {
+    padding: 12px 15px !important;
+  }
+  
+  /* Adjust reviews for mobile */
+  .reviews-container {
+    gap: 20px !important;
+    margin-top: 30px !important;
+  }
+  
+  .review-card {
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
+  }
+  
+  /* Adjust footer for mobile */
+  footer {
+    padding: 30px 20px !important;
+  }
+  
+  .contact-section {
+    padding: 2rem 0 !important;
+  }
+  
+  .form-submit {
+    width: 100% !important;
+    max-width: 200px !important;
+  }
+  
+  /* Adjust social container for mobile */
+  .social-container {
+    gap: 15px !important;
+  }
+  
+  .social-container a {
+    font-size: 1.5rem !important;
+  }
+  
+  /* Photo box adjustments for mobile */
+  .photo-box {
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
+  }
+  
+  /* Header adjustments for mobile */
+  header {
+    height: 80px !important;
+    padding: 0 20px !important;
+  }
+  
+  header img {
+    height: 25px !important;
+  }
+  
+  nav ul {
+    gap: 15px !important;
+  }
+  
+  /* Responsive text adjustments */
+  .section h2 {
+    font-size: 1.8rem !important;
+  }
+  
+  .subsection h3 {
+    font-size: 1.6rem !important;
+    margin-bottom: 30px !important;
+  }
+  
+  .column h2 {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* Responsive adjustments for medium screens */
+@media (max-width: 1024px) {
+  .three-column-section {
+    padding: 40px 5% !important;
+  }
+  
+  .column {
+    min-width: 250px !important;
+  }
+}
+
+/* Photo box responsive adjustments */
+@media (max-width: 900px) {
+  .photo-box {
+    flex: 1 1 calc(50% - 24px) !important;
+    max-width: calc(50% - 24px) !important;
+  }
 }
 </style>
 </head>
@@ -1629,9 +1809,15 @@ window.addEventListener('scroll', () => {
   });
 });
 
-// Improved parallax effect with individual positioning
+// Mobile detection and adjustments
+function isMobileDevice() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+// Improved parallax effect with mobile optimization
 window.addEventListener('scroll', () => {
-  const parallaxSpeed = 0.25; // 25% parallax effect
+  const isMobile = isMobileDevice();
+  const parallaxSpeed = isMobile ? 0.15 : 0.25; // Slower for mobile
   const scrollPosition = window.pageYOffset;
   
   // Apply parallax to main banner
@@ -1671,6 +1857,17 @@ window.addEventListener('scroll', () => {
       }
     }
   });
+});
+
+// Apply mobile-specific adjustments on load
+document.addEventListener('DOMContentLoaded', function() {
+  if (isMobileDevice()) {
+    // Remove fixed background attachment for better mobile performance
+    const parallaxElements = document.querySelectorAll('.parallax, .parallax-banner-image, .parallax-section-image');
+    parallaxElements.forEach(element => {
+      element.style.backgroundAttachment = 'scroll';
+    });
+  }
 });
 </script>
 
