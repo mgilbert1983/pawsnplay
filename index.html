@@ -639,19 +639,6 @@ footer {
   color: #fff;
   padding: 13px 5px;
   border-radius: 0.375rem;
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
-  font-weight: bold;
-  justify-content: center;
-  align-items: center;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.form-submit:hover {
-  background-color: #624fd8;
-  transform: scale(1.05);
 }
 
 .social-icons {
@@ -674,7 +661,25 @@ footer small {
   margin-top: 10px;
 }
 
-/* REMOVED SPLASH STYLES - SPLASH IS NOW GONE */
+/* SPLASH */
+#splash {
+  background-color: #fad4fc;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: transform 1s ease-in-out;
+}
+
+#splash img {
+  width: 200px;
+  cursor: pointer;
+}
 
 /* TABLE CONTAINER - CONSISTENT WIDTH */
 .table-container {
@@ -815,8 +820,8 @@ footer small {
   transform: scale(1.2);
 }
 
-/* EMAIL BUTTON STYLES - UPDATED FOR <a> TAG */
-.email-button {
+/* CALL BUTTON STYLES */
+.call-button {
   display: inline-block;
   background-color: #7B68EE;
   color: #FFFFFF;
@@ -834,10 +839,9 @@ footer small {
   -webkit-hyphens: none !important;
   -moz-hyphens: none !important;
   -ms-hyphens: none !important;
-  cursor: pointer;
 }
 
-.email-button:hover {
+.call-button:hover {
   background-color: #624fd8;
   color: #FFFFFF;
   transform: scale(1.05);
@@ -1053,18 +1057,12 @@ footer small {
     padding: 60px 20px !important;
   }
   
-  /* Make email buttons full width on mobile */
-  .email-button {
+  /* Make call buttons full width on mobile */
+  .call-button {
     width: 100% !important;
     max-width: 280px !important;
     margin: 15px auto !important;
     display: block !important;
-  }
-  
-  /* Adjust form submit button for mobile */
-  .form-submit {
-    width: 100% !important;
-    max-width: 200px !important;
   }
   
   /* Adjust paw header for mobile */
@@ -1110,6 +1108,11 @@ footer small {
   
   .contact-section {
     padding: 2rem 0 !important;
+  }
+  
+  .form-submit {
+    width: 100% !important;
+    max-width: 200px !important;
   }
   
   /* Adjust social container for mobile */
@@ -1179,7 +1182,24 @@ footer small {
 
 <body>
 
-<!-- REMOVED SPLASH PAGE - IT WAS CAUSING ISSUES ON GITHUB -->
+<!-- SPLASH -->
+<div id="splash">
+  <style>
+    #splash img {
+      transition: transform 0.3s ease;
+      display: block;
+      margin: 0 auto;
+    }
+    #splash img:hover {
+      transform: scale(1.1) rotate(5deg);
+    }
+  </style>
+
+  <img src="https://iili.io/KkTOXcP.md.png" alt="Logo" onclick="hideSplash()" />
+</div>
+
+<!-- MAIN -->
+<div id="mainContent" style="display:none;">
 
 <header>
   <a href="#"><img src="https://iili.io/KkTOXcP.md.png" alt="Logo" /></a>
@@ -1255,10 +1275,10 @@ footer small {
     <p>☕ And that's the heart of our mission! By combining the relaxation of our cafe with the excitement of our activity groups, we've created a unique space right here in Vancouver. It's not just a venue; it's a dedicated community hub designed to enhance the bond between you and your best friend, ensuring every visit is filled with connection, joy, and tail-wagging fun. Come be a part of the movement!</p>
         </div>
         
-        <!-- Centered Email Button - FIXED WITH DIRECT LINK -->
+        <!-- Centered Call Button -->
 <div class="centered-content">
-  <a href="mailto:mgilbert1983@gmail.com?subject=Fetching%20some%20info" class="email-button">
-    Contact Us
+  <a href="tel:+17787377529" class="call-button">
+    Call Us Now
   </a>
 </div>
 </section>
@@ -1391,10 +1411,10 @@ footer small {
       <p>All prices are subject to GST. </br> And that's the difference our walks make! Whether your dog thrives in a personalized solo excursion tailored to their pace or loves the fun of a safe, well-managed group adventure for socialization, we guarantee maximum mental and physical enrichment. Our goal is simple: to ensure every walk is a highlight of their day, bringing them back home happier, healthier, and delightfully tired from a truly joyful outing.</p>
     </div>
   </div>
-  <!-- Centered Email Button - FIXED WITH DIRECT LINK -->
+  <!-- Centered Call Button -->
 <div class="centered-content">
-  <a href="mailto:mgilbert1983@gmail.com?subject=Fetching%20some%20info" class="email-button">
-    Contact Us
+  <a href="tel:+17787377529" class="call-button">
+    Call Us Now
   </a>
 </div>
 </section>
@@ -1520,10 +1540,10 @@ footer small {
   </div>
 </section>
 
-<!-- Centered Email Button - FIXED WITH DIRECT LINK -->
+<!-- Centered Call Button -->
 <div class="centered-content">
-  <a href="mailto:mgilbert1983@gmail.com?subject=Fetching%20some%20info" class="email-button">
-    Contact Us
+  <a href="tel:+17787377529" class="call-button">
+    Call Us Now
   </a>
 </div>
 
@@ -1601,10 +1621,10 @@ footer small {
     </div>
 </section>
 
-<!-- Centered Email Button - FIXED WITH DIRECT LINK -->
+<!-- Centered Call Button -->
 <div class="centered-content">
-  <a href="mailto:mgilbert1983@gmail.com?subject=Fetching%20some%20info" class="email-button">
-    Contact Us
+  <a href="tel:+17787377529" class="call-button">
+    Call Us Now
   </a>
 </div>
 
@@ -1698,10 +1718,10 @@ footer small {
     </div>
     </div>
   </div>
-  <!-- Final Email Button - FIXED WITH DIRECT LINK -->
+  <!-- Final Call Button -->
 <div class="centered-content">
-  <a href="mailto:mgilbert1983@gmail.com?subject=Fetching%20some%20info" class="email-button">
-    Contact Us
+  <a href="tel:+17787377529" class="call-button">
+    Call Us Now
   </a>
 </div>
 </div>
@@ -1746,7 +1766,7 @@ footer small {
         </div>
         
         <div class="centered-content">
-          <button type="submit" class="email-button">
+          <button type="submit" class="call-button">
             Send Message
           </button>
         </div>
@@ -1765,7 +1785,20 @@ footer small {
   </div>
 </footer>
 
+</div>
+
 <script>
+// Splash transition
+function hideSplash() {
+  const splash = document.getElementById('splash');
+  const main = document.getElementById('mainContent');
+  splash.style.transform = 'translateY(-100%)';
+  setTimeout(() => {
+    splash.style.display = 'none';
+    main.style.display = 'block';
+  }, 500);
+}
+
 // Fade-in animation on scroll
 window.addEventListener('scroll', () => {
   document.querySelectorAll('.section').forEach(section => {
@@ -1835,14 +1868,6 @@ document.addEventListener('DOMContentLoaded', function() {
       element.style.backgroundAttachment = 'scroll';
     });
   }
-  
-  // Trigger initial fade-in for sections already in view
-  document.querySelectorAll('.section').forEach(section => {
-    const rect = section.getBoundingClientRect();
-    if (rect.top < window.innerHeight - 100) {
-      section.classList.add('visible');
-    }
-  });
 });
 </script>
 
