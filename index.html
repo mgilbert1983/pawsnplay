@@ -478,55 +478,33 @@ nav a:hover {
   aspect-ratio: 4 / 3;
 }
 
-.subsection-gallery {
-  gap: 32px;
-}
-
+.subsection-gallery {  
+gap: 32px;
+}  
 
 /* ============================= */
-/* DOG TREATS ROW - FULL CONTENT WIDTH */
+/* DOG TREATS ROW ONLY */ 
+/* ============================= */
+/* DOG TREATS ROW - FLUSH LAYOUT */
 /* ============================= */
 
-.subsection-gallery.treats-row {
-  width: 100%;
-  max-width: 900px;   /* matches your content feel */
-  margin: 40px auto 20px auto;
-  gap: 24px;
+.treats-row {  
+flex-direction: column;  
+align-items: center;  
+gap: 24px;
 }
 
-/* keep 3 across */
-.subsection-gallery.treats-row .photo-box {
-  flex: 1 1 0;
-  aspect-ratio: 4 / 3;
-
-  
-/* ============================= */
-/* DOG TREATS ROW - FLUSH + INLINE */
-/* ============================= */
-
-.treats-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  max-width: 36ch;
-  margin: 30px auto;
-}
-
-.treats-row .photo-box {
-  flex: 1;
-  aspect-ratio: 4 / 3;
-}
 /* Each image matches text width */
-.treats-row .photo-box {
-  width: 100%;
-  max-width: 36ch;        /* EXACT match to your paragraph width */
-  aspect-ratio: 4 / 3;
-  flex: none;             /* disable flex grid behavior */
+.treats-row .photo-box {  
+flex: 0 1 calc(30% - 24px);  
+max-width: calc(30% - 24px);  
+width: 100%;  
+max-width: 36ch;        /* EXACT match to your paragraph width */  
+aspect-ratio: 4 / 3;  
+flex: none;             /* disable flex grid behavior */
 }
 
 .treats-row {
-  gap: 32px;
-}
   
 /* make .photo-box a clickable card (anchor) */
 .photo-box {
