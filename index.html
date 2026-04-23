@@ -481,16 +481,24 @@ nav a:hover {
 .subsection-gallery {
   gap: 32px;
 }
- /* ============================= */
-/* DOG TREATS ROW - FLUSH LAYOUT */
+
+
+/* ============================= */
+/* DOG TREATS ROW - FLUSH + INLINE */
 /* ============================= */
 
 .treats-row {
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 36ch;
+  margin: 30px auto;
 }
 
+.treats-row .photo-box {
+  flex: 1;
+  aspect-ratio: 4 / 3;
+}
 /* Each image matches text width */
 .treats-row .photo-box {
   width: 100%;
