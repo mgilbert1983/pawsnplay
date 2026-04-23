@@ -481,14 +481,22 @@ nav a:hover {
 .subsection-gallery {
   gap: 32px;
 }
-  /* ============================= */
-/* DOG TREATS ROW ONLY */
+ /* ============================= */
+/* DOG TREATS ROW - FLUSH LAYOUT */
 /* ============================= */
 
+.treats-row {
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+/* Each image matches text width */
 .treats-row .photo-box {
-  flex: 0 1 calc(30% - 24px);
-  max-width: calc(30% - 24px);
+  width: 100%;
+  max-width: 36ch;        /* EXACT match to your paragraph width */
   aspect-ratio: 4 / 3;
+  flex: none;             /* disable flex grid behavior */
 }
 
 .treats-row {
