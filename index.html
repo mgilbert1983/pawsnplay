@@ -468,6 +468,33 @@ nav a:hover {
   width: 100%;
 }
 
+  /* ============================= */
+/* DOG TREATS ROW CUSTOMIZATION */
+/* ============================= */
+
+.subsection-gallery .photo-box {
+  flex: 0 1 calc(30% - 24px);
+  max-width: calc(30% - 24px);
+  aspect-ratio: 4 / 3;
+}
+
+.subsection-gallery {
+  gap: 32px;
+}
+  /* ============================= */
+/* DOG TREATS ROW ONLY */
+/* ============================= */
+
+.treats-row .photo-box {
+  flex: 0 1 calc(30% - 24px);
+  max-width: calc(30% - 24px);
+  aspect-ratio: 4 / 3;
+}
+
+.treats-row {
+  gap: 32px;
+}
+  
 /* make .photo-box a clickable card (anchor) */
 .photo-box {
   display: block; /* anchor behaves like block */
@@ -1273,7 +1300,7 @@ footer small {
     </div>
 
   <!-- DOG TREATS GALLERY ROW -->
-<div class="subsection-gallery">
+<div class="subsection-gallery treats-row">
   <a href="#" class="photo-box" aria-label="Dog Bone Cake">
     <img src="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/DOG_BONE_CAKE.png" alt="Dog Bone Cake">
     <div class="overlay">
