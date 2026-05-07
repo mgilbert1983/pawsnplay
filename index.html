@@ -191,18 +191,21 @@ nav a:hover {
 .parallax-banner {
   position: relative;
   width: 100%;
+  height: auto;
+  min-height: 400px;
   overflow: hidden;
   z-index: 1;
   margin-top: -80px;
-  aspect-ratio: 1920 / 800;
 }
 
-.parallax-banner-image {
+.parallax-banner-image,
+.parallax-section-image {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: auto;
-  aspect-ratio: auto;
-  background-size: contain;
-  background-position: center top;
+  height: 100%;
+  background-size: 100% auto;
+  background-position: top center;
   background-repeat: no-repeat;
   background-attachment: scroll;
   transform: none;
@@ -220,18 +223,21 @@ nav a:hover {
 .parallax-section {
   position: relative;
   width: 100%;
+  height: auto;
+  min-height: 400px;
   overflow: hidden;
   z-index: 1;
   margin-top: -80px;
-  aspect-ratio: 1920 / 800;
 }
 
+.parallax-banner-image,
 .parallax-section-image {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: auto;
-  aspect-ratio: auto;
-  background-size: contain;
-  background-position: center top;
+  height: 100%;
+  background-size: 100% auto;
+  background-position: top center;
   background-repeat: no-repeat;
   background-attachment: scroll;
   transform: none;
