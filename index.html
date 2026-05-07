@@ -132,8 +132,9 @@ nav a:hover {
 .parallax {
   background-image: url("https://iili.io/Ke63t2I.png");
   min-height: 50vh;
-  background-attachment: fixed;
-  background-position: center;
+  background-attachment: scroll;
+  background-position: center center;
+  background-repeat: no-repeat;
   background-size: cover;
   display: flex;
   justify-content: center;
@@ -200,14 +201,15 @@ nav a:hover {
   top: 0;
   left: 0;
   width: 100%;
-  height: 125%; /* Extra height for parallax effect */
+  height: 100%;
   background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  transform: translateY(0);
-  transition: transform 0.1s ease-out;
-  will-change: transform;
-  z-index: 1; /* Lower than content */
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  transform: none;
+  transition: none;
+  will-change: auto;
+  z-index: 1;
 }
 
 /* PARALLAX BANNER 001 */
@@ -229,14 +231,15 @@ nav a:hover {
   top: 0;
   left: 0;
   width: 100%;
-  height: 125%; /* Extra height for parallax effect */
+  height: 100%;
   background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  transform: translateY(0);
-  transition: transform 0.1s ease-out;
-  will-change: transform;
-  z-index: 1; /* Lower than content */
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  transform: none;
+  transition: none;
+  will-change: auto;
+  z-index: 1;
 }
 
 /* PARALLAX BANNER 002 */
@@ -1894,50 +1897,7 @@ function isMobileDevice() {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
-// Improved parallax effect with mobile optimization
-window.addEventListener('scroll', () => {
-  const isMobile = isMobileDevice();
-  const parallaxSpeed = isMobile ? 0.15 : 0.25; // Slower for mobile
-  const scrollPosition = window.pageYOffset;
-  
-  // Apply parallax to main banner
-  const mainBanner = document.getElementById('mainBanner');
-  if (mainBanner) {
-    const transformValue = -scrollPosition * parallaxSpeed;
-    mainBanner.style.transform = `translateY(${transformValue}px)`;
-  }
-  
-  // Apply parallax to each parallax section individually
-  const parallaxSections = [
-    { id: 'shopParallax', section: 'shopParallaxSection' },
-    { id: 'walkingParallax', section: 'walkingParallaxSection' },
-    { id: 'groomingParallax', section: 'groomingParallaxSection' },
-    { id: 'birthdayParallax', section: 'birthdayParallaxSection' },
-    { id: 'teamParallax', section: 'teamParallaxSection' }
-  ];
-  
-  parallaxSections.forEach(item => {
-    const parallaxElement = document.getElementById(item.id);
-    const sectionElement = document.getElementById(item.section);
-    
-    if (parallaxElement && sectionElement) {
-      // Calculate the section's position relative to viewport
-      const sectionRect = sectionElement.getBoundingClientRect();
-      const sectionTop = sectionRect.top + scrollPosition;
-      const windowHeight = window.innerHeight;
-      
-      // Only apply parallax when section is in or near viewport
-      if (sectionTop < scrollPosition + windowHeight && sectionTop + sectionRect.height > scrollPosition) {
-        const distanceFromTop = scrollPosition - sectionTop;
-        const transformValue = -distanceFromTop * parallaxSpeed;
-        parallaxElement.style.transform = `translateY(${transformValue}px)`;
-      } else {
-        // Reset transform when section is out of view
-        parallaxElement.style.transform = 'translateY(0)';
-      }
-    }
-  });
-});
+
 
 // Apply mobile-specific adjustments on load
 document.addEventListener('DOMContentLoaded', function() {
