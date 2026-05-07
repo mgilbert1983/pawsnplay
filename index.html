@@ -6,8 +6,8 @@
 <title>Paws n' Play</title>
 
 <!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@900&family=Josefin+Sans:wght@400;600&display=swap" rel="stylesheet" />
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=League+Spartan:wght@900&family=Josefin+Sans:wght@400;600&display=swap)" rel="stylesheet" />
+<link href="[cdnjs.cloudflare.com](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css)" rel="stylesheet">
 
 <style>
 /* GLOBAL */
@@ -128,11 +128,10 @@ nav a:hover {
   animation-play-state: paused;
 }
 
-/* PARALLAX */
-.parallax {
-  background-image: url("https://iili.io/Ke63t2I.png");
+/* HERO BANNER - STATIONARY */
+.hero-banner {
+  background-image: url("[iili.io](https://iili.io/Ke63t2I.png)");
   min-height: 50vh;
-  background-attachment: fixed;
   background-position: center;
   background-size: cover;
   display: flex;
@@ -140,7 +139,7 @@ nav a:hover {
   align-items: center;
 }
 
-.parallax-text {
+.hero-text {
   font-family: 'League Spartan', sans-serif;
   font-weight: 900;
   font-size: 3em;
@@ -186,78 +185,49 @@ nav a:hover {
   50% { transform: translateY(-6px); }
 }
 
-/* PARALLAX BANNER - FIXED POSITIONING */
-.parallax-banner {
+/* STATIC BANNER SECTIONS */
+.static-banner {
   position: relative;
   height: 400px;
   overflow: hidden;
-  z-index: 1; /* Lower than content sections */
-  margin-top: -80px; /* RAISED BY 50 PIXELS */
+  z-index: 1;
+  margin-top: -80px;
 }
 
-.parallax-banner-image {
+.static-banner-image {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 125%; /* Extra height for parallax effect */
+  height: 100%;
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
-  transform: translateY(0);
-  transition: transform 0.1s ease-out;
-  will-change: transform;
-  z-index: 1; /* Lower than content */
+  z-index: 1;
 }
 
-/* PARALLAX BANNER 001 */
-.parallax-banner-image.main-banner {
-  background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/LARGE_BANNER_001.png");
+/* BANNER IMAGE VARIANTS */
+.static-banner-image.main-banner {
+  background-image: url("[raw.githubusercontent.com](https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/LARGE_BANNER_001.png)");
 }
 
-/* PARALLAX SECTIONS - FIXED POSITIONING */
-.parallax-section {
-  position: relative;
-  height: 400px;
-  overflow: hidden;
-  z-index: 1; /* Lower than content sections */
-  margin-top: -80px; /* RAISED BY 50 PIXELS */
+.static-banner-image.shop-banner {
+  background-image: url("[raw.githubusercontent.com](https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_002.jpg)");
 }
 
-.parallax-section-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 125%; /* Extra height for parallax effect */
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  transform: translateY(0);
-  transition: transform 0.1s ease-out;
-  will-change: transform;
-  z-index: 1; /* Lower than content */
+.static-banner-image.walking-banner {
+  background-image: url("[raw.githubusercontent.com](https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_003.jpg)");
 }
 
-/* PARALLAX BANNER 002 */
-.parallax-section-image.shop-parallax {
-  background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_002.jpg");
+.static-banner-image.grooming-banner {
+  background-image: url("[raw.githubusercontent.com](https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_005.jpg)");
 }
 
-.parallax-section-image.walking-parallax {
-  background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_003.jpg");
+.static-banner-image.birthday-banner {
+  background-image: url("[raw.githubusercontent.com](https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_004.jpg)");
 }
 
-.parallax-section-image.grooming-parallax {
-  background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_005.jpg");
-}
-
-.parallax-section-image.birthday-parallax {
-  background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_004.jpg");
-}
-
-.parallax-section-image.team-parallax {
-  background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_006.jpg");
+.static-banner-image.team-banner {
+  background-image: url("[raw.githubusercontent.com](https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_006.jpg)");
 }
 
 /* Three Column Section Styling */
@@ -268,9 +238,9 @@ nav a:hover {
     padding: 60px 5%;
     background-color: #ffffff;
     flex-wrap: wrap;
-    position: relative; /* Ensure proper stacking context */
-    z-index: 2; /* Higher than parallax banner */
-    margin-top: 0px; /* Adjusted spacing */
+    position: relative;
+    z-index: 2;
+    margin-top: 0px;
 }
 
 .column {
@@ -324,9 +294,9 @@ nav a:hover {
   justify-content: space-between;
   gap: 55px;
   flex-wrap: wrap;
-  position: relative; /* Ensure proper stacking context */
-  z-index: 3; /* Higher than parallax sections */
-  margin: 0; /* Ensure no margins between sections */
+  position: relative;
+  z-index: 3;
+  margin: 0;
 }
 
 /* PINK SECTIONS - CENTERED CONTENT */
@@ -334,18 +304,18 @@ nav a:hover {
   gap: 30px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   position: relative;
-  z-index: 3; /* Higher than parallax sections */
-  justify-content: center; /* Center the content */
-  text-align: center; /* Center text alignment */
+  z-index: 3;
+  justify-content: center;
+  text-align: center;
 }
 
 .section.pink.reverse {
   gap: 30px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   position: relative;
-  z-index: 3; /* Higher than parallax sections */
-  justify-content: center; /* Center the content */
-  text-align: center; /* Center text alignment */
+  z-index: 3;
+  justify-content: center;
+  text-align: center;
 }
 
 /* Center images in pink sections */
@@ -356,8 +326,8 @@ nav a:hover {
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 1s ease, transform 1s ease;
-  margin: 0 auto; /* Center the image */
-  display: block; /* Ensure proper centering */
+  margin: 0 auto;
+  display: block;
 }
 
 /* Center content in pink sections */
@@ -366,13 +336,13 @@ nav a:hover {
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 1s ease, transform 1s ease;
-  max-width: 500px; /* Slightly wider for better centering */
+  max-width: 500px;
   min-height: 275px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  text-align: center; /* Center text alignment */
-  margin: 0 auto; /* Center the content block */
+  text-align: center;
+  margin: 0 auto;
 }
 
 .section.visible img,
@@ -408,7 +378,7 @@ nav a:hover {
   font-size: 0.95em;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  max-width: 36ch; /* Approximately 60 characters wide */
+  max-width: 36ch;
   margin: 0 auto;
 }
 
@@ -428,17 +398,17 @@ nav a:hover {
   justify-content: space-between;
   gap: 55px;
   flex-wrap: wrap;
-  position: relative; /* Ensure proper stacking context */
-  z-index: 3; /* Higher than parallax sections */
-  margin: 0; /* Ensure no margins */
+  position: relative;
+  z-index: 3;
+  margin: 0;
 }
 
 .subsection.white { background-color: #ffffff; }
 .subsection.pink { 
   background-color: #fad4fc; 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* 25% opacity shadow */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   position: relative;
-  z-index: 3; /* Higher than parallax sections */
+  z-index: 3;
 }
 
 .subsection h3 {
@@ -497,10 +467,10 @@ nav a:hover {
   
 /* make .photo-box a clickable card (anchor) */
 .photo-box {
-  display: block; /* anchor behaves like block */
+  display: block;
   flex: 1 1 calc(33.333% - 24px);
   max-width: calc(33.333% - 24px);
-  aspect-ratio: 1 / 1;           /* equal width & height */
+  aspect-ratio: 1 / 1;
   position: relative;
   border-radius: 12px;
   overflow: hidden;
@@ -577,11 +547,11 @@ footer {
   background-color: #fad4fc;
   padding: 40px 10%;
   text-align: center;
-  width: 100%; /* ensure it spans the full width */
-  box-sizing: border-box; /* include padding in width calculation */
-  position: relative; /* Ensure proper stacking context */
-  z-index: 3; /* Higher than parallax sections */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* 25% opacity shadow */
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 3;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .contact-section {
@@ -605,7 +575,7 @@ footer {
 /* FOOTER CONTENT - 60 CHARACTERS WIDE */
 .contact-description {
   color: rgb(107 114 128);
-  max-width: 36ch; /* Approximately 60 characters wide */
+  max-width: 36ch;
   margin-left: auto;
   margin-right: auto;
   text-align: justify;
@@ -731,7 +701,7 @@ footer small {
   -webkit-hyphens: none !important;
   -moz-hyphens: none !important;
   -ms-hyphens: none !important;
-  table-layout: fixed; /* Added for consistent column sizing */
+  table-layout: fixed;
 }
 
 .grooming-table th {
@@ -755,15 +725,15 @@ footer small {
   padding: 15px 20px;
   border: 1px solid #ccc;
   border-width: 0 1px 1px 0;
-  max-width: 36ch; /* Approximately 60 characters wide */
+  max-width: 36ch;
   text-align: left !important;
   text-justify: auto !important;
   hyphens: none !important;
   -webkit-hyphens: none !important;
   -moz-hyphens: none !important;
   -ms-hyphens: none !important;
-  word-wrap: break-word; /* Ensure long words break */
-  overflow-wrap: break-word; /* Ensure long words break */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .grooming-table td:first-child {
@@ -818,7 +788,7 @@ footer small {
 
 /* REVIEW CARDS - 60 CHARACTERS WIDE */
 .review-card p {
-  max-width: 36ch; /* Approximately 60 characters wide */
+  max-width: 36ch;
   margin: 12px 0;
   line-height: 1.6;
   text-align: justify;
@@ -883,7 +853,7 @@ footer small {
 
 /* CENTERED CONTENT - 220 CHARACTERS WIDE */
 .centered-content p {
-  max-width: 132ch; /* Approximately 220 characters wide */
+  max-width: 132ch;
   text-align: justify;
   text-justify: inter-word;
   hyphens: auto;
@@ -985,13 +955,12 @@ footer small {
 /* MOBILE-SPECIFIC STYLES */
 /* ========================================================================== */
 @media (max-width: 768px) {
-  /* Fix header parallax height */
-  .parallax {
+  /* Fix header hero height */
+  .hero-banner {
     min-height: 20vh !important;
-    background-attachment: scroll !important;
   }
   
-  .parallax-text {
+  .hero-text {
     font-size: 1.8rem !important;
     flex-direction: column;
     gap: 15px !important;
@@ -1002,17 +971,10 @@ footer small {
     height: 60px !important;
   }
   
-  /* Fix parallax section spacing */
-  .parallax-banner,
-  .parallax-section {
+  /* Fix static banner spacing */
+  .static-banner {
     height: 200px !important;
     margin-top: 0 !important;
-  }
-  
-  .parallax-banner-image,
-  .parallax-section-image {
-    background-attachment: scroll !important;
-    height: 100% !important;
   }
   
   /* Fix ticker tape readability */
@@ -1222,23 +1184,23 @@ footer small {
     }
   </style>
 
-  <img src="https://iili.io/KkTOXcP.md.png" alt="Logo" onclick="hideSplash()" />
+  <img src="[iili.io](https://iili.io/KkTOXcP.md.png)" alt="Logo" onclick="hideSplash()" />
 </div>
 
 <!-- MAIN -->
 <div id="mainContent" style="display:none;">
 
 <header>
-  <a href="#"><img src="https://iili.io/KkTOXcP.md.png" alt="Logo" /></a>
+  <a href="#"><img src="[iili.io](https://iili.io/KkTOXcP.md.png)" alt="Logo" /></a>
   <nav>
     <ul>
       <div class="social-container">
-        <a href="https://www.facebook.com/pawsnplayvancouver/" target="_blank" id="facebook"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://www.instagram.com/pawsnplayvancouver/" target="_blank" id="instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.threads.com/@pawsnplayvancouver" target="_blank" id="threads"><i class="fab fa-threads"></i></a>
-        <a href="https://x.com/pawsnplayyvr" target="_blank" id="x"><i class="fab fa-x-twitter"></i></a>
-        <a href="https://www.tiktok.com/@pawsnplayvancouver" target="_blank" id="tiktok"><i class="fab fa-tiktok"></i></a>
-        <a href="https://www.youtube.com/@pawsnplayyvr" target="_blank" id="youtube"><i class="fab fa-youtube"></i></a>
+        <a href="[facebook.com](https://www.facebook.com/pawsnplayvancouver/)" target="_blank" id="facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="[instagram.com](https://www.instagram.com/pawsnplayvancouver/)" target="_blank" id="instagram"><i class="fab fa-instagram"></i></a>
+        <a href="[threads.com](https://www.threads.com/@pawsnplayvancouver)" target="_blank" id="threads"><i class="fab fa-threads"></i></a>
+        <a href="[x.com](https://x.com/pawsnplayyvr)" target="_blank" id="x"><i class="fab fa-x-twitter"></i></a>
+        <a href="[tiktok.com](https://www.tiktok.com/@pawsnplayvancouver)" target="_blank" id="tiktok"><i class="fab fa-tiktok"></i></a>
+        <a href="[youtube.com](https://www.youtube.com/@pawsnplayyvr)" target="_blank" id="youtube"><i class="fab fa-youtube"></i></a>
       </div>
     </ul>
   </nav>
@@ -1254,47 +1216,47 @@ footer small {
   </div>
 </div>
 
-<div class="parallax">
-  <div class="parallax-text">
-    <img src="https://iili.io/Kkx7umG.gif" class="popper-img left" alt="Left Popper" />
+<div class="hero-banner">
+  <div class="hero-text">
+    <img src="[iili.io](https://iili.io/Kkx7umG.gif)" class="popper-img left" alt="Left Popper" />
     Vancouver's First Ever<br>Licensed Dog Café
-    <img src="https://iili.io/KkxkRSe.gif" class="popper-img" alt="Right Popper" />
+    <img src="[iili.io](https://iili.io/KkxkRSe.gif)" class="popper-img" alt="Right Popper" />
   </div>
 </div>
 
 <!-- SECTION 1 - PINK WITH CLOSER SPACING -->
 <section class="section pink">
-  <img src="https://iili.io/Kkuc8j1.md.png" alt="Dog Cafe" />
+  <img src="[iili.io](https://iili.io/Kkuc8j1.md.png)" alt="Dog Cafe" />
   <div class="section-content">
     <h2>Sip. Stay. Play.</h2>
     <p>Welcome to Vancouver's first — and only — registered Dog Café! At Paws n' Play, we've created a cozy, canine-friendly space where pups and their people can unwind, connect, and paws for a treat. With tail-wagging vibes, off-leash zones, and delicious drinks for humans, it's the ulti-mutt hangout. Come for the coffee, stay for the company ... because every good day starts with a wag and a woof.</p>
   </div>
 </section>
 
-<!-- PARALLAX BANNER 1 - MAIN BANNER -->
-<div class="parallax-banner">
-  <div class="parallax-banner-image main-banner" id="mainBanner"></div>
+<!-- STATIC BANNER 1 - MAIN BANNER -->
+<div class="static-banner">
+  <div class="static-banner-image main-banner"></div>
 </div>
 
 <!-- Three Column Section -->
 <section class="three-column-section">
     <!-- Column 1 -->
     <div class="column">
-        <img src="https://iili.io/KgohlEP.md.png" alt="Dog 001">
+        <img src="[iili.io](https://iili.io/KgohlEP.md.png)" alt="Dog 001">
         <h2>Pawsitive Social Spaces</h2>
         <p>At Paws n' Play, we've built a dog-friendly café where tails wag and conversations flow. Our open, social layout encourages pups and their people to mingle, relax, and make new friends in a cheerful, welcoming space.</p>
     </div>
     
     <!-- Column 2 -->
     <div class="column">
-        <img src="https://iili.io/KgxBdXI.md.png" alt="Dog 002">
+        <img src="[iili.io](https://iili.io/KgxBdXI.md.png)" alt="Dog 002">
         <h2>Safe & Sound</h2>
         <p>Your dog's safety and comfort come first. Our trained, dog-loving team maintains a clean, secure environment with supervised play areas designed for all sizes and temperaments.</p>
     </div>
     
     <!-- Column 3 -->
     <div class="column">
-        <img src="https://iili.io/KgxYDRS.md.png" alt="Coffee 001">
+        <img src="[iili.io](https://iili.io/KgxYDRS.md.png)" alt="Coffee 001">
         <h2>Crafted Comforts</h2>
         <p>While your dog enjoys the good life, you can too. Our café serves artisanal, in-house coffee, hand-crafted desserts, and local treats made with care and quality ingredients.</p>
     </div>
@@ -1316,16 +1278,16 @@ footer small {
 
 <!-- SITE STORE - PINK WITH CLOSER SPACING -->
 <section class="section pink reverse">
-  <img src="https://iili.io/KkchYaR.md.png" alt="Events" />
+  <img src="[iili.io](https://iili.io/KkchYaR.md.png)" alt="Events" />
   <div class="section-content">
     <h2>Shop with us</h2>
     <p>At Paws n' Play, we believe every pup deserves the very best gear for their adventures. We meticulously curate our selection of toys, accessories, and doggy apparel using only safe, high-quality, and ethically-sourced materials. You won't find anything made with harsh, cheap components—only items full of tail-wagging fun and style.</p>
   </div>
 </section>
 
-<!-- NEW PARALLAX SECTION 1 - SHOP -->
-<div class="parallax-section" id="shopParallaxSection">
-  <div class="parallax-section-image shop-parallax" id="shopParallax"></div>
+<!-- STATIC BANNER 2 - SHOP -->
+<div class="static-banner">
+  <div class="static-banner-image shop-banner"></div>
 </div>
 
 <div class="subsection white">
@@ -1333,21 +1295,21 @@ footer small {
  <!-- DOG TREATS GALLERY ROW -->
 <div class="subsection-gallery treats-row">
   <a href="#" class="photo-box" aria-label="Dog Bone Cake">
-    <img src="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/DOG_BONE_CAKE_001.png" alt="Dog Bone Cake">
+    <img src="[raw.githubusercontent.com](https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/DOG_BONE_CAKE_001.png)" alt="Dog Bone Cake">
     <div class="overlay">
       <div class="caption-inner">Fresh Baked <br>Dog Bone Cake</div>
     </div>
   </a>
 
   <a href="#" class="photo-box" aria-label="Dog Cookies">
-    <img src="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/DOG_COOKIES.png" alt="Dog Cookies">
+    <img src="[raw.githubusercontent.com](https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/DOG_COOKIES.png)" alt="Dog Cookies">
     <div class="overlay">
       <div class="caption-inner">Homemade <br>Dog Cookies</div>
     </div>
   </a>
 
   <a href="#" class="photo-box" aria-label="Baking Dog Treats">
-    <img src="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/BAKING_DOGGY_TREATS.png" alt="Baking Dog Treats">
+    <img src="[raw.githubusercontent.com](https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/BAKING_DOGGY_TREATS.png)" alt="Baking Dog Treats">
     <div class="overlay">
       <div class="caption-inner">Made With Love <br>In-House Treats</div>
     </div>
@@ -1368,16 +1330,16 @@ footer small {
 
 <!-- SECTION 3 - PINK WITH CLOSER SPACING -->
 <section class="section pink">
-  <img src="https://iili.io/KkAZ1pa.md.png" alt="Dog Walking" />
+  <img src="[iili.io](https://iili.io/KkAZ1pa.md.png)" alt="Dog Walking" />
   <div class="section-content">
     <h2>Dog Walking</h2>
     <p>Our <b>Paws n' Play</b> walking service offers both economical Group Walks and dedicated Solo Walks seven days a week, ensuring your dog gets the leash life they deserve. Our experienced, well-trained staff tailor every safe adventure to your pup's needs in the busy city, giving you peace of mind while they have a pawsitively great time!</p>
   </div>
 </section>
 
-<!-- NEW PARALLAX SECTION 2 - DOG WALKING -->
-<div class="parallax-section" id="walkingParallaxSection">
-  <div class="parallax-section-image walking-parallax" id="walkingParallax"></div>
+<!-- STATIC BANNER 3 - DOG WALKING -->
+<div class="static-banner">
+  <div class="static-banner-image walking-banner"></div>
 </div>
 
 <!-- DOG WALKING POLICIES SECTION -->
@@ -1490,16 +1452,16 @@ footer small {
 
 <!-- GROOMING SECTION - PINK WITH CLOSER SPACING -->
 <section class="section pink reverse">
-  <img src="https://iili.io/KgyIu0G.png" alt="Grooming" />
+  <img src="[iili.io](https://iili.io/KgyIu0G.png)" alt="Grooming" />
   <div class="section-content">
     <h2>Grooming & Spa</h2>
     <p>At Paws n' Play, we believe every pup deserves a gentle, stress-free clean. Our dog washing service uses only safe, ethical products — free from harsh chemicals and full of tail-wagging goodness. Whether it's a quick rinse or a full spa day, we treat every dog with the same love and care you do. It's not just about staying clean — it's about feeling great, building trust, and making bath time something to bark about.</p>
   </div>
 </section>
 
-<!-- NEW PARALLAX SECTION 3 - GROOMING -->
-<div class="parallax-section" id="groomingParallaxSection">
-  <div class="parallax-section-image grooming-parallax" id="groomingParallax"></div>
+<!-- STATIC BANNER 4 - GROOMING -->
+<div class="static-banner">
+  <div class="static-banner-image grooming-banner"></div>
 </div>
 
 <!-- GROOMING POLICIES SECTION -->
@@ -1629,16 +1591,16 @@ footer small {
 
 <!-- BIRTHDAY PARTIES SECTION - PINK WITH CLOSER SPACING -->
 <section class="section pink">
-  <img src="https://iili.io/KkcO9cb.md.png" alt="Birthday Parties" />
+  <img src="[iili.io](https://iili.io/KkcO9cb.md.png)" alt="Birthday Parties" />
   <div class="section-content">
     <h2>Birthday Parties</h2>
     <p>At Paws n' Play, we believe every pup deserves a fun, stress-free birthday celebration. Our custom party packages use only safe, ethical decorations and dog-friendly treats—free from harsh additives and full of tail-wagging goodness. Whether it's a small gathering or a full Bark-day Bash, we treat every event with the same love and care you do. It's not just about booking a space—it's about creating great memories, celebrating your bond, and making their birthday something to bark about!</p>
   </div>
 </section>
 
-<!-- NEW PARALLAX SECTION 4 - BIRTHDAY PARTIES -->
-<div class="parallax-section" id="birthdayParallaxSection">
-  <div class="parallax-section-image birthday-parallax" id="birthdayParallax"></div>
+<!-- STATIC BANNER 5 - BIRTHDAY PARTIES -->
+<div class="static-banner">
+  <div class="static-banner-image birthday-banner"></div>
 </div>
 
 <!-- BIRTHDAY PARTY PRICING SECTION -->
@@ -1710,28 +1672,28 @@ footer small {
 
 <!-- SECTION 5 - PINK WITH CLOSER SPACING -->
 <section class="section pink reverse">
-  <img src="https://iili.io/KkcjLgf.md.png" alt="In Good Paws" />
+  <img src="[iili.io](https://iili.io/KkcjLgf.md.png)" alt="In Good Paws" />
   <div class="section-content">
     <h2>In Good Paws</h2>
     <p>At Paws n' Play, you and your pup will be greeted by a small, knowledgeable team. Our staff members are trained in dog behavior and certified in Pet First Aid, ensuring safety and comfort during your visit. With attentive care and expertise, we're here to make your time in the café calm, happy, and stress-free.</p>
   </div>
 </section>
 
-<!-- NEW PARALLAX SECTION 5 - TEAM -->
-<div class="parallax-section" id="teamParallaxSection">
-  <div class="parallax-section-image team-parallax" id="teamParallax"></div>
+<!-- STATIC BANNER 6 - TEAM -->
+<div class="static-banner">
+  <div class="static-banner-image team-banner"></div>
 </div>
 
 <!-- TEAM SECTION -->
 <div class="subsection white">
   <div class="subsection-gallery">
     <a href="cafe.html" class="photo-box" aria-label="Solo Walks">
-      <img src="https://iili.io/Kg7BZap.th.png" alt="Christiana">
+      <img src="[iili.io](https://iili.io/Kg7BZap.th.png)" alt="Christiana">
       <div class="overlay"><div class="caption-inner">Christiana Taylor <br>Co-owner <br> Head of the pack</div></div>
     </a>
 
     <a href="lounge.html" class="photo-box" aria-label="Group Walks">
-      <img src="https://iili.io/Kg7fmUN.th.png" alt="Tony">
+      <img src="[iili.io](https://iili.io/Kg7fmUN.th.png)" alt="Tony">
       <div class="overlay"><div class="caption-inner">Tony Ali <br>Co-owner <br> Chief Tail-wagger</div></div>
     </a>
   </div>
@@ -1821,7 +1783,7 @@ footer small {
         </p>
       </div>
 
-      <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+      <form class="contact-form" action="[api.web3forms.com](https://api.web3forms.com/submit)" method="POST">
         <input type="hidden" name="access_key" value="f30fcbc2-6355-465f-8533-6640adb3147b" />
         <input type="hidden" name="subject" value="New Contact Form Submission from Web3Forms" />
         <input type="hidden" name="from_name" value="My Website" />
@@ -1853,7 +1815,7 @@ footer small {
       </form>
     </section>
 
-    <img src="https://iili.io/KUgdDrB.md.png" 
+    <img src="[iili.io](https://iili.io/KUgdDrB.md.png)" 
          alt="PAWSNPLAY_LOGO" 
          border="0" 
          width="200" 
@@ -1879,7 +1841,7 @@ function hideSplash() {
   }, 500);
 }
 
-// Fade-in animation on scroll
+// Fade-in animation on scroll for sections
 window.addEventListener('scroll', () => {
   document.querySelectorAll('.section').forEach(section => {
     const rect = section.getBoundingClientRect();
@@ -1887,67 +1849,6 @@ window.addEventListener('scroll', () => {
       section.classList.add('visible');
     }
   });
-});
-
-// Mobile detection and adjustments
-function isMobileDevice() {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-}
-
-// Improved parallax effect with mobile optimization
-window.addEventListener('scroll', () => {
-  const isMobile = isMobileDevice();
-  const parallaxSpeed = isMobile ? 0.15 : 0.25; // Slower for mobile
-  const scrollPosition = window.pageYOffset;
-  
-  // Apply parallax to main banner
-  const mainBanner = document.getElementById('mainBanner');
-  if (mainBanner) {
-    const transformValue = -scrollPosition * parallaxSpeed;
-    mainBanner.style.transform = `translateY(${transformValue}px)`;
-  }
-  
-  // Apply parallax to each parallax section individually
-  const parallaxSections = [
-    { id: 'shopParallax', section: 'shopParallaxSection' },
-    { id: 'walkingParallax', section: 'walkingParallaxSection' },
-    { id: 'groomingParallax', section: 'groomingParallaxSection' },
-    { id: 'birthdayParallax', section: 'birthdayParallaxSection' },
-    { id: 'teamParallax', section: 'teamParallaxSection' }
-  ];
-  
-  parallaxSections.forEach(item => {
-    const parallaxElement = document.getElementById(item.id);
-    const sectionElement = document.getElementById(item.section);
-    
-    if (parallaxElement && sectionElement) {
-      // Calculate the section's position relative to viewport
-      const sectionRect = sectionElement.getBoundingClientRect();
-      const sectionTop = sectionRect.top + scrollPosition;
-      const windowHeight = window.innerHeight;
-      
-      // Only apply parallax when section is in or near viewport
-      if (sectionTop < scrollPosition + windowHeight && sectionTop + sectionRect.height > scrollPosition) {
-        const distanceFromTop = scrollPosition - sectionTop;
-        const transformValue = -distanceFromTop * parallaxSpeed;
-        parallaxElement.style.transform = `translateY(${transformValue}px)`;
-      } else {
-        // Reset transform when section is out of view
-        parallaxElement.style.transform = 'translateY(0)';
-      }
-    }
-  });
-});
-
-// Apply mobile-specific adjustments on load
-document.addEventListener('DOMContentLoaded', function() {
-  if (isMobileDevice()) {
-    // Remove fixed background attachment for better mobile performance
-    const parallaxElements = document.querySelectorAll('.parallax, .parallax-banner-image, .parallax-section-image');
-    parallaxElements.forEach(element => {
-      element.style.backgroundAttachment = 'scroll';
-    });
-  }
 });
 </script>
 
