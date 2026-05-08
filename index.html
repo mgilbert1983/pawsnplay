@@ -1209,13 +1209,21 @@ footer small {
 /* MOBILE PARALLAX FIX */
 /* ============================= */
 @media (max-width: 768px) {
-  .parallax,
+
+  /* Kill parallax illusion completely */
+  .parallax-banner,
+  .parallax-section {
+    height: auto !important;
+  }
+
   .parallax-banner-image,
   .parallax-section-image {
-    background-attachment: scroll !important;
-    transform: none !important;
-    will-change: auto !important;
+    position: relative !important;
+    height: 200px !important; /* or whatever looks good */
+    inset: unset !important;
   }
+
+}
 }
 
 </style>
