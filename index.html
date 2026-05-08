@@ -132,12 +132,18 @@ nav a:hover {
 .parallax {
   background-image: url("https://iili.io/Ke63t2I.png");
   min-height: 50vh;
-  background-attachment: fixed;
-  background-position: center;
+  background-attachment: scroll;
+  background-position: center center;
+  background-repeat: no-repeat;
   background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 .parallax-text {
@@ -147,9 +153,9 @@ nav a:hover {
   color: #fff;
   text-shadow:
     -3px -3px 0 #3414fd,
-    3px -3px 0 #3414fd,
-    -3px 3px 0 #3414fd,
-    3px 3px 0 #3414fd;
+     3px -3px 0 #3414fd,
+    -3px  3px 0 #3414fd,
+     3px  3px 0 #3414fd;
   text-align: center;
   display: flex;
   align-items: center;
@@ -157,6 +163,8 @@ nav a:hover {
   opacity: 0;
   transform: translateY(20px);
   animation: fadeSlideUp 1s ease forwards;
+  z-index: 2;
+  position: relative;
   text-align: center !important;
   text-justify: auto !important;
   hyphens: none !important;
@@ -177,64 +185,52 @@ nav a:hover {
 }
 
 @keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
-/* PARALLAX BANNER - FIXED POSITIONING */
-.parallax-banner {
-  position: relative;
-  width: 100%;
-  height: 400px;
-  overflow: visible;
-  z-index: 1;
-  margin-top: 0;
-}
+/* ========================================================= */
+/* HERO / BANNER CONTAINERS */
+/* ========================================================= */
 
-
-.parallax-banner-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  transform: none !important;
-  transition: none !important;
-  will-change: auto;
-  z-index: 1;
-}
-
-/* PARALLAX BANNER 001 */
-.parallax-banner-image.main-banner {
-  background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/LARGE_BANNER_001.png");
-}
-
-/* PARALLAX SECTIONS - FIXED POSITIONING */
+.parallax-banner,
 .parallax-section {
   position: relative;
   width: 100%;
   height: 400px;
-  overflow: visible;
-  z-index: 1;
-  margin-top: 0;
+  overflow: hidden;
+  z-index: 10;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
 }
+
+/* ========================================================= */
+/* HERO / BANNER IMAGES */
+/* ========================================================= */
+
+.parallax-banner-image,
 .parallax-section-image {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
+  display: block;
   width: 100%;
   height: 100%;
   background-size: cover;
@@ -247,7 +243,18 @@ nav a:hover {
   z-index: 1;
 }
 
-/* PARALLAX BANNER 002 */
+/* ========================================================= */
+/* BANNER 001 */
+/* ========================================================= */
+
+.parallax-banner-image.main-banner {
+  background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/LARGE_BANNER_001.png");
+}
+
+/* ========================================================= */
+/* BANNERS 002–006 */
+/* ========================================================= */
+
 .parallax-section-image.shop-parallax {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_002.jpg");
 }
@@ -267,7 +274,6 @@ nav a:hover {
 .parallax-section-image.team-parallax {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_006.jpg");
 }
-
 /* Three Column Section Styling */
 .three-column-section {
     display: flex;
