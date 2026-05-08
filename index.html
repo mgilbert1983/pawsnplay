@@ -211,28 +211,80 @@ nav a:hover {
 }
 
 /* ========================================================= */
-/* HERO / BANNER CONTAINERS */
+/* PARALLAX / HERO SYSTEM (CLEAN + FIXED) */
 /* ========================================================= */
 
-.parallax-banner,
-.parallax-section {
+/* TOP HERO */
+.parallax {
+  background-image: url("https://iili.io/Ke63t2I.png");
+  min-height: 50vh;
+  background-attachment: scroll;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   position: relative;
-  width: 100vw;
-  height: 400px;
-  overflow: visible !important;
+  width: 100%;
+  overflow: hidden;
+}
 
-  margin: 0;
-  padding: 0;
+/* HERO TEXT */
+.parallax-text {
+  font-family: 'League Spartan', sans-serif;
+  font-weight: 900;
+  font-size: 3em;
+  color: #fff;
+  text-align: center;
 
-  z-index: 999;
+  text-shadow:
+    -3px -3px 0 #3414fd,
+     3px -3px 0 #3414fd,
+    -3px  3px 0 #3414fd,
+     3px  3px 0 #3414fd;
 
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeSlideUp 1s ease forwards;
+
+  position: relative;
+  z-index: 2;
+}
+
+/* FLOATING ICONS */
+.popper-img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  animation: float 3s ease-in-out infinite;
+}
+
+.popper-img.left {
+  transform: scaleX(-1);
 }
 
 /* ========================================================= */
-/* HERO / BANNER IMAGES */
+/* BANNER STRUCTURE */
 /* ========================================================= */
 
+/* Containers sit in normal flow */
+.parallax-banner,
+.parallax-section {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  z-index: 0; /* background layer */
+}
+
+/* Background images fill container */
 .parallax-banner-image,
 .parallax-section-image {
   position: absolute;
@@ -241,32 +293,20 @@ nav a:hover {
   width: 100%;
   height: 100%;
 
-  display: block;
-
   background-size: cover;
-  background-position: center center;
+  background-position: center;
   background-repeat: no-repeat;
 
-  background-attachment: scroll !important;
-
-  transform: none !important;
-  transition: none !important;
-  will-change: auto !important;
-
-  z-index: 999;
+  z-index: 0;
 }
 
 /* ========================================================= */
-/* BANNER 001 */
+/* BANNER IMAGES */
 /* ========================================================= */
 
 .parallax-banner-image.main-banner {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/LARGE_BANNER_001.png");
 }
-
-/* ========================================================= */
-/* BANNERS 002–006 */
-/* ========================================================= */
 
 .parallax-section-image.shop-parallax {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_002.jpg");
@@ -287,29 +327,38 @@ nav a:hover {
 .parallax-section-image.team-parallax {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_006.jpg");
 }
+
+/* ========================================================= */
+/* GLOBAL STACKING FIX */
+/* ========================================================= */
+
+/* All content sits above banners */
+.section,
+.subsection,
+.three-column-section,
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Header + ticker always above everything */
+header {
+  z-index: 10;
+}
+
+.ticker-tape-container {
+  z-index: 9;
 }
 
 /* ========================================================= */
 /* ANIMATIONS */
 /* ========================================================= */
 
-.popper-img {
-  width: 100px;
-  height: 100px;
-  animation: float 3s ease-in-out infinite;
-  object-fit: contain;
-}
-
-.popper-img.left {
-  transform: scaleX(-1);
-}
-
 @keyframes fadeSlideUp {
   from {
     opacity: 0;
     transform: translateY(20px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
@@ -317,13 +366,9 @@ nav a:hover {
 }
 
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-6px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
 }
 
 /* ========================================================= */
