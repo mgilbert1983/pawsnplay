@@ -576,7 +576,7 @@ nav a:hover {
 /* FOOTER */
 footer {
   background-color: #fad4fc;
-  padding: 40px 10%;
+  padding: 60px 10%;
   text-align: center;
   width: 100%;
   box-sizing: border-box;
@@ -586,15 +586,18 @@ footer {
 }
 
 .contact-section {
-  width: 160%;
-  max-width: 52rem;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 3rem 1rem;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 40px auto;
+  padding: 0;
 }
 
 .contact-form {
   width: 100%;
+}
+
+.contact-intro {
+  margin-bottom: 30px;
 }
 
 .contact-intro > * + * {
@@ -605,76 +608,103 @@ footer {
   font-size: 1.875rem;
   line-height: 2.25rem;
   font-weight: 700;
+  color: #7b68ee;
+  margin: 0 0 15px 0;
+  text-align: center;
 }
 
 /* FOOTER CONTENT - 60 CHARACTERS WIDE */
 .contact-description {
-  color: rgb(107 114 128);
+  color: #7b68ee;
   max-width: 36ch;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: justify;
-  text-justify: inter-word;
-  hyphens: auto;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
+  margin: 0 auto;
+  text-align: center;
+  text-justify: auto;
+  hyphens: none;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  font-size: 0.95em;
+  line-height: 1.6;
 }
 
 .form-group-container {
   display: grid;
   gap: 1rem;
   margin-top: 2rem;
+  width: 100%;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .form-label {
   margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #7b68ee;
+  text-align: left;
 }
 
 .form-input,
 .form-textarea {
-  padding: 0.5rem;
-  border: 1px solid #7B68EE;
-  display: flex;
-  height: 2.5rem;
+  padding: 0.75rem;
+  border: 2px solid #7B68EE;
   width: 100%;
   border-radius: 0.375rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
+  font-family: 'Josefin Sans', sans-serif;
+  color: #7b68ee;
+  box-sizing: border-box;
 }
 
 .form-input::placeholder,
-.form-textarea:focus-visible {
-  color: #7B68EE;
+.form-textarea::placeholder {
+  color: #b4a7e8;
 }
 
 .form-input:focus-visible,
 .form-textarea:focus-visible {
-  outline: 2px solid #7B68EE;
-  outline-offset: 2px;
+  outline: none;
+  border-color: #5b47cf;
+  box-shadow: 0 0 8px rgba(123, 104, 238, 0.3);
 }
 
 .form-textarea {
   min-height: 120px;
+  resize: vertical;
 }
 
 .form-submit {
-  width: 20%;
-  margin-top: 1.2rem;
+  width: 100%;
+  max-width: 200px;
+  margin: 2rem auto 0 auto;
   background-color: #7B68EE;
-  display: flex;
+  display: block;
   color: #fff;
-  padding: 13px 5px;
+  padding: 12px 30px;
+  border: none;
   border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.form-submit:hover {
+  background-color: #5b47cf;
+  transform: translateY(-2px);
+}
+
+.form-submit:active {
+  transform: translateY(0);
 }
 
 .social-icons {
-  margin: 20px 0;
+  margin: 30px 0 20px 0;
 }
 
 .social-icons a {
@@ -691,6 +721,8 @@ footer {
 footer small {
   display: block;
   margin-top: 10px;
+  color: #7b68ee;
+  font-size: 0.85em;
 }
 
 /* SPLASH */
@@ -883,6 +915,14 @@ footer small {
     flex: 1 1 calc(50% - 24px);
     max-width: calc(50% - 24px);
   }
+
+  footer {
+    padding: 40px 5%;
+  }
+
+  .contact-section {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 480px) {
@@ -894,6 +934,19 @@ footer small {
   .review-card {
     flex: 1 1 100%;
     max-width: 100%;
+  }
+
+  footer {
+    padding: 30px 5%;
+  }
+
+  .contact-title {
+    font-size: 1.5rem;
+  }
+
+  .form-submit {
+    width: 100%;
+    max-width: none;
   }
 }
 
@@ -957,7 +1010,7 @@ footer small {
 </section>
 
 <!-- More sections... -->
-<footer>
+<footer id="contact">
   <div class="contact-section">
     <div class="contact-intro">
       <h2 class="contact-title">Get In Touch</h2>
@@ -968,22 +1021,22 @@ footer small {
       <div class="form-group-container">
         <div class="form-group">
           <label class="form-label">Name</label>
-          <input class="form-input" type="text" placeholder="Your name" />
+          <input class="form-input" type="text" placeholder="Your name" required />
         </div>
         <div class="form-group">
           <label class="form-label">Email</label>
-          <input class="form-input" type="email" placeholder="your@email.com" />
+          <input class="form-input" type="email" placeholder="your@email.com" required />
         </div>
         <div class="form-group">
           <label class="form-label">Message</label>
-          <textarea class="form-textarea" placeholder="Your message..."></textarea>
+          <textarea class="form-textarea" placeholder="Your message..." required></textarea>
         </div>
       </div>
       <button class="form-submit" type="submit">Send Message</button>
     </form>
   </div>
   
-  <div class="social-container">
+  <div class="social-icons">
     <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
     <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
     <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
