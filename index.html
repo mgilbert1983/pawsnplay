@@ -22,7 +22,14 @@
 /* =========================================================
    GLOBAL
 ========================================================= */
+* {
+  box-sizing: border-box;
+}
 
+header {
+  width: 100%;
+}
+   
 body {
   margin: 0;
   font-family: 'Josefin Sans', sans-serif;
@@ -63,12 +70,12 @@ header {
   position: sticky;
   top: 0;
   z-index: 1000;
+  gap: 20px;
 }
 
 header img {
   height: 30px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
+  flex-shrink: 0;
 }
 
 header img:hover {
@@ -210,38 +217,42 @@ nav a:hover {
    🔥 MOBILE FIX (THIS IS WHAT WAS MISSING)
 ========================================================= */
 
-@media (max-width: 768px) {
+
 
   header {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
     height: auto;
     padding: 10px 12px;
     gap: 10px;
   }
 
-  /* keep GIFs stable */
   header img {
     width: 44px;
     height: auto;
+    flex-shrink: 0;
   }
 
-  /* center title behaves like middle column */
-  .header-title {
+  /* THIS CREATES YOUR CENTER TEXT WITHOUT BREAKING LAYOUT */
+  header::after {
+    content: "Vancouver's First Ever Licensed Dog Café";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 900;
+    font-size: 0.95em;
+    color: #7b68ee;
     text-align: center;
-    font-size: 1.1em;
-    line-height: 1.2;
-    padding: 0 6px;
+    max-width: 60vw;
+    line-height: 1.1;
   }
 
+  /* hide nav overflow issues on mobile */
   nav ul {
-    grid-column: 1 / -1;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 8px;
-    gap: 10px;
+    display: none;
   }
 }
 
