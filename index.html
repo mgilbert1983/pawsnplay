@@ -10,26 +10,20 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
 <style>
-   html, body {
+html, body {
   width: 100%;
   overflow-x: hidden;
   box-sizing: border-box;
 }
-   * {
-  box-sizing: border-box;
-}
-   
-/* =========================================================
-   GLOBAL
-========================================================= */
+
 * {
   box-sizing: border-box;
 }
 
-header {
-  width: 100%;
-}
-   
+/* =========================================================
+   GLOBAL
+========================================================= */
+
 body {
   margin: 0;
   font-family: 'Josefin Sans', sans-serif;
@@ -57,7 +51,7 @@ button {
 }
 
 /* =========================================================
-   HEADER
+   HEADER (DESKTOP — STABLE)
 ========================================================= */
 
 header {
@@ -70,12 +64,12 @@ header {
   position: sticky;
   top: 0;
   z-index: 1000;
-  gap: 20px;
 }
 
 header img {
   height: 30px;
   flex-shrink: 0;
+  transition: transform 0.3s ease;
 }
 
 header img:hover {
@@ -99,6 +93,41 @@ nav a {
 
 nav a:hover {
   color: #5b47cf;
+}
+
+/* =========================================================
+   MOBILE HEADER (FIXED + CONTAINED)
+========================================================= */
+
+@media (max-width: 768px) {
+
+  header {
+    height: auto;
+    padding: 10px 12px;
+    gap: 10px;
+    flex-wrap: nowrap;
+  }
+
+  header img {
+    width: 42px;
+    height: auto;
+    flex-shrink: 0;
+  }
+
+  /* center title if present */
+  .header-title {
+    flex: 1;
+    text-align: center;
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 900;
+    font-size: 0.95em;
+    line-height: 1.1;
+    padding: 0 8px;
+  }
+
+  nav ul {
+    display: none;
+  }
 }
 
 /* =========================================================
@@ -152,7 +181,7 @@ nav a:hover {
 }
 
 /* =========================================================
-   HERO PARALLAX (MOBILE SAFE VERSION)
+   HERO PARALLAX
 ========================================================= */
 
 .parallax {
@@ -166,7 +195,6 @@ nav a:hover {
   justify-content: center;
 }
 
-/* DESKTOP LAYOUT */
 .parallax-text {
   display: flex;
   align-items: center;
@@ -175,7 +203,6 @@ nav a:hover {
   animation: fadeSlideUp 1s ease forwards;
 }
 
-/* TEXT */
 .hero-title {
   font-family: 'League Spartan', sans-serif;
   font-weight: 900;
@@ -190,7 +217,6 @@ nav a:hover {
      3px  3px 0 #3414fd;
 }
 
-/* GIFS */
 .popper-img {
   width: 100px;
   height: 100px;
@@ -202,7 +228,6 @@ nav a:hover {
   transform: scaleX(-1);
 }
 
-/* ANIMATION */
 @keyframes fadeSlideUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -211,49 +236,6 @@ nav a:hover {
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
-}
-
-/* =========================================================
-   🔥 MOBILE FIX (THIS IS WHAT WAS MISSING)
-========================================================= */
-
-
-
-  header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    height: auto;
-    padding: 10px 12px;
-    gap: 10px;
-  }
-
-  header img {
-    width: 44px;
-    height: auto;
-    flex-shrink: 0;
-  }
-
-  /* THIS CREATES YOUR CENTER TEXT WITHOUT BREAKING LAYOUT */
-  header::after {
-    content: "Vancouver's First Ever Licensed Dog Café";
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: 'League Spartan', sans-serif;
-    font-weight: 900;
-    font-size: 0.95em;
-    color: #7b68ee;
-    text-align: center;
-    max-width: 60vw;
-    line-height: 1.1;
-  }
-
-  /* hide nav overflow issues on mobile */
-  nav ul {
-    display: none;
-  }
 }
 
 
