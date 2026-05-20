@@ -10,21 +10,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
 <style>
-* {
-  box-sizing: border-box;
-}
-
-
-.popper-img {
-  width: 38px !important;
-  height: 38px !important;
-  flex-shrink: 0 !important;
-  max-width: 100%;
-  height: auto;
-}
-
-
-  /* GLOBAL */
+/* GLOBAL */
 body {
   margin: 0;
   font-family: 'Josefin Sans', sans-serif;
@@ -238,7 +224,7 @@ nav a:hover {
   margin: 0;
   padding: 0;
 
-  z-index: 1;
+  z-index: 999;
 
   display: block;
 }
@@ -267,7 +253,7 @@ nav a:hover {
   transition: none !important;
   will-change: auto !important;
 
-  z-index: 1;
+  z-index: 999;
 }
 
 /* ========================================================= */
@@ -301,7 +287,7 @@ nav a:hover {
 .parallax-section-image.team-parallax {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_006.jpg");
 }
-
+}
 
 /* ========================================================= */
 /* ANIMATIONS */
@@ -357,7 +343,7 @@ nav a:hover {
   transform: none !important;
   transition: none !important;
   will-change: auto;
-  z-index: 1;
+  z-index: 999;
 }
 
 /* ========================================================= */
@@ -737,7 +723,7 @@ footer {
 }
 
 .contact-section {
-  width: 100%;
+  width: 160%;
   max-width: 52rem;
   margin-left: auto;
   margin-right: auto;
@@ -1141,43 +1127,22 @@ footer small {
 /* MOBILE-SPECIFIC STYLES */
 /* ========================================================================== */
 @media (max-width: 768px) {
-  header {
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  height: auto !important;
-  padding: 12px 15px !important;
-}
-
-nav ul {
-  flex-wrap: wrap;
-  justify-content: center;
-}
   /* Fix header parallax height */
   .parallax {
     min-height: 20vh !important;
     background-attachment: scroll !important;
   }
   
-.parallax-text {
-  font-size: 1.6rem !important;
-  display: grid !important;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  text-align: center;
-  padding: 0 10px;
-}
-
-.parallax-text br {
-  display: block;
-}
-
-.popper-img {
-  width: 42px !important;
-  height: 42px !important;
-}
+  .parallax-text {
+    font-size: 1.8rem !important;
+    flex-direction: column;
+    gap: 15px !important;
+  }
+  
+  .popper-img {
+    width: 60px !important;
+    height: 60px !important;
+  }
   
   /* Fix parallax section spacing */
   .parallax-banner,
@@ -1198,10 +1163,10 @@ nav ul {
   }
   
   .ticker-text {
-  font-size: 14px !important;
-  padding-right: 40px !important;
-  white-space: nowrap !important;
-}
+    font-size: 16px !important;
+    padding-right: 40px !important;
+    white-space: normal !important;
+  }
   
   .ticker-content {
     animation: ticker-scroll-mobile 40s linear infinite !important;
@@ -1284,16 +1249,10 @@ nav ul {
     margin: 0 auto 20px auto !important;
   }
   
- .grooming-table {
-  font-size: 0.8rem !important;
-  min-width: unset !important;
-  width: 100% !important;
-}
-
-.grooming-table td,
-.grooming-table th {
-  word-break: break-word;
-}
+  .grooming-table {
+    font-size: 0.9rem !important;
+    min-width: 600px !important;
+  }
   
   .grooming-table td,
   .grooming-table th {
@@ -1412,18 +1371,17 @@ nav ul {
 <div id="mainContent" style="display:none;">
 
 <header>
-  <a href="#">
-    <img src="https://iili.io/KkTOXcP.md.png" alt="Logo" />
-  </a>
-
+  <a href="#"><img src="https://iili.io/KkTOXcP.md.png" alt="Logo" /></a>
   <nav>
-    <ul class="social-container">
-      <a href="https://www.facebook.com/pawsnplayvancouver/" target="_blank" id="facebook"><i class="fab fa-facebook-f"></i></a>
-      <a href="https://www.instagram.com/pawsnplayvancouver/" target="_blank" id="instagram"><i class="fab fa-instagram"></i></a>
-      <a href="https://www.threads.com/@pawsnplayvancouver" target="_blank" id="threads"><i class="fab fa-threads"></i></a>
-      <a href="https://x.com/pawsnplayyvr" target="_blank" id="x"><i class="fab fa-x-twitter"></i></a>
-      <a href="https://www.tiktok.com/@pawsnplayvancouver" target="_blank" id="tiktok"><i class="fab fa-tiktok"></i></a>
-      <a href="https://www.youtube.com/@pawsnplayyvr" target="_blank" id="youtube"><i class="fab fa-youtube"></i></a>
+    <ul>
+      <div class="social-container">
+        <a href="https://www.facebook.com/pawsnplayvancouver/" target="_blank" id="facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/pawsnplayvancouver/" target="_blank" id="instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.threads.com/@pawsnplayvancouver" target="_blank" id="threads"><i class="fab fa-threads"></i></a>
+        <a href="https://x.com/pawsnplayyvr" target="_blank" id="x"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://www.tiktok.com/@pawsnplayvancouver" target="_blank" id="tiktok"><i class="fab fa-tiktok"></i></a>
+        <a href="https://www.youtube.com/@pawsnplayyvr" target="_blank" id="youtube"><i class="fab fa-youtube"></i></a>
+      </div>
     </ul>
   </nav>
 </header>
@@ -1441,7 +1399,7 @@ nav ul {
 <div class="parallax">
   <div class="parallax-text">
     <img src="https://iili.io/Kkx7umG.gif" class="popper-img left" alt="Left Popper" />
-    Vancouver's First <br> Ever Licensed Dog Café
+    Vancouver's First Ever<br>Licensed Dog Café
     <img src="https://iili.io/KkxkRSe.gif" class="popper-img" alt="Right Popper" />
   </div>
 </div>
@@ -2056,9 +2014,7 @@ nav ul {
 function hideSplash() {
   const splash = document.getElementById('splash');
   const main = document.getElementById('mainContent');
-
   splash.style.transform = 'translateY(-100%)';
-
   setTimeout(() => {
     splash.style.display = 'none';
     main.style.display = 'block';
@@ -2069,36 +2025,24 @@ function hideSplash() {
 window.addEventListener('scroll', () => {
   document.querySelectorAll('.section').forEach(section => {
     const rect = section.getBoundingClientRect();
-
     if (rect.top < window.innerHeight - 100) {
       section.classList.add('visible');
     }
   });
 });
 
-// Mobile detection
+// Mobile detection and adjustments
 function isMobileDevice() {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
-// Init
-document.addEventListener('DOMContentLoaded', function () {
 
-  // Auto-hide splash after 2.5 sec
-  setTimeout(() => {
-    const splash = document.getElementById('splash');
 
-    if (splash.style.display !== 'none') {
-      hideSplash();
-    }
-  }, 2500);
-
-  // Mobile optimizations
+// Apply mobile-specific adjustments on load
+document.addEventListener('DOMContentLoaded', function() {
   if (isMobileDevice()) {
-    const parallaxElements = document.querySelectorAll(
-      '.parallax, .parallax-banner-image, .parallax-section-image'
-    );
-
+    // Remove fixed background attachment for better mobile performance
+    const parallaxElements = document.querySelectorAll('.parallax, .parallax-banner-image, .parallax-section-image');
     parallaxElements.forEach(element => {
       element.style.backgroundAttachment = 'scroll';
     });
