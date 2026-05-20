@@ -949,16 +949,25 @@ footer small {
     background-attachment: scroll !important;
   }
   
-  .parallax-text {
-    font-size: 1.8rem !important;
-    flex-direction: column;
-    gap: 15px !important;
-  }
-  
-  .popper-img {
-    width: 60px !important;
-    height: 60px !important;
-  }
+.parallax-text {
+  font-size: 1.4rem !important;
+  flex-direction: row !important;
+  justify-content: center;
+  align-items: center;
+  gap: 10px !important;
+  text-align: center;
+}
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  text-align: center;
+}
+   
+ .popper-img {
+  width: 50px !important;
+  height: 50px !important;
+}
   
   /* Fix parallax section spacing */
   .parallax-banner,
@@ -1222,10 +1231,15 @@ footer small {
 
 <div class="parallax">
   <div class="parallax-text">
-    <img src="https://iili.io/Kkx7umG.gif" class="popper-img left" alt="Left Popper" />
-    Vancouver's First Ever<br>Licensed Dog Café
-    <img src="https://iili.io/KkxkRSe.gif" class="popper-img" alt="Right Popper" />
+  <img src="https://iili.io/Kkx7umG.gif" class="popper-img left" alt="Left Popper" />
+
+  <div class="hero-copy">
+    Vancouver's First Ever<br>
+    Licensed Dog Café
   </div>
+
+  <img src="https://iili.io/KkxkRSe.gif" class="popper-img right" alt="Right Popper" />
+</div>
 </div>
 
 <!-- SECTION 1 - PINK WITH CLOSER SPACING -->
