@@ -10,7 +10,10 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
 <style>
-/* GLOBAL */
+/* =========================================================
+   GLOBAL
+========================================================= */
+
 body {
   margin: 0;
   font-family: 'Josefin Sans', sans-serif;
@@ -19,12 +22,28 @@ body {
   text-align: justify;
   text-justify: inter-word;
   hyphens: auto;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
 }
 
-/* HEADER */
+/* Headers */
+.section h2,
+.subsection h3,
+.paw-header,
+.contact-title {
+  color: #7b68ee;
+}
+
+/* Forms */
+input,
+textarea,
+button {
+  font-family: 'Josefin Sans', sans-serif;
+  color: #7b68ee;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
 header {
   background-color: #fad4fc;
   height: 100px;
@@ -34,7 +53,7 @@ header {
   padding: 0 40px;
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 1000;
 }
 
 header img {
@@ -66,20 +85,15 @@ nav a:hover {
   color: #5b47cf;
 }
 
-/* TICKER TAPE STYLES */
+/* =========================================================
+   TICKER
+========================================================= */
+
 .ticker-tape-container {
-  background-color: #ffffff;
+  background: #fff;
   padding: 8px 0;
   overflow: hidden;
-  position: relative;
-  z-index: 9;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.ticker-tape {
-  width: 100%;
-  overflow: hidden;
-  position: relative;
 }
 
 .ticker-content {
@@ -89,24 +103,18 @@ nav a:hover {
 }
 
 .ticker-text {
-  color: #7b68ee;
-  font-family: 'Josefin Sans', sans-serif;
-  font-weight: 600;
   font-size: 14px;
+  font-weight: 600;
   padding-right: 50px;
-  text-align: center !important;
-  text-justify: auto !important;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  -moz-hyphens: none !important;
-  -ms-hyphens: none !important;
+  color: #7b68ee;
+  hyphens: none;
+  text-align: center;
 }
 
 .ticker-email {
   color: #7b68ee;
-  text-decoration: none;
   font-weight: 700;
-  transition: color 0.3s ease;
+  text-decoration: none;
 }
 
 .ticker-email:hover {
@@ -114,42 +122,31 @@ nav a:hover {
   text-decoration: underline;
 }
 
-@keyframes ticker-scroll {
-  0% {
-    transform: translateX(15%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-/* Pause animation on hover */
 .ticker-tape:hover .ticker-content {
   animation-play-state: paused;
 }
 
-/* PARALLAX */
-/* ========================================================= */
-/* HERO / PARALLAX TOP SECTION */
-/* ========================================================= */
+@keyframes ticker-scroll {
+  0% { transform: translateX(15%); }
+  100% { transform: translateX(-50%); }
+}
+
+/* =========================================================
+   HERO PARALLAX (TOP)
+========================================================= */
 
 .parallax {
   background-image: url("https://iili.io/Ke63t2I.png");
   min-height: 50vh;
-  background-attachment: scroll;
-  background-position: center center;
-  background-repeat: no-repeat;
+  background-position: center;
   background-size: cover;
+  background-repeat: no-repeat;
   display: flex;
-  justify-content: center;
   align-items: center;
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
+  justify-content: center;
 }
 
+/* Hero text */
 .parallax-text {
   font-family: 'League Spartan', sans-serif;
   font-weight: 900;
@@ -160,113 +157,60 @@ nav a:hover {
      3px -3px 0 #3414fd,
     -3px  3px 0 #3414fd,
      3px  3px 0 #3414fd;
-  text-align: center;
   display: flex;
-  align-items: center;
   gap: 24px;
-  opacity: 0;
-  transform: translateY(20px);
+  align-items: center;
   animation: fadeSlideUp 1s ease forwards;
-  z-index: 2;
-  position: relative;
-  text-align: center !important;
-  text-justify: auto !important;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  -moz-hyphens: none !important;
-  -ms-hyphens: none !important;
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .popper-img {
   width: 100px;
   height: 100px;
   animation: float 3s ease-in-out infinite;
-  object-fit: contain;
 }
 
 .popper-img.left {
   transform: scaleX(-1);
 }
 
-@keyframes fadeSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-6px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 }
 
-/* ========================================================= */
-/* HERO / BANNER CONTAINERS */
-/* ========================================================= */
+/* =========================================================
+   BANNERS (FIXED SYSTEM)
+========================================================= */
 
+/* Base banner style */
 .parallax-banner,
 .parallax-section {
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 400px;
-  overflow: visible !important;
-
-  margin: 0;
-  padding: 0;
-
-  z-index: 999;
-
-  display: block;
+  overflow: hidden;
 }
 
-/* ========================================================= */
-/* HERO / BANNER IMAGES */
-/* ========================================================= */
-
+/* Unified image layer */
 .parallax-banner-image,
 .parallax-section-image {
   position: absolute;
   inset: 0;
-
-  width: 100%;
-  height: 100%;
-
-  display: block;
-
   background-size: cover;
-  background-position: center center;
+  background-position: center;
   background-repeat: no-repeat;
-
-  background-attachment: scroll !important;
-
-  transform: none !important;
-  transition: none !important;
-  will-change: auto !important;
-
-  z-index: 999;
+  will-change: auto;
 }
 
-/* ========================================================= */
-/* BANNER 001 */
-/* ========================================================= */
-
+/* Banner images */
 .parallax-banner-image.main-banner {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/LARGE_BANNER_001.png");
 }
-
-/* ========================================================= */
-/* BANNERS 002–006 */
-/* ========================================================= */
 
 .parallax-section-image.shop-parallax {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_002.jpg");
@@ -276,205 +220,73 @@ nav a:hover {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_003.jpg");
 }
 
-.parallax-section-image.grooming-parallax {
-  background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_005.jpg");
-}
-
 .parallax-section-image.birthday-parallax {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_004.jpg");
-}
-
-.parallax-section-image.team-parallax {
-  background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_006.jpg");
-}
-}
-
-/* ========================================================= */
-/* ANIMATIONS */
-/* ========================================================= */
-
-.popper-img {
-  width: 100px;
-  height: 100px;
-  animation: float 3s ease-in-out infinite;
-  object-fit: contain;
-}
-
-.popper-img.left {
-  transform: scaleX(-1);
-}
-
-@keyframes fadeSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-6px);
-  }
-}
-
-/* ========================================================= */
-/* HERO / BANNER CONTAINERS */
-/* ========================================================= */
-
-.parallax-banner-image,
-.parallax-section-image {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: 400px;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  transform: none !important;
-  transition: none !important;
-  will-change: auto;
-  z-index: 999;
-}
-
-/* ========================================================= */
-/* HERO / BANNER IMAGES */
-/* ========================================================= */
-
-.parallax-banner-image,
-.parallax-section-image {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  transform: none !important;
-  transition: none !important;
-  will-change: auto;
-  z-index: 1;
-}
-
-/* ========================================================= */
-/* BANNER 001 */
-/* ========================================================= */
-
-.parallax-banner-image.main-banner {
-  background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/LARGE_BANNER_001.png");
-}
-
-/* ========================================================= */
-/* BANNERS 002–006 */
-/* ========================================================= */
-
-.parallax-section-image.shop-parallax {
-  background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_002.jpg");
-}
-
-.parallax-section-image.walking-parallax {
-  background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_003.jpg");
 }
 
 .parallax-section-image.grooming-parallax {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_005.jpg");
 }
 
-.parallax-section-image.birthday-parallax {
-  background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_004.jpg");
-}
-
 .parallax-section-image.team-parallax {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_006.jpg");
 }
-/* Three Column Section Styling */
+
+/* =========================================================
+   THREE COLUMN
+========================================================= */
+
 .three-column-section {
-    display: flex;
-    justify-content: space-between;
-    gap: 30px;
-    padding: 60px 5%;
-    background-color: #ffffff;
-    flex-wrap: wrap;
-    position: relative; /* Ensure proper stacking context */
-    z-index: 2; /* Higher than parallax banner */
-    margin-top: 0px; /* Adjusted spacing */
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 60px 5%;
+  flex-wrap: wrap;
 }
 
 .column {
-    flex: 1;
-    min-width: 300px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+  flex: 1;
+  min-width: 300px;
+  text-align: center;
 }
 
 .column img {
-    width: 100%;
-    max-width: 275px;
-    height: 275px;
-    border-radius: 40px;
-    object-fit: cover;
-    margin-bottom: 25px;
+  width: 100%;
+  max-width: 275px;
+  height: 275px;
+  border-radius: 40px;
+  object-fit: cover;
+  margin-bottom: 25px;
 }
 
 .column h2 {
-    font-family: 'League Spartan', sans-serif;
-    font-size: 1.8em;
-    color: #7b68ee;
-    margin-bottom: 15px;
-    text-align: center !important;
-    text-justify: auto !important;
-    hyphens: none !important;
-    -webkit-hyphens: none !important;
-    -moz-hyphens: none !important;
-    -ms-hyphens: none !important;
+  font-family: 'League Spartan', sans-serif;
+  font-size: 1.8em;
 }
 
 .column p {
-    line-height: 1.6;
-    text-align: justify;
-    text-justify: inter-word;
-    hyphens: auto;
-    -webkit-hyphens: auto;
-    -moz-hyphens: auto;
-    -ms-hyphens: auto;
-    max-width: 36ch;
-    margin: 0 auto;
+  line-height: 1.6;
+  max-width: 36ch;
+  margin: 0 auto;
 }
 
-/* SECTIONS - CONSISTENT WIDTH */
+/* =========================================================
+   SECTIONS
+========================================================= */
+
 .section {
   padding: 30px 10%;
   display: flex;
+  flex-wrap: wrap;
+  gap: 55px;
   align-items: center;
   justify-content: space-between;
-  gap: 55px;
-  flex-wrap: wrap;
-  position: relative; /* Ensure proper stacking context */
-  z-index: 3; /* Higher than parallax sections */
-  margin: 0; /* Ensure no margins between sections */
 }
 
-/* PINK SECTIONS - CENTERED CONTENT */
 .section.pink {
-  gap: 30px;
+  justify-content: center;
+  text-align: center;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  position: relative;
-  z-index: 3; /* Higher than parallax sections */
-  justify-content: center; /* Center the content */
-  text-align: center; /* Center text alignment */
 }
 
 .section.pink.reverse {
