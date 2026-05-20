@@ -10,16 +10,6 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
 <style>
-html, body {
-  width: 100%;
-  overflow-x: hidden;
-  box-sizing: border-box;
-}
-
-* {
-  box-sizing: border-box;
-}
-
 /* =========================================================
    GLOBAL
 ========================================================= */
@@ -51,7 +41,7 @@ button {
 }
 
 /* =========================================================
-   HEADER (DESKTOP — STABLE)
+   HEADER
 ========================================================= */
 
 header {
@@ -68,7 +58,7 @@ header {
 
 header img {
   height: 30px;
-  flex-shrink: 0;
+  cursor: pointer;
   transition: transform 0.3s ease;
 }
 
@@ -93,41 +83,6 @@ nav a {
 
 nav a:hover {
   color: #5b47cf;
-}
-
-/* =========================================================
-   MOBILE HEADER (FIXED + CONTAINED)
-========================================================= */
-
-@media (max-width: 768px) {
-
-  header {
-    height: auto;
-    padding: 10px 12px;
-    gap: 10px;
-    flex-wrap: nowrap;
-  }
-
-  header img {
-    width: 42px;
-    height: auto;
-    flex-shrink: 0;
-  }
-
-  /* center title if present */
-  .header-title {
-    flex: 1;
-    text-align: center;
-    font-family: 'League Spartan', sans-serif;
-    font-weight: 900;
-    font-size: 0.95em;
-    line-height: 1.1;
-    padding: 0 8px;
-  }
-
-  nav ul {
-    display: none;
-  }
 }
 
 /* =========================================================
@@ -181,7 +136,7 @@ nav a:hover {
 }
 
 /* =========================================================
-   HERO PARALLAX
+   HERO PARALLAX (TOP)
 ========================================================= */
 
 .parallax {
@@ -195,37 +150,21 @@ nav a:hover {
   justify-content: center;
 }
 
+/* Hero text */
 .parallax-text {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
-  animation: fadeSlideUp 1s ease forwards;
-}
-
-.hero-title {
   font-family: 'League Spartan', sans-serif;
   font-weight: 900;
   font-size: 3em;
   color: #fff;
-  text-align: center;
-  line-height: 1.1;
   text-shadow:
     -3px -3px 0 #3414fd,
      3px -3px 0 #3414fd,
     -3px  3px 0 #3414fd,
      3px  3px 0 #3414fd;
-}
-
-.popper-img {
-  width: 100px;
-  height: 100px;
-  animation: float 3s ease-in-out infinite;
-  flex-shrink: 0;
-}
-
-.popper-img.left {
-  transform: scaleX(-1);
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  animation: fadeSlideUp 1s ease forwards;
 }
 
 @keyframes fadeSlideUp {
@@ -233,11 +172,20 @@ nav a:hover {
   to { opacity: 1; transform: translateY(0); }
 }
 
+.popper-img {
+  width: 100px;
+  height: 100px;
+  animation: float 3s ease-in-out infinite;
+}
+
+.popper-img.left {
+  transform: scaleX(-1);
+}
+
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
-
 
 /* =========================================================
    BANNERS (FIXED SYSTEM)
@@ -1214,11 +1162,6 @@ footer small {
     max-width: calc(50% - 24px) !important;
   }
 }
-
-   * {
-  outline: 1px solid rgba(255, 0, 0, 0.1);
-}
-   
 </style>
 </head>
 
@@ -1271,16 +1214,9 @@ footer small {
 
 <div class="parallax">
   <div class="parallax-text">
-
     <img src="https://iili.io/Kkx7umG.gif" class="popper-img left" alt="Left Popper" />
-
-   <div class="hero-title">
-  Vancouver's First Ever<br>
-  Licensed Dog Café
-</div>
-
+    Vancouver's First Ever<br>Licensed Dog Café
     <img src="https://iili.io/KkxkRSe.gif" class="popper-img" alt="Right Popper" />
-
   </div>
 </div>
 
