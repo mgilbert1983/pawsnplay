@@ -212,26 +212,36 @@ nav a:hover {
 
 @media (max-width: 768px) {
 
-  .parallax-text {
-    display: flex;
-    flex-direction: row;      /* FORCE horizontal layout */
-    justify-content: center;
+  header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    gap: 12px;
-    flex-wrap: nowrap;
+    justify-content: center;
+    height: auto;
+    padding: 10px 12px;
+    gap: 10px;
   }
 
-  .popper-img {
-    width: 55px;
-    height: 55px;
-    flex-shrink: 0;
+  /* keep GIFs stable */
+  header img {
+    width: 44px;
+    height: auto;
   }
 
-  .hero-title {
-    font-size: 1.1em;        /* CRITICAL: stops “huge text” issue */
-    line-height: 1.2;
-    max-width: 60vw;         /* CRITICAL: forces middle column behavior */
+  /* center title behaves like middle column */
+  .header-title {
     text-align: center;
+    font-size: 1.1em;
+    line-height: 1.2;
+    padding: 0 6px;
+  }
+
+  nav ul {
+    grid-column: 1 / -1;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 8px;
+    gap: 10px;
   }
 }
 
