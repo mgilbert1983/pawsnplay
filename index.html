@@ -112,6 +112,7 @@ nav a:hover {
 
 .ticker-text {
   white-space: nowrap !important;
+  display: inline-block;
 }
 
 .ticker-email {
@@ -979,11 +980,15 @@ footer small {
   
 .ticker-text {
   white-space: nowrap !important;
+  display: inline-block;
 }
   
-  .ticker-content {
-    animation: ticker-scroll-mobile 40s linear infinite !important;
-  }
+ .ticker-content {
+  display: flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  width: max-content;
+}
   
   @keyframes ticker-scroll-mobile {
     0% {
