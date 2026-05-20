@@ -14,17 +14,15 @@
   box-sizing: border-box;
 }
 
-img {.parallax-text {
-  font-size: 1.1rem !important;
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 8px !important;
-  flex-wrap: nowrap !important;
-  white-space: nowrap !important;
-  line-height: 1.1 !important;
-  padding: 0 10px !important;
+.parallax-text {
+  font-size: 1.6rem !important;
+  display: grid !important;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  padding: 0 10px;
 }
 
 .parallax-text br {
@@ -1175,26 +1173,23 @@ nav ul {
   }
   
 .parallax-text {
-  font-size: 1.1rem !important;
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 8px !important;
-  flex-wrap: nowrap !important;
-  white-space: nowrap !important;
-  line-height: 1.1 !important;
-  padding: 0 10px !important;
+  font-size: 1.6rem !important;
+  display: grid !important;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  padding: 0 10px;
 }
 
 .parallax-text br {
-  display: none !important;
+  display: block;
 }
 
 .popper-img {
-  width: 38px !important;
-  height: 38px !important;
-  flex-shrink: 0 !important;
+  width: 42px !important;
+  height: 42px !important;
 }
   
   /* Fix parallax section spacing */
@@ -1459,7 +1454,7 @@ nav ul {
 <div class="parallax">
   <div class="parallax-text">
     <img src="https://iili.io/Kkx7umG.gif" class="popper-img left" alt="Left Popper" />
-    Vancouver's First <br/> Ever Licensed Dog Café
+    Vancouver's First <br> Ever Licensed Dog Café
     <img src="https://iili.io/KkxkRSe.gif" class="popper-img" alt="Right Popper" />
   </div>
 </div>
