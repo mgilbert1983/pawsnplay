@@ -10,7 +10,15 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
 <style>
-/* GLOBAL */
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+  /* GLOBAL */
 body {
   margin: 0;
   font-family: 'Josefin Sans', sans-serif;
@@ -224,7 +232,7 @@ nav a:hover {
   margin: 0;
   padding: 0;
 
-  z-index: 999;
+  z-index: 1;
 
   display: block;
 }
@@ -253,7 +261,7 @@ nav a:hover {
   transition: none !important;
   will-change: auto !important;
 
-  z-index: 999;
+  z-index: 1;
 }
 
 /* ========================================================= */
@@ -287,7 +295,7 @@ nav a:hover {
 .parallax-section-image.team-parallax {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_006.jpg");
 }
-}
+
 
 /* ========================================================= */
 /* ANIMATIONS */
@@ -343,7 +351,7 @@ nav a:hover {
   transform: none !important;
   transition: none !important;
   will-change: auto;
-  z-index: 999;
+  z-index: 1;
 }
 
 /* ========================================================= */
@@ -723,7 +731,7 @@ footer {
 }
 
 .contact-section {
-  width: 160%;
+  width: 100%;
   max-width: 52rem;
   margin-left: auto;
   margin-right: auto;
@@ -1127,6 +1135,18 @@ footer small {
 /* MOBILE-SPECIFIC STYLES */
 /* ========================================================================== */
 @media (max-width: 768px) {
+  header {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  height: auto !important;
+  padding: 12px 15px !important;
+}
+
+nav ul {
+  flex-wrap: wrap;
+  justify-content: center;
+}
   /* Fix header parallax height */
   .parallax {
     min-height: 20vh !important;
@@ -1163,10 +1183,10 @@ footer small {
   }
   
   .ticker-text {
-    font-size: 16px !important;
-    padding-right: 40px !important;
-    white-space: normal !important;
-  }
+  font-size: 14px !important;
+  padding-right: 40px !important;
+  white-space: nowrap !important;
+}
   
   .ticker-content {
     animation: ticker-scroll-mobile 40s linear infinite !important;
@@ -1249,10 +1269,16 @@ footer small {
     margin: 0 auto 20px auto !important;
   }
   
-  .grooming-table {
-    font-size: 0.9rem !important;
-    min-width: 600px !important;
-  }
+ .grooming-table {
+  font-size: 0.8rem !important;
+  min-width: unset !important;
+  width: 100% !important;
+}
+
+.grooming-table td,
+.grooming-table th {
+  word-break: break-word;
+}
   
   .grooming-table td,
   .grooming-table th {
@@ -1371,17 +1397,18 @@ footer small {
 <div id="mainContent" style="display:none;">
 
 <header>
-  <a href="#"><img src="https://iili.io/KkTOXcP.md.png" alt="Logo" /></a>
+  <a href="#">
+    <img src="https://iili.io/KkTOXcP.md.png" alt="Logo" />
+  </a>
+
   <nav>
-    <ul>
-      <div class="social-container">
-        <a href="https://www.facebook.com/pawsnplayvancouver/" target="_blank" id="facebook"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://www.instagram.com/pawsnplayvancouver/" target="_blank" id="instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.threads.com/@pawsnplayvancouver" target="_blank" id="threads"><i class="fab fa-threads"></i></a>
-        <a href="https://x.com/pawsnplayyvr" target="_blank" id="x"><i class="fab fa-x-twitter"></i></a>
-        <a href="https://www.tiktok.com/@pawsnplayvancouver" target="_blank" id="tiktok"><i class="fab fa-tiktok"></i></a>
-        <a href="https://www.youtube.com/@pawsnplayyvr" target="_blank" id="youtube"><i class="fab fa-youtube"></i></a>
-      </div>
+    <ul class="social-container">
+      <a href="https://www.facebook.com/pawsnplayvancouver/" target="_blank" id="facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.instagram.com/pawsnplayvancouver/" target="_blank" id="instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.threads.com/@pawsnplayvancouver" target="_blank" id="threads"><i class="fab fa-threads"></i></a>
+      <a href="https://x.com/pawsnplayyvr" target="_blank" id="x"><i class="fab fa-x-twitter"></i></a>
+      <a href="https://www.tiktok.com/@pawsnplayvancouver" target="_blank" id="tiktok"><i class="fab fa-tiktok"></i></a>
+      <a href="https://www.youtube.com/@pawsnplayyvr" target="_blank" id="youtube"><i class="fab fa-youtube"></i></a>
     </ul>
   </nav>
 </header>
@@ -2014,7 +2041,9 @@ footer small {
 function hideSplash() {
   const splash = document.getElementById('splash');
   const main = document.getElementById('mainContent');
+
   splash.style.transform = 'translateY(-100%)';
+
   setTimeout(() => {
     splash.style.display = 'none';
     main.style.display = 'block';
@@ -2025,24 +2054,36 @@ function hideSplash() {
 window.addEventListener('scroll', () => {
   document.querySelectorAll('.section').forEach(section => {
     const rect = section.getBoundingClientRect();
+
     if (rect.top < window.innerHeight - 100) {
       section.classList.add('visible');
     }
   });
 });
 
-// Mobile detection and adjustments
+// Mobile detection
 function isMobileDevice() {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
+// Init
+document.addEventListener('DOMContentLoaded', function () {
 
+  // Auto-hide splash after 2.5 sec
+  setTimeout(() => {
+    const splash = document.getElementById('splash');
 
-// Apply mobile-specific adjustments on load
-document.addEventListener('DOMContentLoaded', function() {
+    if (splash.style.display !== 'none') {
+      hideSplash();
+    }
+  }, 2500);
+
+  // Mobile optimizations
   if (isMobileDevice()) {
-    // Remove fixed background attachment for better mobile performance
-    const parallaxElements = document.querySelectorAll('.parallax, .parallax-banner-image, .parallax-section-image');
+    const parallaxElements = document.querySelectorAll(
+      '.parallax, .parallax-banner-image, .parallax-section-image'
+    );
+
     parallaxElements.forEach(element => {
       element.style.backgroundAttachment = 'scroll';
     });
