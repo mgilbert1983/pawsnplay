@@ -136,7 +136,7 @@ nav a:hover {
 }
 
 /* =========================================================
-   HERO PARALLAX (FIXED STRUCTURE)
+   HERO PARALLAX (MOBILE SAFE VERSION)
 ========================================================= */
 
 .parallax {
@@ -150,17 +150,16 @@ nav a:hover {
   justify-content: center;
 }
 
-/* FLEX CONTAINER FIX */
+/* DESKTOP LAYOUT */
 .parallax-text {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 24px;
-  flex-wrap: nowrap;
   animation: fadeSlideUp 1s ease forwards;
 }
 
-/* TEXT BLOCK (KEY FIX) */
+/* TEXT */
 .hero-title {
   font-family: 'League Spartan', sans-serif;
   font-weight: 900;
@@ -175,7 +174,7 @@ nav a:hover {
      3px  3px 0 #3414fd;
 }
 
-/* GIF IMAGES */
+/* GIFS */
 .popper-img {
   width: 100px;
   height: 100px;
@@ -187,7 +186,7 @@ nav a:hover {
   transform: scaleX(-1);
 }
 
-/* ANIMATIONS */
+/* ANIMATION */
 @keyframes fadeSlideUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -198,21 +197,27 @@ nav a:hover {
   50% { transform: translateY(-6px); }
 }
 
-/* MOBILE FIX */
+/* =========================================================
+   🔥 MOBILE FIX (THIS IS WHAT WAS MISSING)
+========================================================= */
+
 @media (max-width: 768px) {
+
   .parallax-text {
+    flex-direction: column;   /* KEY FIX */
     gap: 12px;
-    flex-wrap: nowrap;
   }
 
   .hero-title {
     font-size: 1.8em;
+    padding: 0 10px;
   }
 
   .popper-img {
     width: 60px;
     height: 60px;
   }
+}
 
 
 /* =========================================================
