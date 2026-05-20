@@ -150,41 +150,59 @@ nav a:hover {
   justify-content: center;
 }
 
-/* Hero text */
+/* Hero layout container */
 .parallax-text {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 24px;
   width: 100%;
+  position: relative;
 }
-   .hero-copy {
+
+/* HERO HEADLINE */
+.hero-copy {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+
   font-family: 'League Spartan', sans-serif;
   font-weight: 900;
   font-size: clamp(44px, 5vw, 84px);
   color: #ffffff;
+  line-height: 1.05;
+
   text-shadow:
     -3px -3px 0 #3414fd,
      3px -3px 0 #3414fd,
     -3px  3px 0 #3414fd,
      3px  3px 0 #3414fd;
-  text-align: center;
-  line-height: 1.05;
+
+  white-space: nowrap;
 }
 
-@keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
+/* POPPERS */
 .popper-img {
   width: 100px;
   height: 100px;
   animation: float 3s ease-in-out infinite;
+  position: absolute;
 }
 
+/* Left / Right positioning (REMOVES flex influence) */
 .popper-img.left {
+  left: 5%;
   transform: scaleX(-1);
+}
+
+.popper-img.right {
+  right: 5%;
+}
+
+/* ANIMATION */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes float {
