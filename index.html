@@ -111,9 +111,7 @@ nav a:hover {
 }
 
 .ticker-text {
-  flex-shrink: 0;
-  white-space: nowrap;
-  max-width: 100vw;
+  white-space: nowrap !important;
 }
 
 .ticker-email {
@@ -979,11 +977,9 @@ footer small {
     padding: 12px 0 !important;
   }
   
-  .ticker-text {
-    font-size: 16px !important;
-    padding-right: 40px !important;
-    white-space: normal !important;
-  }
+.ticker-text {
+  white-space: nowrap !important;
+}
   
   .ticker-content {
     animation: ticker-scroll-mobile 40s linear infinite !important;
