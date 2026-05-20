@@ -98,7 +98,9 @@ nav a:hover {
 
 .ticker-content {
   display: flex;
+  flex-wrap: nowrap;
   white-space: nowrap;
+  width: max-content;
   animation: ticker-scroll 30s linear infinite;
 }
 
@@ -107,8 +109,10 @@ nav a:hover {
   font-weight: 600;
   padding-right: 50px;
   color: #7b68ee;
-  hyphens: none;
   text-align: center;
+  flex-shrink: 0;
+  white-space: nowrap;
+  hyphens: none;
 }
 
 .ticker-email {
@@ -132,7 +136,7 @@ nav a:hover {
 }
 
 /* =========================================================
-   HERO PARALLAX (TOP)
+   HERO PARALLAX (FIXED STRUCTURE)
 ========================================================= */
 
 .parallax {
@@ -146,42 +150,70 @@ nav a:hover {
   justify-content: center;
 }
 
-/* Hero text */
+/* FLEX CONTAINER FIX */
 .parallax-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: nowrap;
+  animation: fadeSlideUp 1s ease forwards;
+}
+
+/* TEXT BLOCK (KEY FIX) */
+.hero-title {
   font-family: 'League Spartan', sans-serif;
   font-weight: 900;
   font-size: 3em;
   color: #fff;
+  text-align: center;
+  line-height: 1.1;
   text-shadow:
     -3px -3px 0 #3414fd,
      3px -3px 0 #3414fd,
     -3px  3px 0 #3414fd,
      3px  3px 0 #3414fd;
-  display: flex;
-  gap: 24px;
-  align-items: center;
-  animation: fadeSlideUp 1s ease forwards;
 }
 
-@keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
+/* GIF IMAGES */
 .popper-img {
   width: 100px;
   height: 100px;
   animation: float 3s ease-in-out infinite;
+  flex-shrink: 0;
 }
 
 .popper-img.left {
   transform: scaleX(-1);
 }
 
+/* ANIMATIONS */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
+
+/* MOBILE FIX */
+@media (max-width: 768px) {
+  .parallax-text {
+    gap: 12px;
+    flex-wrap: nowrap;
+  }
+
+  .hero-title {
+    font-size: 1.8em;
+  }
+
+  .popper-img {
+    width: 60px;
+    height: 60px;
+  }
+
 
 /* =========================================================
    BANNERS (FIXED SYSTEM)
@@ -1210,9 +1242,16 @@ footer small {
 
 <div class="parallax">
   <div class="parallax-text">
+
     <img src="https://iili.io/Kkx7umG.gif" class="popper-img left" alt="Left Popper" />
-    Vancouver's First Ever<br>Licensed Dog Café
+
+   <div class="hero-title">
+  Vancouver's First Ever<br>
+  Licensed Dog Café
+</div>
+
     <img src="https://iili.io/KkxkRSe.gif" class="popper-img" alt="Right Popper" />
+
   </div>
 </div>
 
