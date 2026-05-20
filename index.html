@@ -204,18 +204,25 @@ nav a:hover {
 @media (max-width: 768px) {
 
   .parallax-text {
-    flex-direction: column;   /* KEY FIX */
+    display: flex;
+    flex-direction: row;      /* FORCE horizontal layout */
+    justify-content: center;
+    align-items: center;
     gap: 12px;
-  }
-
-  .hero-title {
-    font-size: 1.8em;
-    padding: 0 10px;
+    flex-wrap: nowrap;
   }
 
   .popper-img {
-    width: 60px;
-    height: 60px;
+    width: 55px;
+    height: 55px;
+    flex-shrink: 0;
+  }
+
+  .hero-title {
+    font-size: 1.1em;        /* CRITICAL: stops “huge text” issue */
+    line-height: 1.2;
+    max-width: 60vw;         /* CRITICAL: forces middle column behavior */
+    text-align: center;
   }
 }
 
