@@ -14,7 +14,28 @@
   box-sizing: border-box;
 }
 
-img {
+img {.parallax-text {
+  font-size: 1.1rem !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  flex-wrap: nowrap !important;
+  white-space: nowrap !important;
+  line-height: 1.1 !important;
+  padding: 0 10px !important;
+}
+
+.parallax-text br {
+  display: none !important;
+}
+
+.popper-img {
+  width: 38px !important;
+  height: 38px !important;
+  flex-shrink: 0 !important;
+}
   max-width: 100%;
   height: auto;
 }
@@ -1438,7 +1459,7 @@ nav ul {
 <div class="parallax">
   <div class="parallax-text">
     <img src="https://iili.io/Kkx7umG.gif" class="popper-img left" alt="Left Popper" />
-    Vancouver's First Ever Licensed Dog Café
+    Vancouver's First <br/> Ever Licensed Dog Café
     <img src="https://iili.io/KkxkRSe.gif" class="popper-img" alt="Right Popper" />
   </div>
 </div>
