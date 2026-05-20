@@ -96,8 +96,9 @@ nav a:hover {
 .ticker-tape-container {
   background: #fff;
   padding: 8px 0;
-  overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden; /* keeps animation inside */
+  position: relative;
+  width: 100%;
 }
 
 .ticker-content {
@@ -106,17 +107,13 @@ nav a:hover {
   white-space: nowrap;
   width: max-content;
   animation: ticker-scroll 30s linear infinite;
+  will-change: transform;
 }
 
 .ticker-text {
-  font-size: 14px;
-  font-weight: 600;
-  padding-right: 50px;
-  color: #7b68ee;
-  text-align: center;
   flex-shrink: 0;
   white-space: nowrap;
-  hyphens: none;
+  max-width: 100vw;
 }
 
 .ticker-email {
@@ -135,7 +132,7 @@ nav a:hover {
 }
 
 @keyframes ticker-scroll {
-  0% { transform: translateX(15%); }
+  0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
