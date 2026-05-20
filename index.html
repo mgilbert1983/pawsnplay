@@ -152,19 +152,24 @@ nav a:hover {
 
 /* Hero text */
 .parallax-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+}
+   .hero-copy {
   font-family: 'League Spartan', sans-serif;
   font-weight: 900;
-  font-size: 3em;
-  color: #fff;
+  font-size: clamp(44px, 5vw, 84px);
+  color: #ffffff;
   text-shadow:
     -3px -3px 0 #3414fd,
      3px -3px 0 #3414fd,
     -3px  3px 0 #3414fd,
      3px  3px 0 #3414fd;
-  display: flex;
-  gap: 24px;
-  align-items: center;
-  animation: fadeSlideUp 1s ease forwards;
+  text-align: center;
+  line-height: 1.05;
 }
 
 @keyframes fadeSlideUp {
