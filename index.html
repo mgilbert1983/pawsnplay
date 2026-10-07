@@ -184,7 +184,7 @@ nav a:hover {
 .ticker-tape-container {
   background: #fff;
   padding: 8px 0;
-  overflow: hidden; /* keeps animation inside */
+  overflow: hidden;
   position: relative;
   width: 100%;
 }
@@ -238,7 +238,6 @@ nav a:hover {
   justify-content: center;
 }
 
-/* Hero layout container */
 .parallax-text {
   display: flex;
   align-items: center;
@@ -247,29 +246,20 @@ nav a:hover {
   position: relative;
 }
 
-/* HERO HEADLINE */
 .hero-copy {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
-
   font-family: 'League Spartan', sans-serif;
   font-weight: 900;
-font-size: clamp(32px, 3.5vw, 58px);
+  font-size: clamp(32px, 3.5vw, 58px);
   color: #ffffff;
   line-height: 1.05;
-
-  text-shadow:
-    -3px -3px 0 #3414fd,
-     3px -3px 0 #3414fd,
-    -3px  3px 0 #3414fd,
-     3px  3px 0 #3414fd;
-
+  text-shadow: -3px -3px 0 #3414fd, 3px -3px 0 #3414fd, -3px 3px 0 #3414fd, 3px 3px 0 #3414fd;
   white-space: nowrap;
 }
 
-/* POPPERS */
 .popper-img {
   width: 100px;
   height: 100px;
@@ -277,7 +267,6 @@ font-size: clamp(32px, 3.5vw, 58px);
   position: absolute;
 }
 
-/* Left / Right positioning (REMOVES flex influence) */
 .popper-img.left {
   left: 25%;
   transform: scaleX(-1);
@@ -287,7 +276,6 @@ font-size: clamp(32px, 3.5vw, 58px);
   right: 25%;
 }
 
-/* ANIMATION */
 @keyframes fadeSlideUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -302,7 +290,6 @@ font-size: clamp(32px, 3.5vw, 58px);
    BANNERS (FIXED SYSTEM)
 ========================================================= */
 
-/* Base banner style */
 .parallax-banner,
 .parallax-section {
   position: relative;
@@ -311,7 +298,6 @@ font-size: clamp(32px, 3.5vw, 58px);
   overflow: hidden;
 }
 
-/* Unified image layer */
 .parallax-banner-image,
 .parallax-section-image {
   position: absolute;
@@ -322,7 +308,6 @@ font-size: clamp(32px, 3.5vw, 58px);
   will-change: auto;
 }
 
-/* Banner images */
 .parallax-banner-image.main-banner {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/LARGE_BANNER_001.png");
 }
@@ -408,12 +393,11 @@ font-size: clamp(32px, 3.5vw, 58px);
   gap: 30px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   position: relative;
-  z-index: 3; /* Higher than parallax sections */
-  justify-content: center; /* Center the content */
-  text-align: center; /* Center text alignment */
+  z-index: 3;
+  justify-content: center;
+  text-align: center;
 }
 
-/* Center images in pink sections */
 .section.pink img {
   width: 275px;
   height: 275px;
@@ -421,23 +405,22 @@ font-size: clamp(32px, 3.5vw, 58px);
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 1s ease, transform 1s ease;
-  margin: 0 auto; /* Center the image */
-  display: block; /* Ensure proper centering */
+  margin: 0 auto;
+  display: block;
 }
 
-/* Center content in pink sections */
 .section.pink .section-content {
   flex: 1;
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 1s ease, transform 1s ease;
-  max-width: 500px; /* Slightly wider for better centering */
+  max-width: 500px;
   min-height: 275px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  text-align: center; /* Center text alignment */
-  margin: 0 auto; /* Center the content block */
+  text-align: center;
+  margin: 0 auto;
 }
 
 .section.visible img,
@@ -452,28 +435,18 @@ font-size: clamp(32px, 3.5vw, 58px);
   margin-bottom: 16px;
   width: 100%;
   text-align: center;
-  text-align: center !important;
-  text-justify: auto !important;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  -moz-hyphens: none !important;
-  -ms-hyphens: none !important;
 }
 
-/* SECTION PARAGRAPHS - 60 CHARACTERS WIDE */
 .section p {
   line-height: 1.6;
   text-align: justify;
   text-justify: inter-word;
   hyphens: auto;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
   width: 100%;
   font-size: 0.95em;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  max-width: 36ch; /* Approximately 60 characters wide */
+  max-width: 36ch;
   margin: 0 auto;
 }
 
@@ -481,7 +454,6 @@ font-size: clamp(32px, 3.5vw, 58px);
   flex-direction: row-reverse;
 }
 
-/* COLOR SPECIFIC SECTIONS */
 .section.pink { background-color: #fad4fc; }
 .section.white { background-color: #ffffff; }
 
@@ -493,17 +465,17 @@ font-size: clamp(32px, 3.5vw, 58px);
   justify-content: space-between;
   gap: 55px;
   flex-wrap: wrap;
-  position: relative; /* Ensure proper stacking context */
-  z-index: 3; /* Higher than parallax sections */
-  margin: 0; /* Ensure no margins */
+  position: relative;
+  z-index: 3;
+  margin: 0;
 }
 
 .subsection.white { background-color: #ffffff; }
 .subsection.pink { 
   background-color: #fad4fc; 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* 25% opacity shadow */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   position: relative;
-  z-index: 3; /* Higher than parallax sections */
+  z-index: 3;
 }
 
 .subsection h3 {
@@ -513,42 +485,22 @@ font-size: clamp(32px, 3.5vw, 58px);
   margin-bottom: 40px;
   width: 100%;
   text-align: center;
-  text-align: center !important;
-  text-justify: auto !important;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  -moz-hyphens: none !important;
-  -ms-hyphens: none !important;
 }
 
-/* --- UPDATED: SEE THE FUN IN ACTION - 6 PANEL GRID --- */
-
-/* container */
 .subsection-gallery {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 24px;
+  gap: 32px;
   align-items: center;
   width: 100%;
 }
-
-  /* ============================= */
-/* DOG TREATS ROW CUSTOMIZATION */
-/* ============================= */
 
 .subsection-gallery .photo-box {
   flex: 0 1 calc(30% - 24px);
   max-width: calc(30% - 24px);
   aspect-ratio: 4 / 3;
 }
-
-.subsection-gallery {
-  gap: 32px;
-}
-  /* ============================= */
-/* DOG TREATS ROW ONLY */
-/* ============================= */
 
 .treats-row .photo-box {
   flex: 0 1 calc(30% - 24px);
@@ -560,12 +512,11 @@ font-size: clamp(32px, 3.5vw, 58px);
   gap: 32px;
 }
   
-/* make .photo-box a clickable card (anchor) */
 .photo-box {
-  display: block; /* anchor behaves like block */
+  display: block;
   flex: 1 1 calc(33.333% - 24px);
   max-width: calc(33.333% - 24px);
-  aspect-ratio: 1 / 1;           /* equal width & height */
+  aspect-ratio: 1 / 1;
   position: relative;
   border-radius: 12px;
   overflow: hidden;
@@ -577,7 +528,6 @@ font-size: clamp(32px, 3.5vw, 58px);
   -webkit-tap-highlight-color: transparent;
 }
 
-/* image fills dominant area */
 .photo-box img {
   width: 100%;
   height: 100%;
@@ -586,7 +536,6 @@ font-size: clamp(32px, 3.5vw, 58px);
   vertical-align: middle;
 }
 
-/* overlay that appears on hover */
 .photo-box .overlay {
   position: absolute;
   inset: 0;
@@ -600,7 +549,6 @@ font-size: clamp(32px, 3.5vw, 58px);
   box-sizing: border-box;
 }
 
-/* caption sits inside overlay for consistent placement */
 .photo-box .overlay .caption-inner {
   width: 100%;
   text-align: center;
@@ -611,15 +559,8 @@ font-size: clamp(32px, 3.5vw, 58px);
   border-radius: 8px;
   transform: translateY(8px);
   transition: transform 0.28s ease;
-  text-align: center !important;
-  text-justify: auto !important;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  -moz-hyphens: none !important;
-  -ms-hyphens: none !important;
 }
 
-/* hover / focus effects (also keyboard-accessible) */
 .photo-box:hover,
 .photo-box:focus {
   transform: scale(1.04);
@@ -642,11 +583,11 @@ footer {
   background-color: #fad4fc;
   padding: 40px 10%;
   text-align: center;
-  width: 100%; /* ensure it spans the full width */
-  box-sizing: border-box; /* include padding in width calculation */
-  position: relative; /* Ensure proper stacking context */
-  z-index: 3; /* Higher than parallax sections */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* 25% opacity shadow */
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 3;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .contact-section {
@@ -657,7 +598,7 @@ footer {
   box-sizing: border-box;
 }
 
-  .contact-form {
+.contact-form {
   width: 100%;
 }
   
@@ -671,18 +612,14 @@ footer {
   font-weight: 700;
 }
 
-/* FOOTER CONTENT - 60 CHARACTERS WIDE */
 .contact-description {
   color: rgb(107 114 128);
-  max-width: 36ch; /* Approximately 60 characters wide */
+  max-width: 36ch;
   margin-left: auto;
   margin-right: auto;
   text-align: justify;
   text-justify: inter-word;
   hyphens: auto;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
 }
 
 .form-group-container {
@@ -704,16 +641,15 @@ footer {
 .form-textarea {
   padding: 0.5rem;
   border: 1px solid #7B68EE;
-  display: flex;
   height: 2.5rem;
   width: 100%;
   border-radius: 0.375rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
+  font-family: 'Josefin Sans', sans-serif;
 }
 
-.form-input::placeholder,
-.form-textarea:focus-visible {
+.form-input::placeholder {
   color: #7B68EE;
 }
 
@@ -731,10 +667,17 @@ footer {
   width: 20%;
   margin-top: 1.2rem;
   background-color: #7B68EE;
-  display: flex;
   color: #fff;
   padding: 13px 5px;
   border-radius: 0.375rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.form-submit:hover {
+  background-color: #624fd8;
 }
 
 .social-icons {
@@ -777,7 +720,7 @@ footer small {
   cursor: pointer;
 }
 
-/* TABLE CONTAINER - CONSISTENT WIDTH */
+/* TABLE CONTAINER */
 .table-container {
   width: 100%;
   max-width: 100%;
@@ -786,7 +729,6 @@ footer small {
   box-sizing: border-box;
 }
 
-/* TABLES - CONSISTENT WIDTH */
 .grooming-table {
   width: 100%;
   margin: 0 auto;
@@ -794,13 +736,7 @@ footer small {
   border-spacing: 0;
   font-family: Arial, sans-serif;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: left !important;
-  text-justify: auto !important;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  -moz-hyphens: none !important;
-  -ms-hyphens: none !important;
-  table-layout: fixed; /* Added for consistent column sizing */
+  table-layout: fixed;
 }
 
 .grooming-table th {
@@ -811,28 +747,16 @@ footer small {
   border: none;
   font-size: 1.1em;
   font-weight: bold;
-  text-align: left !important;
-  text-justify: auto !important;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  -moz-hyphens: none !important;
-  -ms-hyphens: none !important;
 }
 
-/* TABLE CONTENT - 60 CHARACTERS WIDE */
 .grooming-table td {
   padding: 15px 20px;
   border: 1px solid #ccc;
   border-width: 0 1px 1px 0;
-  max-width: 36ch; /* Approximately 60 characters wide */
-  text-align: left !important;
-  text-justify: auto !important;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  -moz-hyphens: none !important;
-  -ms-hyphens: none !important;
-  word-wrap: break-word; /* Ensure long words break */
-  overflow-wrap: break-word; /* Ensure long words break */
+  max-width: 36ch;
+  text-align: left;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .grooming-table td:first-child {
@@ -846,22 +770,6 @@ footer small {
 
 .grooming-table tbody tr:nth-child(even) {
   background-color: #FFFFFF;
-}
-
-.section-header td {
-  background-color: #7B68EE !important;
-  color: #FFFFFF;
-  font-weight: bold;
-  text-align: center;
-  font-size: 1.2em;
-  padding: 12px 20px;
-  border: 1px solid #7B68EE;
-  text-align: center !important;
-  text-justify: auto !important;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  -moz-hyphens: none !important;
-  -ms-hyphens: none !important;
 }
 
 /* REVIEW CARDS */
@@ -885,86 +793,16 @@ footer small {
   transition: transform 0.3s ease;
 }
 
-/* REVIEW CARDS - 60 CHARACTERS WIDE */
 .review-card p {
-  max-width: 36ch; /* Approximately 60 characters wide */
+  max-width: 36ch;
   margin: 12px 0;
   line-height: 1.6;
   text-align: justify;
   text-justify: inter-word;
   hyphens: auto;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
 }
 
-/* SOCIAL CONTAINER */
-.social-container {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.social-container a {
-  font-size: 2.0rem;
-  transition: transform 0.3s, color 0.3s;
-  color: #7B68EE;
-}
-
-.social-container a:hover {
-  transform: scale(1.2);
-}
-
-/* CALL BUTTON STYLES */
-.call-button {
-  display: inline-block;
-  background-color: #7B68EE;
-  color: #FFFFFF;
-  padding: 15px 25px;
-  font-size: 18px;
-  font-weight: bold;
-  text-decoration: none;
-  border-radius: 8px;
-  transition: background-color 0.3s, color 0.3s, transform 0.2s;
-  text-align: center;
-  margin: 20px 0;
-  text-align: center !important;
-  text-justify: auto !important;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  -moz-hyphens: none !important;
-  -ms-hyphens: none !important;
-}
-
-.call-button:hover {
-  background-color: #624fd8;
-  color: #FFFFFF;
-  transform: scale(1.05);
-}
-
-/* CENTERED CONTENT */
-.centered-content {
-  text-align: center;
-  width: 100%;
-  margin: 20px 0;
-}
-
-/* CENTERED CONTENT - 220 CHARACTERS WIDE */
-.centered-content p {
-  max-width: 132ch; /* Approximately 220 characters wide */
-  text-align: justify;
-  text-justify: inter-word;
-  hyphens: auto;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
-  margin-left: auto;
-  margin-right: auto;
-  line-height: 1.6;
-}
-
-/* PAW HEADER STYLES - CONSISTENT WIDTH */
+/* PAW HEADER STYLES */
 .paw-header {
   text-align: center;
   font-weight: bold;
@@ -975,12 +813,6 @@ footer small {
   justify-content: center;
   margin: 30px auto;
   width: 100%;
-  text-align: center !important;
-  text-justify: auto !important;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  -moz-hyphens: none !important;
-  -ms-hyphens: none !important;
 }
 
 .paw-header i {
@@ -991,70 +823,10 @@ footer small {
   transform: scaleX(-1);
 }
 
-/* HOVER ENLARGE EFFECT */
-.hover-enlarge {
-  transition: transform 0.3s ease;
-}
-
-.hover-enlarge:hover {
-  transform: scale(1.1);
-}
-
-/* CONSISTENT WIDTH TEXT BLOCKS */
-.consistent-width-text {
-  width: 100%;
-  margin: 0 auto 25px auto;
-  text-align: justify;
-  text-justify: inter-word;
-  hyphens: auto;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
-  line-height: 1.6;
-  padding: 0;
-}
-
-.consistent-width-text p {
-  margin: 0;
-  text-align: justify;
-  text-justify: inter-word;
-  hyphens: auto;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
-}
-
-.consistent-width-text.italic {
-  font-style: italic;
-}
-
-.consistent-width-text.justify {
-  text-align: justify;
-  text-justify: inter-word;
-  hyphens: auto;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
-}
-
-/* CONTENT CONTAINER FOR CONSISTENT WIDTH */
-.content-container {
-  width: 100%;
-  margin: 0 auto;
-}
-
-/* SECTION CONTENT WITH FULL WIDTH */
-.full-width-content {
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
-}
-
 /* ========================================================================== */
 /* MOBILE-SPECIFIC STYLES */
 /* ========================================================================== */
 @media (max-width: 768px) {
-  /* Fix header parallax height */
   .parallax {
     min-height: 20vh !important;
     background-attachment: scroll !important;
@@ -1068,7 +840,6 @@ footer small {
     justify-items: center;
     text-align: center;
     gap: 6px 12px;
-    font-size: 1.4rem !important;
   }
 
   .hero-copy {
@@ -1087,7 +858,6 @@ footer small {
     grid-row: 1 / span 2;
   }
 
-  /* Mobile Header */
   header {
     flex-direction: column;
     height: auto;
@@ -1112,7 +882,6 @@ footer small {
     font-size: 0.9rem;
   }
 
-  /* Mobile sections */
   .section, .subsection {
     flex-direction: column;
     padding: 30px 5%;
@@ -1187,7 +956,6 @@ footer small {
     position: fixed;
     right: 15px;
     left: 15px;
-    top: auto;
   }
 
   .parallax-text {
@@ -1197,10 +965,6 @@ footer small {
   .popper-img {
     width: 60px;
     height: 60px;
-  }
-
-  .hero-copy {
-    font-size: 1.2rem !important;
   }
 
   .section h2, .subsection h3 {
@@ -1270,8 +1034,8 @@ footer small {
 <!-- TICKER TAPE -->
 <div class="ticker-tape-container ticker-tape">
   <div class="ticker-content">
-    <span class="ticker-text">📧 Questions? Email us: <a href="mailto:info@pawsnplay.com" class="ticker-email">info@pawsnplay.com</a></span>
-    <span class="ticker-text">📧 Questions? Email us: <a href="mailto:info@pawsnplay.com" class="ticker-email">info@pawsnplay.com</a></span>
+    <span class="ticker-text">Questions? Email us: <a href="mailto:info@pawsnplay.com" class="ticker-email">info@pawsnplay.com</a></span>
+    <span class="ticker-text">Questions? Email us: <a href="mailto:info@pawsnplay.com" class="ticker-email">info@pawsnplay.com</a></span>
   </div>
 </div>
 
@@ -1370,7 +1134,7 @@ footer small {
 
 <!-- GROOMING TABLE -->
 <div class="subsection white">
-  <h3>Grooming Services & Pricing</h3>
+  <h3>Grooming Services &amp; Pricing</h3>
   <div class="table-container">
     <table class="grooming-table">
       <thead>
@@ -1383,7 +1147,7 @@ footer small {
       </thead>
       <tbody>
         <tr>
-          <td>Basic Bath & Dry</td>
+          <td>Basic Bath &amp; Dry</td>
           <td>$35</td>
           <td>$45</td>
           <td>$55</td>
@@ -1513,7 +1277,7 @@ footer small {
       <p><strong>- John D.</strong></p>
     </div>
     <div class="review-card">
-      <p><strong>"Professional & Caring"</strong></p>
+      <p><strong>"Professional &amp; Caring"</strong></p>
       <p>"The grooming service was excellent. My pup looked and felt amazing. Great job, team!"</p>
       <p><strong>- Emily T.</strong></p>
     </div>
