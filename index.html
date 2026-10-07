@@ -89,6 +89,86 @@ nav a:hover {
   color: #5b47cf;
 }
 
+/* Header social icons + hamburger menu */
+html { scroll-behavior: smooth; }
+
+.section[id], footer[id] { scroll-margin-top: 100px; }
+
+header .social-container {
+  flex-wrap: nowrap;
+  gap: 20px;
+}
+
+header .social-container a {
+  font-size: 1.4rem;
+}
+
+.menu {
+  position: relative;
+}
+
+.menu-toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 44px;
+  height: 44px;
+  padding: 0 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.menu-toggle span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: #7b68ee;
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+}
+
+.menu-toggle:hover span { background-color: #5b47cf; }
+.menu-toggle:focus-visible { outline: 2px solid #7b68ee; outline-offset: 2px; border-radius: 6px; }
+
+.menu-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+.menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.menu-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+.menu-panel {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  min-width: 210px;
+  display: none;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+  padding: 8px 0;
+  text-align: left;
+}
+
+.menu-panel.open { display: flex; }
+
+.menu-panel a {
+  padding: 12px 22px;
+  text-decoration: none;
+  color: #7b68ee;
+  font-weight: 600;
+  text-align: left;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.menu-panel a:hover,
+.menu-panel a:focus-visible {
+  background-color: #fad4fc;
+  color: #5b47cf;
+  outline: none;
+}
+
 /* =========================================================
    TICKER
 ========================================================= */
@@ -155,15 +235,13 @@ nav a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 24px;
   width: 100%;
   position: relative;
 }
 
 /* HERO HEADLINE */
 .hero-copy {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   text-align: center;
 
   font-family: 'League Spartan', sans-serif;
@@ -186,17 +264,12 @@ font-size: clamp(32px, 3.5vw, 58px);
   width: 100px;
   height: 100px;
   animation: float 3s ease-in-out infinite;
-  position: absolute;
+  flex-shrink: 0;
 }
 
 /* Left / Right positioning (REMOVES flex influence) */
 .popper-img.left {
-  left: 25%;
   transform: scaleX(-1);
-}
-
-.popper-img.right {
-  right: 25%;
 }
 
 /* ANIMATION */
@@ -1217,6 +1290,41 @@ footer small {
     max-width: calc(50% - 24px) !important;
   }
 }
+
+/* Call + Waiver button row */
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.button-row .call-button {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .section[id], footer[id] { scroll-margin-top: 80px; }
+
+  header .social-container { gap: 10px !important; }
+  header .social-container a { font-size: 1.15rem !important; }
+
+  .hero-copy {
+    white-space: normal !important;
+    text-wrap: balance;
+    font-size: 1.5rem !important;
+  }
+
+  .button-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .button-row .call-button {
+    margin: 0 !important;
+  }
+}
 </style>
 </head>
 
@@ -1243,18 +1351,32 @@ footer small {
 
 <header>
   <a href="#"><img src="https://iili.io/KkTOXcP.md.png" alt="Logo" /></a>
-  <nav>
-    <ul>
-      <div class="social-container">
-        <a href="https://www.facebook.com/pawsnplayvancouver/" target="_blank" id="facebook"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://www.instagram.com/pawsnplayvancouver/" target="_blank" id="instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.threads.com/@pawsnplayvancouver" target="_blank" id="threads"><i class="fab fa-threads"></i></a>
-        <a href="https://x.com/pawsnplayyvr" target="_blank" id="x"><i class="fab fa-x-twitter"></i></a>
-        <a href="https://www.tiktok.com/@pawsnplayvancouver" target="_blank" id="tiktok"><i class="fab fa-tiktok"></i></a>
-        <a href="https://www.youtube.com/@pawsnplayyvr" target="_blank" id="youtube"><i class="fab fa-youtube"></i></a>
-      </div>
-    </ul>
-  </nav>
+
+  <div class="social-container">
+    <a href="https://www.facebook.com/pawsnplayvancouver/" target="_blank" id="facebook"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://www.instagram.com/pawsnplayvancouver/" target="_blank" id="instagram"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.threads.com/@pawsnplayvancouver" target="_blank" id="threads"><i class="fab fa-threads"></i></a>
+    <a href="https://x.com/pawsnplayyvr" target="_blank" id="x"><i class="fab fa-x-twitter"></i></a>
+    <a href="https://www.tiktok.com/@pawsnplayvancouver" target="_blank" id="tiktok"><i class="fab fa-tiktok"></i></a>
+    <a href="https://www.youtube.com/@pawsnplayyvr" target="_blank" id="youtube"><i class="fab fa-youtube"></i></a>
+  </div>
+
+  <div class="menu">
+    <button type="button" class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false" aria-controls="menuPanel">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="menu-panel" id="menuPanel">
+      <a href="#cafe">Café</a>
+      <a href="#shop">Shop</a>
+      <a href="#walking">Dog Walking</a>
+      <a href="#grooming">Grooming &amp; Spa</a>
+      <a href="#birthdays">Birthday Parties</a>
+      <a href="#team">In Good Paws</a>
+      <a href="#contact">Get in Touch</a>
+    </nav>
+  </div>
 </header>
 
 <!-- TICKER TAPE HEADER -->
@@ -1271,17 +1393,14 @@ footer small {
   <div class="parallax-text">
   <img src="https://iili.io/Kkx7umG.gif" class="popper-img left" alt="Left Popper" />
 
-  <div class="hero-copy">
-    Vancouver's First Ever<br>
-    Licensed Dog Café
-  </div>
+  <div class="hero-copy">Opening November 1st!</div>
 
   <img src="https://iili.io/KkxkRSe.gif" class="popper-img right" alt="Right Popper" />
 </div>
 </div>
 
 <!-- SECTION 1 - PINK WITH CLOSER SPACING -->
-<section class="section pink">
+<section class="section pink" id="cafe">
   <img src="https://iili.io/Kkuc8j1.md.png" alt="Dog Cafe" />
   <div class="section-content">
     <h2>Sip. Stay. Play.</h2>
@@ -1326,14 +1445,15 @@ footer small {
         
         <!-- Centered Call Button -->
 <div class="centered-content">
-  <a href="tel:+17787377529" class="call-button">
-    Call Us Now
-  </a>
+  <div class="button-row">
+    <a href="tel:+17787377529" class="call-button">Call Us Now</a>
+    <a href="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/Paws_N_Play_Dog_Owner_Waiver.pdf.pdf" class="call-button waiver-button" target="_blank" rel="noopener" download="Paws_N_Play_Dog_Owner_Waiver.pdf">Download Waiver</a>
+  </div>
 </div>
 </section>
 
 <!-- SITE STORE - PINK WITH CLOSER SPACING -->
-<section class="section pink reverse">
+<section class="section pink reverse" id="shop">
   <img src="https://iili.io/KkchYaR.md.png" alt="Events" />
   <div class="section-content">
     <h2>Shop with us</h2>
@@ -1377,15 +1497,16 @@ footer small {
     <p>🛒 Whether you're picking up a durable toy for playtime, a stylish new collar for walks, or a cozy hoodie for chilly days, we treat every item choice with the same love and care you treat your dog. It's not just about what they play with or wear—it's about enhancing their well-being, expressing their personality, and making every day something to bark about.</p>
  <!-- Centered Call Button -->
 <div class="centered-content">
-  <a href="tel:+17787377529" class="call-button">
-    Call Us Now
-  </a>
+  <div class="button-row">
+    <a href="tel:+17787377529" class="call-button">Call Us Now</a>
+    <a href="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/Paws_N_Play_Dog_Owner_Waiver.pdf.pdf" class="call-button waiver-button" target="_blank" rel="noopener" download="Paws_N_Play_Dog_Owner_Waiver.pdf">Download Waiver</a>
+  </div>
 </div>
   </div>
 </div>
 
 <!-- SECTION 3 - PINK WITH CLOSER SPACING -->
-<section class="section pink">
+<section class="section pink" id="walking">
   <img src="https://iili.io/KkAZ1pa.md.png" alt="Dog Walking" />
   <div class="section-content">
     <h2>Dog Walking</h2>
@@ -1500,14 +1621,15 @@ footer small {
   </div>
   <!-- Centered Call Button -->
 <div class="centered-content">
-  <a href="tel:+17787377529" class="call-button">
-    Call Us Now
-  </a>
+  <div class="button-row">
+    <a href="tel:+17787377529" class="call-button">Call Us Now</a>
+    <a href="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/Paws_N_Play_Dog_Owner_Waiver.pdf.pdf" class="call-button waiver-button" target="_blank" rel="noopener" download="Paws_N_Play_Dog_Owner_Waiver.pdf">Download Waiver</a>
+  </div>
 </div>
 </section>
 
 <!-- GROOMING SECTION - PINK WITH CLOSER SPACING -->
-<section class="section pink reverse">
+<section class="section pink reverse" id="grooming">
   <img src="https://iili.io/KgyIu0G.png" alt="Grooming" />
   <div class="section-content">
     <h2>Grooming & Spa</h2>
@@ -1640,13 +1762,14 @@ footer small {
 
 <!-- Centered Call Button -->
 <div class="centered-content">
-  <a href="tel:+17787377529" class="call-button">
-    Call Us Now
-  </a>
+  <div class="button-row">
+    <a href="tel:+17787377529" class="call-button">Call Us Now</a>
+    <a href="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/Paws_N_Play_Dog_Owner_Waiver.pdf.pdf" class="call-button waiver-button" target="_blank" rel="noopener" download="Paws_N_Play_Dog_Owner_Waiver.pdf">Download Waiver</a>
+  </div>
 </div>
 
 <!-- BIRTHDAY PARTIES SECTION - PINK WITH CLOSER SPACING -->
-<section class="section pink">
+<section class="section pink" id="birthdays">
   <img src="https://iili.io/KkcO9cb.md.png" alt="Birthday Parties" />
   <div class="section-content">
     <h2>Birthday Parties</h2>
@@ -1721,13 +1844,14 @@ footer small {
 
 <!-- Centered Call Button -->
 <div class="centered-content">
-  <a href="tel:+17787377529" class="call-button">
-    Call Us Now
-  </a>
+  <div class="button-row">
+    <a href="tel:+17787377529" class="call-button">Call Us Now</a>
+    <a href="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/Paws_N_Play_Dog_Owner_Waiver.pdf.pdf" class="call-button waiver-button" target="_blank" rel="noopener" download="Paws_N_Play_Dog_Owner_Waiver.pdf">Download Waiver</a>
+  </div>
 </div>
 
 <!-- SECTION 5 - PINK WITH CLOSER SPACING -->
-<section class="section pink reverse">
+<section class="section pink reverse" id="team">
   <img src="https://iili.io/KkcjLgf.md.png" alt="In Good Paws" />
   <div class="section-content">
     <h2>In Good Paws</h2>
@@ -1818,13 +1942,14 @@ footer small {
   </div>
   <!-- Final Call Button -->
 <div class="centered-content">
-  <a href="tel:+17787377529" class="call-button">
-    Call Us Now
-  </a>
+  <div class="button-row">
+    <a href="tel:+17787377529" class="call-button">Call Us Now</a>
+    <a href="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/Paws_N_Play_Dog_Owner_Waiver.pdf.pdf" class="call-button waiver-button" target="_blank" rel="noopener" download="Paws_N_Play_Dog_Owner_Waiver.pdf">Download Waiver</a>
+  </div>
 </div>
 </div>
 
-<footer>
+<footer id="contact">
   <div>
     <section class="contact-section">
       <div class="contact-intro">
@@ -1923,6 +2048,60 @@ document.addEventListener('DOMContentLoaded', function() {
       element.style.backgroundAttachment = 'scroll';
     });
   }
+});
+
+// Header menu
+(function () {
+  const toggle = document.getElementById('menuToggle');
+  const panel = document.getElementById('menuPanel');
+  if (!toggle || !panel) return;
+
+  function setOpen(open) {
+    panel.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  toggle.addEventListener('click', function (e) {
+    e.stopPropagation();
+    setOpen(!panel.classList.contains('open'));
+  });
+
+  panel.addEventListener('click', function (e) {
+    if (e.target.closest('a')) setOpen(false);
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!panel.contains(e.target) && !toggle.contains(e.target)) setOpen(false);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') setOpen(false);
+  });
+})();
+
+// Waiver download (forces a save instead of opening the PDF in the browser)
+document.querySelectorAll('.waiver-button').forEach(function (btn) {
+  btn.addEventListener('click', async function (e) {
+    e.preventDefault();
+    const url = btn.getAttribute('href');
+    const filename = btn.getAttribute('download') || 'waiver.pdf';
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Download failed');
+      const blob = await res.blob();
+      const pdf = new Blob([blob], { type: 'application/pdf' });
+      const objUrl = URL.createObjectURL(pdf);
+      const a = document.createElement('a');
+      a.href = objUrl;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(objUrl); }, 1000);
+    } catch (err) {
+      window.open(url, '_blank', 'noopener');
+    }
+  });
 });
 </script>
 
