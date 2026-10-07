@@ -19,13 +19,14 @@ html, body {
 }
    
 body {
+  word-break: normal;
   margin: 0;
   font-family: 'Josefin Sans', sans-serif;
   color: #7b68ee;
   background-color: #ffffff;
   text-align: justify;
   text-justify: inter-word;
-  hyphens: auto;
+  hyphens: none;
 }
 
 /* Headers */
@@ -450,14 +451,14 @@ font-size: clamp(32px, 3.5vw, 58px);
   line-height: 1.6;
   text-align: justify;
   text-justify: inter-word;
-  hyphens: auto;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
+  hyphens: none;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
   width: 100%;
   font-size: 0.95em;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  word-wrap: normal;
+  overflow-wrap: normal;
   max-width: 36ch; /* Approximately 60 characters wide */
   margin: 0 auto;
 }
@@ -664,10 +665,10 @@ footer {
   margin-right: auto;
   text-align: justify;
   text-justify: inter-word;
-  hyphens: auto;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
+  hyphens: none;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
 }
 
 .form-group-container {
@@ -816,8 +817,8 @@ footer small {
   -webkit-hyphens: none !important;
   -moz-hyphens: none !important;
   -ms-hyphens: none !important;
-  word-wrap: break-word; /* Ensure long words break */
-  overflow-wrap: break-word; /* Ensure long words break */
+  word-wrap: normal; /* Ensure long words break */
+  overflow-wrap: normal; /* Ensure long words break */
 }
 
 .grooming-table td:first-child {
@@ -877,10 +878,10 @@ footer small {
   line-height: 1.6;
   text-align: justify;
   text-justify: inter-word;
-  hyphens: auto;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
+  hyphens: none;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
 }
 
 /* SOCIAL CONTAINER */
@@ -940,10 +941,10 @@ footer small {
   max-width: 132ch; /* Approximately 220 characters wide */
   text-align: justify;
   text-justify: inter-word;
-  hyphens: auto;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
+  hyphens: none;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
   margin-left: auto;
   margin-right: auto;
   line-height: 1.6;
@@ -991,10 +992,10 @@ footer small {
   margin: 0 auto 25px auto;
   text-align: justify;
   text-justify: inter-word;
-  hyphens: auto;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
+  hyphens: none;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
   line-height: 1.6;
   padding: 0;
 }
@@ -1003,10 +1004,10 @@ footer small {
   margin: 0;
   text-align: justify;
   text-justify: inter-word;
-  hyphens: auto;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
+  hyphens: none;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
 }
 
 .consistent-width-text.italic {
@@ -1016,10 +1017,10 @@ footer small {
 .consistent-width-text.justify {
   text-align: justify;
   text-justify: inter-word;
-  hyphens: auto;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
+  hyphens: none;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
 }
 
 /* CONTENT CONTAINER FOR CONSISTENT WIDTH */
@@ -1310,7 +1311,17 @@ footer small {
   header .social-container { gap: 10px !important; }
   header .social-container a { font-size: 1.15rem !important; }
 
+  .parallax-text {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    gap: 10px !important;
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+
   .hero-copy {
+    flex: 0 1 auto;
     white-space: normal !important;
     text-wrap: balance;
     font-size: 1.5rem !important;
