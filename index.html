@@ -1,367 +1,408 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Paws n' Play</title>
-  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@900&family=Josefin+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --purple: #7b68ee;
-      --purple-dark: #3414fd;
-      --pink: #fad4fc;
-      --white: #ffffff;
-      --shadow: rgba(0, 0, 0, 0.18);
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paws n' Play</title>
 
-    * { box-sizing: border-box; }
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@900&family=Josefin+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      max-width: 100%;
-      overflow-x: hidden;
-      font-family: 'Josefin Sans', sans-serif;
-      background: var(--white);
-      color: var(--purple);
-    }
+    <style>
+      :root {
+        --purple: #7b68ee;
+        --purple-dark: #3414fd;
+        --pink: #fad4fc;
+        --pink-deep: #f7c5f7;
+        --white: #ffffff;
+        --shadow: rgba(0, 0, 0, 0.14);
+      }
 
-    body {
-      text-rendering: optimizeLegibility;
-    }
+      * { box-sizing: border-box; }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+      html, body {
+        margin: 0;
+        padding: 0;
+        max-width: 100%;
+        overflow-x: hidden;
+        font-family: 'Josefin Sans', sans-serif;
+        background: var(--white);
+        color: var(--purple);
+      }
 
-    #mainContent {
-      display: none;
-    }
+      body {
+        text-rendering: optimizeLegibility;
+      }
 
-    /* SPLASH */
-    #splash {
-      position: fixed;
-      inset: 0;
-      background-color: var(--pink);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      opacity: 1;
-      visibility: visible;
-      transition: opacity 0.6s ease, visibility 0.6s ease;
-    }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
 
-    #splash.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
+      img {
+        max-width: 100%;
+        display: block;
+      }
 
-    .splash-inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-    }
+      .site-shell {
+        display: none;
+      }
 
-    .splash-logo {
-      width: 200px;
-      max-width: 54vw;
-      display: block;
-      cursor: pointer;
-      opacity: 0;
-      transform: translateY(-140px) scale(1.4);
-      animation: splashDrop 1s ease-in-out forwards;
-    }
+      /* SPLASH */
+      #splash {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--pink);
+        z-index: 9999;
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.55s ease, visibility 0.55s ease;
+      }
 
-    @keyframes splashDrop {
-      0% {
+      #splash.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .splash-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .splash-logo {
+        width: 200px;
+        cursor: pointer;
         opacity: 0;
         transform: translateY(-140px) scale(1.4);
-      }
-      18% {
-        opacity: 1;
-      }
-      58% {
-        opacity: 1;
-        transform: translateY(12px) scale(1.12);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    .splash-text {
-      opacity: 0;
-      transform: translateY(12px);
-      font-family: 'League Spartan', sans-serif;
-      font-size: clamp(1rem, 2vw, 1.5rem);
-      letter-spacing: 0.08em;
-      color: var(--purple-dark);
-      text-transform: uppercase;
-      animation: splashTextIn 0.5s ease 0.8s forwards;
-    }
-
-    @keyframes splashTextIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* PAGE */
-    .page {
-      min-height: 100vh;
-      background: var(--white);
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: var(--pink);
-      height: 90px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 32px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    }
-
-    .brand img {
-      height: 32px;
-      display: block;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      font-weight: 700;
-    }
-
-    nav a {
-      color: var(--purple);
-    }
-
-    .hero {
-      background: linear-gradient(135deg, rgba(250,212,252,0.7), rgba(255,255,255,0.85));
-      min-height: 420px;
-      display: grid;
-      place-items: center;
-      padding: 36px 24px 60px;
-      text-align: center;
-    }
-
-    .hero-copy {
-      max-width: 760px;
-      margin: 0 auto;
-      font-family: 'League Spartan', sans-serif;
-      font-weight: 900;
-      font-size: clamp(2.25rem, 5vw, 5rem);
-      line-height: 0.95;
-      color: var(--white);
-      text-shadow: -3px -3px 0 var(--purple-dark), 3px -3px 0 var(--purple-dark), -3px 3px 0 var(--purple-dark), 3px 3px 0 var(--purple-dark);
-      letter-spacing: 0.02em;
-    }
-
-    .section {
-      padding: 64px 5vw;
-    }
-
-    .section.pink {
-      background: var(--pink);
-    }
-
-    .section-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(220px, 1fr));
-      gap: 32px;
-      margin-top: 22px;
-    }
-
-    .card {
-      background: rgba(255,255,255,0.7);
-      padding: 24px;
-      border-radius: 20px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-    }
-
-    .card h3 {
-      font-family: 'League Spartan', sans-serif;
-      font-size: clamp(1.35rem, 2vw, 2rem);
-      margin: 0 0 12px;
-      color: var(--purple-dark);
-    }
-
-    .card p {
-      margin: 0;
-      line-height: 1.6;
-      font-size: 1rem;
-    }
-
-    .cta-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 16px;
-      margin-top: 24px;
-    }
-
-    .call-button {
-      display: inline-block;
-      background: var(--purple);
-      color: var(--white);
-      padding: 15px 28px;
-      border-radius: 10px;
-      font-weight: 700;
-      transition: transform 0.2s ease, background 0.2s ease;
-    }
-
-    .call-button:hover {
-      background: #624fd8;
-      transform: translateY(-1px);
-    }
-
-    .footer {
-      background: var(--pink);
-      padding: 36px 24px 52px;
-      text-align: center;
-    }
-
-    @media (max-width: 720px) {
-      .section-grid {
-        grid-template-columns: 1fr;
+        animation: splashDrop 1s ease-in-out forwards;
       }
 
-      nav {
-        gap: 12px;
-        font-size: 0.85rem;
+      @keyframes splashDrop {
+        0% {
+          opacity: 0;
+          transform: translateY(-140px) scale(1.4);
+        }
+        15% {
+          opacity: 1;
+        }
+        55% {
+          opacity: 1;
+          transform: translateY(10px) scale(1.12);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .splash-text {
+        font-family: 'League Spartan', sans-serif;
+        font-size: clamp(1rem, 2vw, 1.5rem);
+        letter-spacing: 0.08em;
+        color: var(--purple-dark);
+        text-transform: uppercase;
+        opacity: 0;
+        transform: translateY(12px);
+        animation: splashTextIn 0.5s ease 0.8s forwards;
+      }
+
+      @keyframes splashTextIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* PAGE LAYOUT */
+      .page {
+        min-height: 100vh;
       }
 
       header {
-        padding: 0 18px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: var(--pink);
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 40px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
       }
-    }
-  </style>
-</head>
-<body>
-  <div id="splash" onclick="hideSplash()" aria-live="polite">
-    <div class="splash-inner">
-      <img src="https://iili.io/KkTOXcP.md.png" alt="Paws n' Play Logo" class="splash-logo" />
-      <div class="splash-text">Click to Enter</div>
+
+      .brand img {
+        height: 30px;
+      }
+
+      nav {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        font-weight: 700;
+      }
+
+      nav a {
+        color: var(--purple);
+      }
+
+      .hero {
+        background-image: url('https://iili.io/Ke63t2I.png');
+        min-height: 50vh;
+        background-position: center;
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+      }
+
+      .hero-copy {
+        font-family: 'League Spartan', sans-serif;
+        font-size: clamp(32px, 3.5vw, 58px);
+        font-weight: 900;
+        line-height: 1.05;
+        color: #ffffff;
+        text-align: center;
+        letter-spacing: 0.03em;
+        text-shadow: -3px -3px 0 #3414fd, 3px -3px 0 #3414fd, -3px 3px 0 #3414fd, 3px 3px 0 #3414fd;
+      }
+
+      .section {
+        padding: 60px 10%;
+      }
+
+      .section.pink {
+        background: var(--pink);
+      }
+
+      .split {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 50px;
+        flex-wrap: wrap;
+      }
+
+      .split.reverse {
+        flex-direction: row-reverse;
+      }
+
+      .content-block {
+        flex: 1 1 420px;
+        max-width: 540px;
+      }
+
+      .image-block {
+        flex: 1 1 280px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .image-block img {
+        width: min(100%, 440px);
+        height: 330px;
+        object-fit: cover;
+        border-radius: 40px;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+      }
+
+      h2, h3 {
+        margin: 0 0 16px;
+        font-family: 'League Spartan', sans-serif;
+        color: var(--purple);
+      }
+
+      h2 {
+        font-size: clamp(2rem, 3vw, 3rem);
+      }
+
+      h3 {
+        font-size: clamp(1.5rem, 2vw, 2.25rem);
+      }
+
+      p {
+        margin: 0;
+        color: var(--purple);
+        line-height: 1.6;
+      }
+
+      .three-up {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(200px, 1fr));
+        gap: 26px;
+        margin-top: 28px;
+      }
+
+      .card {
+        background: rgba(255,255,255,0.6);
+        border-radius: 20px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+        padding: 24px;
+      }
+
+      .card h3 {
+        margin-bottom: 10px;
+      }
+
+      .cta-wrap {
+        margin-top: 28px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .call-button {
+        display: inline-block;
+        background: var(--purple);
+        color: var(--white);
+        padding: 15px 28px;
+        border-radius: 10px;
+        font-weight: 700;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+      }
+
+      .call-button:hover {
+        background: #624fd8;
+        transform: translateY(-1px);
+      }
+
+      footer {
+        background: var(--pink);
+        padding: 40px 10%;
+        text-align: center;
+      }
+
+      @media (max-width: 720px) {
+        header {
+          padding: 0 20px;
+        }
+
+        nav {
+          gap: 12px;
+          font-size: 0.85rem;
+          flex-wrap: wrap;
+          justify-content: flex-end;
+        }
+
+        .three-up {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="splash" onclick="hideSplash()" aria-live="polite">
+      <div class="splash-inner">
+        <img src="https://iili.io/KkTOXcP.md.png" alt="Paws n' Play Logo" class="splash-logo" />
+        <div class="splash-text">Click to Enter</div>
+      </div>
     </div>
-  </div>
 
-  <div id="mainContent" class="page">
-    <header>
-      <a href="#" class="brand" aria-label="Paws n' Play home">
-        <img src="https://iili.io/KkTOXcP.md.png" alt="Paws n' Play logo" />
-      </a>
-      <nav aria-label="Main navigation">
-        <a href="#cafe">Cafe</a>
-        <a href="#shop">Shop</a>
-        <a href="#walking">Dog Walking</a>
-        <a href="#grooming">Grooming</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </header>
+    <div class="site-shell page" id="siteShell">
+      <header>
+        <a class="brand" href="#top" aria-label="Paws n' Play Home">
+          <img src="https://iili.io/KkTOXcP.md.png" alt="Paws n' Play logo" />
+        </a>
+        <nav aria-label="Main navigation">
+          <a href="#cafe">Cafe</a>
+          <a href="#shop">Shop</a>
+          <a href="#walking">Dog Walking</a>
+          <a href="#grooming">Grooming</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
 
-    <section class="hero">
-      <div class="hero-copy">Opening November 1st!</div>
-    </section>
+      <main>
+        <section class="hero" id="top">
+          <div class="hero-copy">Paws n' Play</div>
+        </section>
 
-    <section id="cafe" class="section pink">
-      <h2 style="text-align:center; font-family:'League Spartan',sans-serif; font-size:clamp(2rem,3vw,3rem); margin:0;">Sip. Stay. Play.</h2>
-      <div class="section-grid">
-        <article class="card">
-          <h3>Positive social spaces</h3>
-          <p>Bring your pup to a cheerful, dog-friendly cafe with open space to mingle, rest, and meet friends.</p>
-        </article>
-        <article class="card">
-          <h3>Safe & Sound</h3>
-          <p>Thoughtful supervision, clean play zones, and calm routines help every dog feel comfortable and secure.</p>
-        </article>
-        <article class="card">
-          <h3>Crafted comforts</h3>
-          <p>Enjoy coffee, snacks, and an environment specially designed to create a happy, relaxing experience.</p>
-        </article>
-      </div>
-      <div class="cta-row">
-        <a class="call-button" href="tel:+17787377529">Call Us Now</a>
-      </div>
-    </section>
+        <section class="section pink" id="cafe">
+          <div class="split">
+            <div class="content-block">
+              <h2>Sip. Stay. Play.</h2>
+              <p>Bring your dog to a joyful, relaxed cafe where pups can play, sniff, and socialize in a welcoming environment designed for happy tails.</p>
+            </div>
+            <div class="image-block">
+              <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=900&q=80" alt="Dog enjoying a happy cafe visit" />
+            </div>
+          </div>
+        </section>
 
-    <section id="shop" class="section">
-      <h2 style="text-align:center; font-family:'League Spartan',sans-serif; font-size:clamp(2rem,3vw,3rem); margin:0;">Shop with us</h2>
-      <div class="section-grid">
-        <article class="card">
-          <h3>Quality essentials</h3>
-          <p>From toys and treats to comfortable gear, we carry carefully selected items that fit your dog’s routine.</p>
-        </article>
-        <article class="card">
-          <h3>Dog-first care</h3>
-          <p>Our team focuses on practical products that meet real needs for comfort, safety, and everyday enjoyment.</p>
-        </article>
-        <article class="card">
-          <h3>Friendly guidance</h3>
-          <p>Need help choosing something? We’ll recommend products that match your dog’s age, energy, and personality.</p>
-        </article>
-      </div>
-    </section>
+        <section class="section" id="shop">
+          <div class="split reverse">
+            <div class="content-block">
+              <h2>Shop with us</h2>
+              <p>From toys and treats to everyday essentials, we carry thoughtful products that help your dog stay happy, comfortable, and engaged.</p>
+            </div>
+            <div class="image-block">
+              <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=900&q=80" alt="Dog shopping or browsing products" />
+            </div>
+          </div>
+        </section>
 
-    <section id="walking" class="section pink">
-      <h2 style="text-align:center; font-family:'League Spartan',sans-serif; font-size:clamp(2rem,3vw,3rem); margin:0;">Dog Walking</h2>
-      <div class="cta-row">
-        <a class="call-button" href="tel:+17787377529">Call Us Now</a>
-      </div>
-    </section>
+        <section class="section pink" id="walking">
+          <h2 style="text-align:center; margin-bottom:20px;">Dog Walking</h2>
+          <p style="text-align:center; max-width: 52ch; margin: 0 auto;">Our friendly team offers calm, reliable walks that keep your pup active, exercised, and content throughout the week.</p>
+          <div class="cta-wrap">
+            <a class="call-button" href="tel:+17787377529">Call Us Now</a>
+          </div>
+        </section>
 
-    <section id="grooming" class="section">
-      <h2 style="text-align:center; font-family:'League Spartan',sans-serif; font-size:clamp(2rem,3vw,3rem); margin:0;">Grooming & Spa</h2>
-      <div class="section-grid">
-        <article class="card">
-          <h3>Gentle care</h3>
-          <p>We care for every coat with patient techniques, quality products, and a calm experience your dog can enjoy.</p>
-        </article>
-        <article class="card">
-          <h3>Healthy routines</h3>
-          <p>From baths to brushing and trims, our services are designed around comfort, hygiene, and appearance.</p>
-        </article>
-        <article class="card">
-          <h3>Flexible packages</h3>
-          <p>Choose a simple refresh or a more complete treatment depending on your dog’s needs and season.</p>
-        </article>
-      </div>
-    </section>
+        <section class="section" id="grooming">
+          <h2 style="text-align:center; margin-bottom:28px;">Grooming &amp; Spa</h2>
+          <div class="three-up">
+            <article class="card">
+              <h3>Gentle care</h3>
+              <p>Patient grooming with a focus on comfort, cleanliness, and stress-free routines.</p>
+            </article>
+            <article class="card">
+              <h3>Healthy routines</h3>
+              <p>Thoughtful baths, brushing, and maintenance that help keep coats and skin in top shape.</p>
+            </article>
+            <article class="card">
+              <h3>Flexible packages</h3>
+              <p>Choose the service level that fits your dog’s coat, routine, and season.</p>
+            </article>
+          </div>
+        </section>
+      </main>
 
-    <footer id="contact" class="footer">
-      <h2 style="font-family:'League Spartan',sans-serif; font-size:clamp(2rem,3vw,3rem); margin:0 0 12px;">Get in Touch</h2>
-      <p style="margin:0; line-height:1.6;">Fill out the form below and we’ll be in touch as soon as possible.</p>
-      <div class="cta-row" style="margin-top:20px;">
-        <a class="call-button" href="tel:+17787377529">Call Us Now</a>
-      </div>
-    </footer>
-  </div>
+      <footer id="contact">
+        <h2 style="margin-bottom:12px;">Get in Touch</h2>
+        <p>Questions, bookings, or special requests? We’re happy to help.</p>
+        <div class="cta-wrap" style="margin-top:20px;">
+          <a class="call-button" href="tel:+17787377529">Call Us Now</a>
+        </div>
+      </footer>
+    </div>
 
-  <script>
-    function hideSplash() {
-      const splash = document.getElementById('splash');
-      const mainContent = document.getElementById('mainContent');
+    <script>
+      function hideSplash() {
+        const splash = document.getElementById('splash');
+        const shell = document.getElementById('siteShell');
+        if (!splash || !shell) return;
 
-      if (!splash || !mainContent) return;
+        splash.classList.add('hidden');
+        shell.style.display = 'block';
 
-      splash.classList.add('hidden');
-      mainContent.style.display = 'block';
+        setTimeout(function () {
+          splash.remove();
+        }, 650);
+      }
 
-      setTimeout(function () {
-        splash.remove();
-      }, 650);
-    }
-  </script>
-</body>
+      window.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('siteShell').style.display = 'block';
+      });
+    </script>
+  </body>
 </html>
