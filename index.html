@@ -1426,6 +1426,7 @@ footer small {
       <a href="#grooming">Grooming &amp; Spa</a>
       <a href="#birthdays">Birthday Parties</a>
       <a href="#team">In Good Paws</a>
+      <a href="#waiver">Dog Owner Waiver</a>
       <a href="#contact">Get in Touch</a>
     </nav>
   </div>
@@ -1499,7 +1500,7 @@ footer small {
 <div class="centered-content">
   <div class="button-row">
     <a href="tel:+17787377529" class="call-button">Call Us Now</a>
-    <a href="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/Paws_N_Play_Dog_Owner_Waiver.pdf.pdf" class="call-button waiver-button" target="_blank" rel="noopener" download="Paws_N_Play_Dog_Owner_Waiver.pdf">Download Waiver</a>
+    <a href="#waiver" class="call-button">Complete Online Waiver</a>
   </div>
 </div>
 </section>
@@ -1551,7 +1552,7 @@ footer small {
 <div class="centered-content">
   <div class="button-row">
     <a href="tel:+17787377529" class="call-button">Call Us Now</a>
-    <a href="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/Paws_N_Play_Dog_Owner_Waiver.pdf.pdf" class="call-button waiver-button" target="_blank" rel="noopener" download="Paws_N_Play_Dog_Owner_Waiver.pdf">Download Waiver</a>
+    <a href="#waiver" class="call-button">Complete Online Waiver</a>
   </div>
 </div>
   </div>
@@ -1675,7 +1676,7 @@ footer small {
 <div class="centered-content">
   <div class="button-row">
     <a href="tel:+17787377529" class="call-button">Call Us Now</a>
-    <a href="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/Paws_N_Play_Dog_Owner_Waiver.pdf.pdf" class="call-button waiver-button" target="_blank" rel="noopener" download="Paws_N_Play_Dog_Owner_Waiver.pdf">Download Waiver</a>
+    <a href="#waiver" class="call-button">Complete Online Waiver</a>
   </div>
 </div>
 </section>
@@ -1816,7 +1817,7 @@ footer small {
 <div class="centered-content">
   <div class="button-row">
     <a href="tel:+17787377529" class="call-button">Call Us Now</a>
-    <a href="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/Paws_N_Play_Dog_Owner_Waiver.pdf.pdf" class="call-button waiver-button" target="_blank" rel="noopener" download="Paws_N_Play_Dog_Owner_Waiver.pdf">Download Waiver</a>
+    <a href="#waiver" class="call-button">Complete Online Waiver</a>
   </div>
 </div>
 
@@ -1898,7 +1899,7 @@ footer small {
 <div class="centered-content">
   <div class="button-row">
     <a href="tel:+17787377529" class="call-button">Call Us Now</a>
-    <a href="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/Paws_N_Play_Dog_Owner_Waiver.pdf.pdf" class="call-button waiver-button" target="_blank" rel="noopener" download="Paws_N_Play_Dog_Owner_Waiver.pdf">Download Waiver</a>
+    <a href="#waiver" class="call-button">Complete Online Waiver</a>
   </div>
 </div>
 
@@ -1996,10 +1997,25 @@ footer small {
 <div class="centered-content">
   <div class="button-row">
     <a href="tel:+17787377529" class="call-button">Call Us Now</a>
-    <a href="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/Paws_N_Play_Dog_Owner_Waiver.pdf.pdf" class="call-button waiver-button" target="_blank" rel="noopener" download="Paws_N_Play_Dog_Owner_Waiver.pdf">Download Waiver</a>
+    <a href="#waiver" class="call-button">Complete Online Waiver</a>
   </div>
 </div>
 </div>
+
+<!-- ONLINE DOG OWNER WAIVER: placed near the bottom so visitors can explore services first, while the menu and service buttons provide direct access -->
+<section id="waiver" class="section white" aria-labelledby="waiver-heading">
+  <div class="full-width-content">
+    <div class="paw-header" id="waiver-heading">
+      <i class="fa-solid fa-paw"></i>
+      Dog Owner Waiver
+      <i class="fa-solid fa-paw"></i>
+    </div>
+    <div class="centered-content">
+      <p>Before your visit, please complete the Dog Owner Waiver, Release &amp; Responsibility Agreement below. Current Rabies and Kennel Cough (Bordetella) vaccination records must also be provided separately and kept on file.</p>
+    </div>
+    <div id="paws-n-play-waiver"></div>
+  </div>
+</section>
 
 <footer id="contact">
   <div>
@@ -2131,31 +2147,8 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 })();
 
-// Waiver download (forces a save instead of opening the PDF in the browser)
-document.querySelectorAll('.waiver-button').forEach(function (btn) {
-  btn.addEventListener('click', async function (e) {
-    e.preventDefault();
-    const url = btn.getAttribute('href');
-    const filename = btn.getAttribute('download') || 'waiver.pdf';
-    try {
-      const res = await fetch(url);
-      if (!res.ok) throw new Error('Download failed');
-      const blob = await res.blob();
-      const pdf = new Blob([blob], { type: 'application/pdf' });
-      const objUrl = URL.createObjectURL(pdf);
-      const a = document.createElement('a');
-      a.href = objUrl;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(function () { URL.revokeObjectURL(objUrl); }, 1000);
-    } catch (err) {
-      window.open(url, '_blank', 'noopener');
-    }
-  });
-});
 </script>
 
+  <script src="paws-n-play-waiver.js" defer></script>
 </body>
 </html>
