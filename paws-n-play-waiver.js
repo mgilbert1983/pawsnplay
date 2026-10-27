@@ -6,7 +6,7 @@
  *
  * IMPORTANT EMAIL DELIVERY NOTE:
  * This self-contained module uses FormSubmit.co to email submissions to
- * pawsnplayvancouver@gmail.com. On the first submission, FormSubmit may send
+ * pawsnplayvancouver@gmail.com, with a CC to tonysdestiny@shaw.ca. On the first submission, FormSubmit may send
  * a confirmation email to that inbox; click its activation link before live use.
  * Form submissions include personal information. Review the provider's privacy
  * terms and have the waiver reviewed by a BC lawyer before publishing.
@@ -18,31 +18,31 @@
   const ROOT_ID = "paws-n-play-waiver";
 
   const styles = `
-    #${ROOT_ID} { --pnp-ink:#26352c; --pnp-green:#426b4f; --pnp-pale:#f4f7f1; --pnp-line:#d9e1d8; color:var(--pnp-ink); font-family:inherit; }
+    #${ROOT_ID} { --pnp-purple:#3414fd; --pnp-line:#d9d3ff; --pnp-pale:#f7f5ff; color:var(--pnp-purple); font-family:inherit; }
     #${ROOT_ID} * { box-sizing:border-box; }
-    #${ROOT_ID} .pnp-card { max-width:900px; margin:2rem auto; padding:clamp(1rem,3vw,2rem); background:#fff; border:1px solid var(--pnp-line); border-radius:16px; box-shadow:0 8px 28px rgba(28,48,33,.08); }
-    #${ROOT_ID} h2 { margin:0 0 .35rem; font-size:clamp(1.5rem,3vw,2rem); line-height:1.2; }
-    #${ROOT_ID} .pnp-intro { margin:0 0 1.5rem; color:#536257; line-height:1.55; }
+    #${ROOT_ID} .pnp-card { max-width:900px; margin:2rem auto; padding:clamp(1rem,3vw,2rem); background:transparent; border:0; border-radius:0; box-shadow:none; }
+    #${ROOT_ID} .pnp-intro { margin:0 0 1.5rem; color:var(--pnp-purple); line-height:1.65; }
+    #${ROOT_ID} p, #${ROOT_ID} label, #${ROOT_ID} legend, #${ROOT_ID} .pnp-small, #${ROOT_ID} .pnp-legal, #${ROOT_ID} .pnp-note, #${ROOT_ID} .pnp-check span { color:var(--pnp-purple); text-align:justify; text-justify:inter-word; hyphens:auto; -webkit-hyphens:auto; overflow-wrap:break-word; }
     #${ROOT_ID} fieldset { min-width:0; border:0; border-top:1px solid var(--pnp-line); margin:1.5rem 0 0; padding:1.25rem 0 0; }
     #${ROOT_ID} legend { padding:0 .5rem 0 0; font-weight:750; font-size:1.08rem; }
     #${ROOT_ID} .pnp-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
     #${ROOT_ID} .pnp-field { display:flex; flex-direction:column; gap:.4rem; min-width:0; }
     #${ROOT_ID} label { font-weight:650; font-size:.94rem; }
-    #${ROOT_ID} input:not([type=checkbox]):not([type=radio]), #${ROOT_ID} select, #${ROOT_ID} textarea { width:100%; min-height:44px; padding:.7rem .8rem; border:1px solid #bfcbbf; border-radius:8px; background:#fff; color:inherit; font:inherit; }
+    #${ROOT_ID} input:not([type=checkbox]):not([type=radio]), #${ROOT_ID} select, #${ROOT_ID} textarea { width:100%; min-height:44px; padding:.7rem .8rem; border:1px solid #c9c1ff; border-radius:8px; background:#fff; color:var(--pnp-purple); font:inherit; text-align:left; }
     #${ROOT_ID} textarea { min-height:90px; resize:vertical; }
-    #${ROOT_ID} input:focus, #${ROOT_ID} select:focus, #${ROOT_ID} textarea:focus { outline:3px solid rgba(66,107,79,.2); border-color:var(--pnp-green); }
+    #${ROOT_ID} input:focus, #${ROOT_ID} select:focus, #${ROOT_ID} textarea:focus { outline:3px solid rgba(52,20,253,.15); border-color:var(--pnp-purple); }
     #${ROOT_ID} .pnp-checks { display:grid; gap:.85rem; margin-top:.8rem; }
     #${ROOT_ID} .pnp-check { display:flex; align-items:flex-start; gap:.7rem; line-height:1.5; font-weight:400; }
-    #${ROOT_ID} .pnp-check input { width:1.15rem; height:1.15rem; margin-top:.18rem; flex:0 0 auto; accent-color:var(--pnp-green); }
+    #${ROOT_ID} .pnp-check input { width:1.15rem; height:1.15rem; margin-top:.18rem; flex:0 0 auto; accent-color:var(--pnp-purple); }
     #${ROOT_ID} .pnp-note { margin:.8rem 0 0; padding:.85rem 1rem; background:var(--pnp-pale); border-radius:8px; line-height:1.5; }
     #${ROOT_ID} .pnp-legal { line-height:1.65; color:#3e4c42; }
     #${ROOT_ID} .pnp-actions { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; margin-top:1.5rem; }
-    #${ROOT_ID} button { min-height:48px; padding:.8rem 1.3rem; border:0; border-radius:9px; background:var(--pnp-green); color:white; font:inherit; font-weight:750; cursor:pointer; }
+    #${ROOT_ID} button { min-height:48px; padding:.8rem 1.3rem; border:0; border-radius:9px; background:var(--pnp-purple); color:white; font:inherit; font-weight:750; cursor:pointer; }
     #${ROOT_ID} button:hover { filter:brightness(.93); }
     #${ROOT_ID} button:disabled { opacity:.65; cursor:wait; }
     #${ROOT_ID} .pnp-status { margin:.8rem 0 0; font-weight:650; }
     #${ROOT_ID} .pnp-small { font-size:.88rem; color:#58665b; line-height:1.5; }
-    #${ROOT_ID} .pnp-required { color:#9a3025; }
+    #${ROOT_ID} .pnp-required { color:var(--pnp-purple); font-weight:750; }
     #${ROOT_ID} .pnp-trap { position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden; }
     @media (max-width:620px) { #${ROOT_ID} .pnp-grid { grid-template-columns:1fr; } #${ROOT_ID} .pnp-card { border-radius:10px; } }
   `;
@@ -59,11 +59,11 @@
 
   root.innerHTML = `
     <section class="pnp-card" aria-labelledby="pnp-title">
-      <h2 id="pnp-title">Paws N Play Dog Cafe &amp; Playground</h2>
-      <p class="pnp-intro"><strong>Dog Owner Waiver, Release &amp; Responsibility Agreement</strong><br>
+      <p class="pnp-intro" id="pnp-title"><strong>Dog Owner Waiver, Release &amp; Responsibility Agreement</strong><br>
       Please complete every required field and acknowledgement. Required fields are marked <span class="pnp-required">*</span>.</p>
 
       <form id="pnp-waiver-form" action="https://formsubmit.co/${EMAIL}" method="POST">
+        <input type="hidden" name="_cc" value="tonysdestiny@shaw.ca">
         <input type="hidden" name="_subject" value="New Paws N Play Dog Owner Waiver Submission">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="true">
@@ -165,7 +165,7 @@
 
         <div class="pnp-actions">
           <button id="pnp-submit" type="submit">Submit Waiver</button>
-          <span class="pnp-small">Your submission will be sent to Paws N Play for review.</span>
+          <span class="pnp-small">Your submission will be sent to Paws N Play and copied to the team.</span>
         </div>
         <p id="pnp-status" class="pnp-status" role="status" aria-live="polite"></p>
         <p class="pnp-small">Recommended: Have this waiver reviewed by a lawyer licensed in British Columbia before putting it into use. Do not use this form to submit urgent medical information.</p>
