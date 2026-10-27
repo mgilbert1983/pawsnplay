@@ -47,7 +47,7 @@
       }
 
       .site-shell {
-        display: none;
+        display: block;
       }
 
       /* SPLASH */
@@ -389,20 +389,14 @@
     <script>
       function hideSplash() {
         const splash = document.getElementById('splash');
-        const shell = document.getElementById('siteShell');
-        if (!splash || !shell) return;
+        if (!splash) return;
 
         splash.classList.add('hidden');
-        shell.style.display = 'block';
 
         setTimeout(function () {
           splash.remove();
         }, 650);
       }
-
-      window.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('siteShell').style.display = 'block';
-      });
     </script>
   </body>
 </html>
