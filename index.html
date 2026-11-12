@@ -1388,6 +1388,7 @@ footer small {
   }
 }
 </style>
+<link rel="stylesheet" href="mobile_css.css">
 </head>
 
 <body>
@@ -2032,10 +2033,12 @@ footer small {
         </p>
       </div>
 
-      <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
-        <input type="hidden" name="access_key" value="f30fcbc2-6355-465f-8533-6640adb3147b" />
-        <input type="hidden" name="subject" value="New Contact Form Submission from Web3Forms" />
-        <input type="hidden" name="from_name" value="My Website" />
+      <form id="contact-form" class="contact-form" action="https://formsubmit.co/ajax/pawsnplayvancouver@gmail.com" method="POST">
+        <input type="hidden" name="_cc" value="tonysdestiny@shaw.ca" />
+        <input type="hidden" name="_subject" value="New Paws n' Play Website Contact Message" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_captcha" value="false" />
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-10000px;width:1px;height:1px;opacity:0" aria-hidden="true" />
 
         <div class="form-group-container">
           <div class="form-group">
@@ -2044,7 +2047,7 @@ footer small {
           </div>
           <div class="form-group">
             <label for="email" class="form-label">Email</label>
-            <input id="email" name="email" class="form-input" placeholder="Your email" type="email" />
+            <input id="email" name="email" class="form-input" placeholder="Your email" type="email" required />
           </div>
           <div class="form-group">
             <label for="phone" class="form-label">Phone</label>
@@ -2052,7 +2055,7 @@ footer small {
           </div>
           <div class="form-group">
             <label for="message" class="form-label">Message</label>
-            <textarea class="form-textarea" id="message" name="message" placeholder="Your message"></textarea>
+            <textarea class="form-textarea" id="message" name="message" placeholder="Your message" required></textarea>
           </div>
         </div>
         
@@ -2061,6 +2064,7 @@ footer small {
             Send Message
           </button>
         </div>
+        <p id="contact-status" class="contact-description" role="status" aria-live="polite"></p>
       </form>
     </section>
 
@@ -2148,6 +2152,48 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 
 </script>
+
+  <script>
+  // Contact form delivery: FormSubmit AJAX, emailed to RECIPIENT with CC_RECIPIENTS copied.
+  // Keep these addresses in step with paws-n-play-waiver.js. See WAIVER-EMAIL-SETUP.md.
+  (function () {
+    var ENDPOINT = 'https://formsubmit.co/ajax/pawsnplayvancouver@gmail.com';
+    var FALLBACK_PHONE = '778-737-7529';
+    var form = document.getElementById('contact-form');
+    if (!form) return;
+    var status = document.getElementById('contact-status');
+    var button = form.querySelector('button[type="submit"]');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      var label = button.textContent;
+      button.disabled = true;
+      button.textContent = 'Sending...';
+      status.textContent = '';
+      fetch(ENDPOINT, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
+        .then(function (r) {
+          return r.json().catch(function () { return null; }).then(function (d) {
+            if (!r.ok || !d || String(d.success) !== 'true') {
+              console.error('Contact submission rejected:', r.status, d);
+              throw new Error('rejected');
+            }
+          });
+        })
+        .then(function () {
+          status.textContent = "Thank you. Your message has been sent and we'll get back to you soon.";
+          form.reset();
+        })
+        .catch(function (err) {
+          console.error('Contact submission failed:', err);
+          status.textContent = 'Your message may not have been sent. Your text is still here. Please try again, or call ' + FALLBACK_PHONE + '.';
+        })
+        .then(function () {
+          button.disabled = false;
+          button.textContent = label;
+        });
+    });
+  })();
+  </script>
 
   <script src="paws-n-play-waiver.js" defer></script>
 </body>
