@@ -1,20 +1,26 @@
 /*
- * Paws N Play Dog Cafe & Playground — Waiver Form Module
+ * Paws N Play Dog Cafe & Playground, Waiver Form Module
  * Include this file from your index.html:
  *   <div id="paws-n-play-waiver"></div>
  *   <script src="paws-n-play-waiver.js" defer></script>
  *
- * IMPORTANT EMAIL DELIVERY NOTE:
- * This self-contained module uses FormSubmit.co to email submissions to
- * pawsnplayvancouver@gmail.com, with a CC to tonysdestiny@shaw.ca. On the first submission, FormSubmit may send
- * a confirmation email to that inbox; click its activation link before live use.
- * Form submissions include personal information. Review the provider's privacy
- * terms and have the waiver reviewed by a BC lawyer before publishing.
+ * EMAIL DELIVERY
+ * Submissions are posted to FormSubmit's AJAX endpoint, which emails them to
+ * RECIPIENT and copies CC_RECIPIENTS. The inbox must be activated once (see
+ * WAIVER-EMAIL-SETUP.md). No API keys or secrets are used or needed.
  */
 (() => {
   "use strict";
 
-  const EMAIL = "pawsnplayvancouver@gmail.com";
+  // ---- Delivery settings (the only lines you should ever need to edit) ----
+  const RECIPIENT = "pawsnplayvancouver@gmail.com";   // primary inbox (must be activated once)
+  const CC_RECIPIENTS = "tonysdestiny@shaw.ca";       // comma-separate to add more
+  // After activation FormSubmit emails you a private random ID. You may paste it
+  // here instead of the address to keep the inbox out of the page source.
+  const FORMSUBMIT_TARGET = RECIPIENT;
+  const ENDPOINT = `https://formsubmit.co/ajax/${FORMSUBMIT_TARGET}`;
+  const FALLBACK_PHONE = "778-737-7529";
+  const MIN_FILL_SECONDS = 8;                          // bot trap: humans cannot finish faster
   const ROOT_ID = "paws-n-play-waiver";
 
   const styles = `
@@ -64,12 +70,13 @@
       <p class="pnp-intro" id="pnp-title"><strong>Dog Owner Waiver, Release &amp; Responsibility Agreement</strong><br>
       Please complete every required field and acknowledgement. Required fields are marked <span class="pnp-required">*</span>.</p>
 
-      <form id="pnp-waiver-form" action="https://formsubmit.co/${EMAIL}" method="POST">
-        <input type="hidden" name="_cc" value="tonysdestiny@shaw.ca">
+      <form id="pnp-waiver-form" action="${ENDPOINT}" method="POST">
+        <input type="hidden" name="_cc" value="${CC_RECIPIENTS}">
         <input type="hidden" name="_subject" value="New Paws N Play Dog Owner Waiver Submission">
         <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_captcha" value="true">
-        <input type="hidden" name="_next" value="">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="Submitted At" value="">
+        <input type="hidden" name="Submitted From Page" value="">
         <div class="pnp-trap" aria-hidden="true"><label>Leave this field empty<input name="_honey" tabindex="-1" autocomplete="off"></label></div>
 
         <fieldset>
@@ -175,6 +182,7 @@
     </section>
   `;
 
+  const loadedAt = Date.now();
   const form = root.querySelector("#pnp-waiver-form");
   const submit = root.querySelector("#pnp-submit");
   const status = root.querySelector("#pnp-status");
@@ -203,23 +211,43 @@
       return;
     }
 
+    // Bot trap: a real person needs more than a few seconds to complete this form.
+    if ((Date.now() - loadedAt) / 1000 < MIN_FILL_SECONDS) {
+      status.textContent = "Please review the form and try again.";
+      return;
+    }
+
     submit.disabled = true;
-    submit.textContent = "Submitting…";
-    status.textContent = "Sending your waiver securely over HTTPS…";
+    submit.textContent = "Submitting\u2026";
+    status.textContent = "Sending your waiver securely over HTTPS\u2026";
 
     try {
-      const response = await fetch(form.action, {
+      form.elements["Submitted At"].value = new Date().toString();
+      form.elements["Submitted From Page"].value = window.location.href;
+
+      const response = await fetch(ENDPOINT, {
         method: "POST",
         body: new FormData(form),
         headers: { "Accept": "application/json" }
       });
-      if (!response.ok) throw new Error("Submission service returned an error.");
+
+      let result = null;
+      try { result = await response.json(); } catch (_) { /* non-JSON reply */ }
+
+      // FormSubmit replies {"success":"true", ...}. Anything else is a failure.
+      if (!response.ok || !result || String(result.success) !== "true") {
+        console.error("Waiver submission rejected:", response.status, result);
+        throw new Error((result && result.message) || "Submission service returned an error.");
+      }
+
       status.textContent = "Thank you. Your waiver has been submitted. If you do not receive confirmation from Paws N Play, please contact the business directly.";
       form.reset();
       root.querySelector("#pnp-date").value = localToday;
       dogConfirm.dataset.userEdited = "";
     } catch (error) {
-      status.textContent = "We couldn't confirm delivery. Your form may not have been sent. Please try again, or contact Paws N Play directly. If this is the first submission, check the inbox for a FormSubmit activation email.";
+      console.error("Waiver submission failed:", error);
+      // The form is NOT reset on failure, so nothing the visitor typed is lost.
+      status.textContent = `We could not confirm delivery, so your waiver may not have been sent. Your answers are still on this page. Please try again, or call Paws N Play at ${FALLBACK_PHONE}.`;
     } finally {
       submit.disabled = false;
       submit.textContent = "Submit Waiver";
