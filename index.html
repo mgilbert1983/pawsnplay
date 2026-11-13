@@ -1001,6 +1001,15 @@ footer small {
   line-height: 1.6;
 }
 
+/* WAIVER INTRO: centered like the rest of the page (overrides justify) */
+.centered-content p.waiver-intro {
+  text-align: center !important;
+  text-align-last: center !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
 /* PAW HEADER STYLES - CONSISTENT WIDTH */
 .paw-header {
   text-align: center;
@@ -2012,7 +2021,7 @@ footer small {
       <i class="fa-solid fa-paw"></i>
     </div>
     <div class="centered-content">
-      <p>Before your visit, please complete the Dog Owner Waiver, Release &amp; Responsibility Agreement below. </br> Current Rabies and Kennel Cough (Bordetella) vaccination records must also be provided separately and kept on file.</p>
+      <p class="waiver-intro">Before your visit, please complete the Dog Owner Waiver, Release &amp; Responsibility Agreement below.<br>Current Rabies and Kennel Cough (Bordetella) vaccination records must also be provided separately and kept on file.</p>
     </div>
     <div id="paws-n-play-waiver"></div>
   </div>
@@ -2034,7 +2043,7 @@ footer small {
       </div>
 
       <form id="contact-form" class="contact-form" action="https://formsubmit.co/ajax/pawsnplayvancouver@gmail.com" method="POST">
-        <input type="hidden" name="_cc" value="tonysdestiny@shaw.ca" />
+        <input type="hidden" name="_cc" value="tonysdestiny@shaw.ca,mgilbert1983@gmail.com" />
         <input type="hidden" name="_subject" value="New Paws n' Play Website Contact Message" />
         <input type="hidden" name="_template" value="table" />
         <input type="hidden" name="_captcha" value="false" />

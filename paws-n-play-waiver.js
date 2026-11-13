@@ -14,7 +14,7 @@
 
   // ---- Delivery settings (the only lines you should ever need to edit) ----
   const RECIPIENT = "pawsnplayvancouver@gmail.com";   // primary inbox (must be activated once)
-  const CC_RECIPIENTS = "tonysdestiny@shaw.ca";       // comma-separate to add more
+  const CC_RECIPIENTS = "tonysdestiny@shaw.ca,mgilbert1983@gmail.com"; // comma-separate to add more
   // After activation FormSubmit emails you a private random ID. You may paste it
   // here instead of the address to keep the inbox out of the page source.
   const FORMSUBMIT_TARGET = RECIPIENT;
