@@ -225,11 +225,20 @@
       form.elements["Submitted At"].value = new Date().toString();
       form.elements["Submitted From Page"].value = window.location.href;
 
-      const response = await fetch(ENDPOINT, {
-        method: "POST",
-        body: new FormData(form),
-        headers: { "Accept": "application/json" }
-      });
+      // Abort after 25 seconds so the button can never sit on "Submitting" forever.
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 25000);
+      let response;
+      try {
+        response = await fetch(ENDPOINT, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { "Accept": "application/json" },
+          signal: controller.signal
+        });
+      } finally {
+        clearTimeout(timer);
+      }
 
       let result = null;
       try { result = await response.json(); } catch (_) { /* non-JSON reply */ }

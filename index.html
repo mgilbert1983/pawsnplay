@@ -2179,7 +2179,7 @@ document.addEventListener('DOMContentLoaded', function() {
       button.disabled = true;
       button.textContent = 'Sending...';
       status.textContent = '';
-      fetch(ENDPOINT, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
+      fetch(ENDPOINT, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' }, signal: (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) ? AbortSignal.timeout(25000) : undefined })
         .then(function (r) {
           return r.json().catch(function () { return null; }).then(function (d) {
             if (!r.ok || !d || String(d.success) !== 'true') {
