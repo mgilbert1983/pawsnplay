@@ -426,6 +426,12 @@ font-size: clamp(32px, 3.5vw, 58px);
   margin: 0 auto; /* Center the content block */
 }
 
+/* Dog illustrations: same 275x275 box as the other section images, shown whole without stretching */
+.section.pink img.dog-illustration {
+  object-fit: contain;
+  border-radius: 0;
+}
+
 .section.visible img,
 .section.visible .section-content {
   opacity: 1;
@@ -1693,7 +1699,7 @@ footer small {
 
 <!-- GROOMING SECTION - PINK WITH CLOSER SPACING -->
 <section class="section pink reverse" id="grooming">
-  <img src="https://iili.io/KgyIu0G.png" alt="Grooming" />
+  <img class="dog-illustration" src="BLUE_DOG.png" alt="Illustration of a blue cartoon dog" />
   <div class="section-content">
     <h2>Grooming & Spa</h2>
     <p>At Paws n' Play, we believe every pup deserves a gentle, stress-free clean. Our dog washing service uses only safe, ethical products — free from harsh chemicals and full of tail-wagging goodness. Whether it's a quick rinse or a full spa day, we treat every dog with the same love and care you do. It's not just about staying clean — it's about feeling great, building trust, and making bath time something to bark about.</p>
@@ -2012,9 +2018,9 @@ footer small {
 </div>
 </div>
 
-<!-- WAIVER BANNER - PINK SECTION (dog on left, text on right). Replace the placeholder image src with the final dog illustration. -->
+<!-- WAIVER BANNER - PINK SECTION (dog on left, text on right) -->
 <section class="section pink" id="waiver-banner">
-  <img src="data:image/svg+xml,%3Csvg xmlns='https://freeimage.host/i/nyQKbEP' width='275' height='275' viewBox='0 0 275 275'%3E%3Crect width='275' height='275' fill='%23ffffff'/%3E%3Crect x='6' y='6' width='263' height='263' rx='34' fill='none' stroke='%237b68ee' stroke-width='4' stroke-dasharray='14 10'/%3E%3Cg fill='%237b68ee'%3E%3Cellipse cx='137' cy='160' rx='42' ry='34'/%3E%3Cellipse cx='88' cy='112' rx='15' ry='20'/%3E%3Cellipse cx='124' cy='88' rx='15' ry='20'/%3E%3Cellipse cx='162' cy='88' rx='15' ry='20'/%3E%3Cellipse cx='198' cy='112' rx='15' ry='20'/%3E%3C/g%3E%3Ctext x='137' y='235' font-family='Arial,sans-serif' font-size='20' font-weight='bold' text-anchor='middle' fill='%237b68ee'%3EDog illustration%3C/text%3E%3C/svg%3E" alt="Dog illustration placeholder" />
+  <img class="dog-illustration" src="RED_DOG.png" alt="Illustration of a red cartoon dog" />
   <div class="section-content">
     <h2>Paws Before You Play</h2>
     <p>A quick bit of paperwork keeps every pup and person safe. Complete your waiver online before your visit, and your dog can head straight to the fun when you arrive.</p>
