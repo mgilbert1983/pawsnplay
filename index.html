@@ -1442,6 +1442,7 @@ footer small {
       <a href="#grooming">Grooming &amp; Spa</a>
       <a href="#birthdays">Birthday Parties</a>
       <a href="#team">In Good Paws</a>
+      <a href="#booking">Book a Visit</a>
       <a href="#waiver">Dog Owner Waiver</a>
       <a href="#contact">Get in Touch</a>
     </nav>
@@ -2018,6 +2019,21 @@ footer small {
 </div>
 </div>
 
+<!-- ONLINE BOOKING: Google Calendar via Apps Script (see BOOKING-SETUP.md) -->
+<section id="booking" class="section white" aria-labelledby="booking-heading">
+  <div class="full-width-content">
+    <div class="paw-header" id="booking-heading">
+      <i class="fa-solid fa-paw"></i>
+      Book a Visit
+      <i class="fa-solid fa-paw"></i>
+    </div>
+    <div class="centered-content">
+      <p class="waiver-intro">Pick a service, a day and a time. Your booking goes straight onto our calendar.</p>
+    </div>
+    <div id="paws-n-play-booking"></div>
+  </div>
+</section>
+
 <!-- WAIVER BANNER - PINK SECTION (dog on left, text on right) -->
 <section class="section pink" id="waiver-banner">
   <img class="dog-illustration" src="RED_DOG.png" alt="Illustration of a red cartoon dog" />
@@ -2220,5 +2236,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </script>
 
   <script src="paws-n-play-waiver.js" defer></script>
+  <script src="paws-n-play-booking.js" defer></script>
 </body>
 </html>
