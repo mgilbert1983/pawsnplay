@@ -6,7 +6,7 @@
  */
 (() => {
   "use strict";
-  const API = "PASTE_APPS_SCRIPT_WEB_APP_URL_HERE";
+  const API = "https://script.google.com/macros/s/AKfycbwQgTzkRe_H9yZrpe_JNNMoVilLrBgNQ0kalSFGYGjxU_M1GBppjwFJFFSFWuZQmsPT/exec";
   const ROOT_ID = "paws-n-play-booking", KEY = "pnpBooking", MIN_FILL_S = 6;
   const root = document.getElementById(ROOT_ID);
   if (!root) return;
