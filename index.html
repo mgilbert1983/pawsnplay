@@ -333,6 +333,16 @@ font-size: clamp(32px, 3.5vw, 58px);
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_006.jpg");
 }
 
+/* New banners: banner_007.jpg and banner_008.jpg show on top once uploaded to the repo.
+   Until then the existing photo listed second shows underneath. */
+.parallax-section-image.booking-parallax {
+  background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_007.jpg"), url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/LARGE_BANNER_001.png");
+}
+
+.parallax-section-image.waiver-parallax {
+  background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_008.jpg"), url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_006.jpg");
+}
+
 /* =========================================================
    THREE COLUMN
 ========================================================= */
@@ -2019,6 +2029,20 @@ footer small {
 </div>
 </div>
 
+<!-- BOOKING BANNER - PINK SECTION (dog on left, text on right) -->
+<section class="section pink" id="booking-banner">
+  <img class="dog-illustration" src="GREEN_DOGS.png" alt="Illustration of a green cartoon dog" />
+  <div class="section-content">
+    <h2>Save Your Spot</h2>
+    <p>Reserve a cafe visit, a play session or a grooming appointment in a few taps. Choose your time and we will have a spot ready for you and your pup.</p>
+  </div>
+</section>
+
+<!-- PARALLAX SECTION - BOOKING -->
+<div class="parallax-section" id="bookingParallaxSection">
+  <div class="parallax-section-image booking-parallax" id="bookingParallax"></div>
+</div>
+
 <!-- ONLINE BOOKING: Google Calendar via Apps Script (see BOOKING-SETUP.md) -->
 <section id="booking" class="section white" aria-labelledby="booking-heading">
   <div class="full-width-content">
@@ -2034,14 +2058,19 @@ footer small {
   </div>
 </section>
 
-<!-- WAIVER BANNER - PINK SECTION (dog on left, text on right) -->
-<section class="section pink" id="waiver-banner">
+<!-- WAIVER BANNER - PINK SECTION (dog on right, text on left) -->
+<section class="section pink reverse" id="waiver-banner">
   <img class="dog-illustration" src="RED_DOG.png" alt="Illustration of a red cartoon dog" />
   <div class="section-content">
     <h2>Paws Before You Play</h2>
     <p>A quick bit of paperwork keeps every pup and person safe. Complete your waiver online before your visit, and your dog can head straight to the fun when you arrive.</p>
   </div>
 </section>
+
+<!-- PARALLAX SECTION - WAIVER -->
+<div class="parallax-section" id="waiverParallaxSection">
+  <div class="parallax-section-image waiver-parallax" id="waiverParallax"></div>
+</div>
 
 <!-- ONLINE DOG OWNER WAIVER: placed near the bottom so visitors can explore services first, while the menu and service buttons provide direct access -->
 <section id="waiver" class="section white" aria-labelledby="waiver-heading">
