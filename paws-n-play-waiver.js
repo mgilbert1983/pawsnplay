@@ -95,6 +95,7 @@
           <div class="pnp-grid">
             <div class="pnp-field"><label for="pnp-dog">Dog's name <span class="pnp-required">*</span></label><input id="pnp-dog" name="Dog Name" required></div>
             <div class="pnp-field"><label for="pnp-breed">Breed (or best-known mix) <span class="pnp-required">*</span></label><input id="pnp-breed" name="Dog Breed" required></div>
+            <div class="pnp-field"><label for="pnp-tag">Dog licence tag number <span class="pnp-required">*</span></label><input id="pnp-tag" name="Dog Licence Tag Number" required></div>
             <div class="pnp-field"><label for="pnp-service">Primary service / area</label>
               <select id="pnp-service" name="Intended Service">
                 <option value="">Select an option</option><option>Dog Cafe</option><option>Playground</option><option>Daycare</option><option>Boarding</option><option>Grooming</option><option>Other / multiple areas</option>
@@ -107,11 +108,11 @@
 
         <fieldset>
           <legend>Vaccination Requirements — Mandatory</legend>
-          <p class="pnp-legal">All dogs must have current vaccination records on file before entering or using any part of the premises. Records must identify the dog and show the vaccination type and current status or expiry date. Paws N Play may refuse entry or services if records are missing, incomplete or expired.</p>
+          <p class="pnp-legal">All dogs must have current vaccination records on file before entering or using any part of the premises. Records must identify the dog and show the vaccine type and current expiry/renewal date. Proof can be obtained from your veterinarian. Playground access is refused if records are missing, incomplete or expired.</p>
           <div class="pnp-checks">
             <label class="pnp-check"><input type="checkbox" name="Rabies Record Provided" value="Yes" required><span>I have provided Paws N Play with my dog's current Rabies vaccination record. <span class="pnp-required">*</span></span></label>
             <label class="pnp-check"><input type="checkbox" name="Bordetella Record Provided" value="Yes" required><span>I have provided Paws N Play with my dog's current Kennel Cough (Bordetella) vaccination record. <span class="pnp-required">*</span></span></label>
-            <label class="pnp-check"><input type="checkbox" name="Vaccination Records Required Before Entry" value="Acknowledged" required><span>I understand my dog cannot enter or use any part of the premises until both required vaccination records have been provided and are on file. <span class="pnp-required">*</span></span></label>
+            <label class="pnp-check"><input type="checkbox" name="Vaccination Records Required Before Entry" value="Acknowledged" required><span>I understand my dog cannot enter or use any part of the premises, including the cafe lounge and indoor playground, until both required vaccination records have been provided and are on file. <span class="pnp-required">*</span></span></label>
             <label class="pnp-check"><input type="checkbox" name="Update Vaccination Records" value="Acknowledged" required><span>I am responsible for providing updated vaccination records when vaccinations are renewed or expire. <span class="pnp-required">*</span></span></label>
           </div>
           <p class="pnp-note"><strong>Important:</strong> Checking these boxes confirms that the records have been provided; it does not upload the records. Please submit the records separately using the process provided by Paws N Play.</p>
@@ -121,9 +122,11 @@
           <legend>Dog Health &amp; Behaviour</legend>
           <div class="pnp-checks">
             <label class="pnp-check"><input type="checkbox" name="Non-Reactive Confirmation" value="Confirmed" required><span><strong>Non-reactive:</strong> To the best of my knowledge, my dog is not reactive toward people or other dogs in a way that would make participation unsafe. <span class="pnp-required">*</span></span></label>
-            <label class="pnp-check"><input type="checkbox" name="Non-Aggressive Confirmation" value="Confirmed" required><span><strong>Non-aggressive:</strong> To the best of my knowledge, my dog has no history of dangerous or aggressive behaviour toward people or other dogs. <span class="pnp-required">*</span></span></label>
-            <label class="pnp-check"><input type="checkbox" name="Good Health Confirmation" value="Confirmed" required><span>My dog is currently in good health and, to the best of my knowledge, does not have a contagious illness, infection, parasites, vomiting, diarrhea, coughing or another condition that could put other dogs at risk. <span class="pnp-required">*</span></span></label>
+            <label class="pnp-check"><input type="checkbox" name="Non-Aggressive Confirmation" value="Confirmed" required><span><strong>Non-aggressive:</strong> To the best of my knowledge, my dog is not aggressive toward people or other dogs. <span class="pnp-required">*</span></span></label>
+            <label class="pnp-check"><input type="checkbox" name="Good Health Confirmation" value="Confirmed" required><span>My dog is currently in good health and, to the best of my knowledge, does not have a contagious illness, infection, parasites, vomiting, diarrhea, coughing or another condition that could put other dogs or people at risk. <span class="pnp-required">*</span></span></label>
             <label class="pnp-check"><input type="checkbox" name="Behaviour Disclosure Agreement" value="Agreed" required><span>I will immediately inform staff of known behavioural concerns, bite history, guarding behaviour, fear, anxiety or other information that could affect safety. <span class="pnp-required">*</span></span></label>
+            <label class="pnp-check"><input type="checkbox" name="Dogs In Heat Not Permitted" value="Acknowledged" required><span>I understand that dogs in heat are not permitted in the cafe lounge or indoor playground. <span class="pnp-required">*</span></span></label>
+            <p class="pnp-small">Paws N Play may refuse or discontinue access if a dog's health or behaviour presents a safety concern.</p>
           </div>
           <div class="pnp-field" style="margin-top:1rem"><label for="pnp-behaviour">Additional health or behaviour information (if applicable)</label><textarea id="pnp-behaviour" name="Additional Health or Behaviour Information" placeholder="Please disclose anything staff should know for safety."></textarea></div>
         </fieldset>
@@ -131,8 +134,12 @@
         <fieldset>
           <legend>Owner / Handler Responsibility</legend>
           <div class="pnp-checks">
-            <label class="pnp-check"><input type="checkbox" name="Supervision Responsibility" value="Agreed" required><span>I am responsible for my dog at all times on the premises unless my dog has been formally checked into a paid daycare or boarding service and accepted into Paws N Play's care. <span class="pnp-required">*</span></span></label>
+            <label class="pnp-check"><input type="checkbox" name="Supervision Responsibility" value="Agreed" required><span>I am responsible for my dog and its behaviour while on the premises, including while my dog is in the cafe lounge or the playground. <span class="pnp-required">*</span></span></label>
             <label class="pnp-check"><input type="checkbox" name="Supervise and Control Dog" value="Agreed" required><span>I will supervise and maintain reasonable control of my dog in the cafe, playground and other customer areas. <span class="pnp-required">*</span></span></label>
+            <label class="pnp-check"><input type="checkbox" name="Leash at Table in Cafe Lounge" value="Agreed" required><span>I will keep my dog on a leash at my table in the cafe lounge and under my direct supervision. <span class="pnp-required">*</span></span></label>
+            <label class="pnp-check"><input type="checkbox" name="Playground Responsibility and Attendants" value="Agreed" required><span>I understand I remain responsible for my dog while it uses the playground, whether I am in the playground or the cafe lounge. Playground attendants provide general supervision, help prevent and address issues, and support a positive playground experience, but their supervision does not replace my responsibility for my dog. <span class="pnp-required">*</span></span></label>
+            <label class="pnp-check"><input type="checkbox" name="Notify Attendant Before Leaving Dog" value="Agreed" required><span>If I need to use the washroom or leave my dog at any point while in the seating lounge, foyer or playground, I must notify a playground attendant and arrange for the attendant to watch my dog until I return. I must receive confirmation from the attendant before leaving my dog and I remain responsible for my dog. <span class="pnp-required">*</span></span></label>
+            <label class="pnp-check"><input type="checkbox" name="Dog Licence Tag on Collar" value="Acknowledged" required><span>As per City of Vancouver Animal Control By-law No. 9150, s. 3.5, my dog must wear a licence tag on its collar, and the tag must match the licence tag number entered above. <span class="pnp-required">*</span></span></label>
             <label class="pnp-check"><input type="checkbox" name="Cleanup and Rules" value="Agreed" required><span>I will clean up after my dog and follow posted rules and staff instructions. <span class="pnp-required">*</span></span></label>
             <label class="pnp-check"><input type="checkbox" name="Responsibility for Dog Damage" value="Agreed" required><span>I accept responsibility for injury or damage caused by my dog to another dog, person, property, furniture, equipment or the premises, to the extent permitted by law. <span class="pnp-required">*</span></span></label>
           </div>
@@ -146,7 +153,7 @@
 
         <fieldset>
           <legend>Release &amp; Liability</legend>
-          <p class="pnp-legal">To the fullest extent permitted by applicable law, I agree that Paws N Play, its owners, employees, contractors and representatives will not be responsible for injury, illness, loss or damage arising from the ordinary and inherent risks of participating in dog play or using the premises. Nothing in this waiver is intended to exclude or limit liability that cannot legally be excluded or limited under British Columbia law.</p>
+          <p class="pnp-legal">To the fullest extent permitted by applicable law, I agree that Paws N Play, its owners, employees, contractors and representatives will not be responsible for injury, illness, loss or damage arising from the ordinary and inherent risks of dog interactions or use of the premises. Nothing in this waiver is intended to exclude or limit liability that cannot legally be excluded or limited under British Columbia law.</p>
           <label class="pnp-check"><input type="checkbox" name="Release and Liability Acknowledged" value="Acknowledged" required><span>I have read and acknowledge the release and liability statement above. <span class="pnp-required">*</span></span></label>
         </fieldset>
 
@@ -161,6 +168,7 @@
           <div class="pnp-checks">
             <label class="pnp-check"><input type="checkbox" name="Agreement Accuracy Acknowledged" value="Acknowledged" required><span>I have read and understand this agreement and confirm the information I provided is accurate to the best of my knowledge. <span class="pnp-required">*</span></span></label>
             <label class="pnp-check"><input type="checkbox" name="Rules Acknowledged" value="Agreed" required><span>I agree to follow Paws N Play rules and reasonable staff instructions. <span class="pnp-required">*</span></span></label>
+            <label class="pnp-check"><input type="checkbox" name="Requirements Apply To Cafe and Playground" value="Acknowledged" required><span>I understand the vaccination record and dog licence tag requirements apply to both the cafe and the playground. <span class="pnp-required">*</span></span></label>
           </div>
           <div class="pnp-grid" style="margin-top:1rem">
             <div class="pnp-field"><label for="pnp-signature">Owner/Handler electronic signature (type full legal name) <span class="pnp-required">*</span></label><input id="pnp-signature" name="Typed Electronic Signature" autocomplete="name" required></div>
