@@ -181,6 +181,7 @@
         </fieldset>
 
         <div class="pnp-actions">
+          <p id="pnp-account-note" class="pnp-small"></p>
           <button id="pnp-submit" type="submit">Submit Waiver</button>
           <span class="pnp-small">Your submission will be sent to Paws N Play and copied to the team.</span>
         </div>
@@ -205,6 +206,96 @@
     if (!dogConfirm.dataset.userEdited) dogConfirm.value = dogName.value;
   });
   dogConfirm.addEventListener("input", () => { dogConfirm.dataset.userEdited = "true"; });
+
+
+  // ---- Optional extra: if the visitor is signed in to their Paws N Play account, ALSO keep a copy of the
+  // waiver in their account. This is best-effort. It runs only AFTER the email has been sent successfully,
+  // and any problem here is ignored so it can never stop the normal email waiver from working.
+  const WAIVER_VERSION = "2026-11-bylaw9150";
+  const SUPABASE_JS = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js";
+  let sbPromise = null;
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const el = document.createElement("script");
+      el.src = src; el.async = true; el.onload = resolve; el.onerror = reject;
+      document.head.appendChild(el);
+    });
+  }
+  function getSupabase() {
+    if (!sbPromise) {
+      sbPromise = (async () => {
+        if (!window.PNP_CONFIG) await loadScript("pnp-config.js");
+        if (!window.supabase) await loadScript(SUPABASE_JS);
+        const c = window.PNP_CONFIG;
+        if (!c || !c.SUPABASE_URL || c.SUPABASE_URL.indexOf("PASTE_") === 0 || !window.supabase) return null;
+        return window.supabase.createClient(c.SUPABASE_URL, c.SUPABASE_ANON_KEY);
+      })().catch(() => null);
+    }
+    return sbPromise;
+  }
+  //ACCT-START
+  async function saveToAccount(sb, snap) {
+    try {
+      if (!sb) return false;
+      const sess = await sb.auth.getSession();
+      const user = sess && sess.data && sess.data.session && sess.data.session.user;
+      if (!user) return false;
+      const norm = (v) => String(v || "").toLowerCase().replace(/\s+/g, "");
+      const tag = String(snap["Dog Licence Tag Number"] || "").trim();
+      const dogName = String(snap["Dog Name"] || "").trim();
+
+      // 1. find the customer's dog (by licence tag, else by name) or add it
+      const found = await sb.from("dogs").select("id,name,licence_tag");
+      let dogId = null;
+      ((found && found.data) || []).forEach((d) => {
+        if (dogId) return;
+        if ((tag && norm(d.licence_tag) === norm(tag)) || (!tag && norm(d.name) === norm(dogName))) dogId = d.id;
+      });
+      if (!dogId) {
+        const ins = await sb.from("dogs").insert({
+          owner_id: user.id, name: dogName.slice(0, 80), breed: String(snap["Dog Breed"] || "").slice(0, 120) || null,
+          licence_tag: tag.slice(0, 40) || null
+        }).select("id").single();
+        dogId = ins && ins.data ? ins.data.id : null;
+      }
+
+      // 2. fill in blank contact details (never overwrite what the customer already saved)
+      const prof = await sb.from("profiles").select("full_name,phone,emergency_name,emergency_phone").eq("id", user.id).maybeSingle();
+      const cur = (prof && prof.data) || {};
+      const fill = {};
+      if (!cur.full_name && snap["Owner / Handler Name"]) fill.full_name = String(snap["Owner / Handler Name"]).slice(0, 120);
+      if (!cur.phone && snap["Owner Phone"]) fill.phone = String(snap["Owner Phone"]).slice(0, 40);
+      if (!cur.emergency_name && snap["Emergency Contact Name"]) fill.emergency_name = String(snap["Emergency Contact Name"]).slice(0, 120);
+      if (!cur.emergency_phone && snap["Emergency Contact Phone"]) fill.emergency_phone = String(snap["Emergency Contact Phone"]).slice(0, 40);
+      if (Object.keys(fill).length) await sb.from("profiles").update(fill).eq("id", user.id);
+
+      // 3. keep the signed waiver
+      const w = await sb.from("waivers").insert({
+        owner_id: user.id, dog_id: dogId, signed_name: String(snap["Typed Electronic Signature"] || "").slice(0, 120),
+        waiver_version: WAIVER_VERSION, answers: snap
+      });
+      return !(w && w.error);
+    } catch (e) {
+      console.warn("Waiver not saved to account:", e);
+      return false;
+    }
+  }
+  //ACCT-END
+
+  // Tell the visitor whether this waiver will also be saved to an account.
+  (async () => {
+    const note = root.querySelector("#pnp-account-note");
+    if (!note) return;
+    const sb = await getSupabase();
+    let user = null;
+    try { const s = sb && await sb.auth.getSession(); user = s && s.data && s.data.session && s.data.session.user; } catch (_) {}
+    if (user) { note.textContent = "You are signed in as " + user.email + ". This waiver will also be saved to your account."; return; }
+    if (!sb) return;
+    note.appendChild(document.createTextNode("Tip: have a Paws N Play account? "));
+    const a = document.createElement("a"); a.href = "account.html"; a.textContent = "Sign in first";
+    note.appendChild(a);
+    note.appendChild(document.createTextNode(" and this waiver will also be saved to your account."));
+  })();
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -232,6 +323,7 @@
     try {
       form.elements["Submitted At"].value = new Date().toString();
       form.elements["Submitted From Page"].value = window.location.href;
+      const snapshot = Object.fromEntries(new FormData(form).entries());
 
       // Abort after 25 seconds so the button can never sit on "Submitting" forever.
       const controller = new AbortController();
@@ -257,7 +349,15 @@
         throw new Error((result && result.message) || "Submission service returned an error.");
       }
 
-      status.textContent = "Thank you. Your waiver has been submitted. If you do not receive confirmation from Paws N Play, please contact the business directly.";
+      // The email has been sent. Now (best effort) also keep a copy in the customer's account.
+      let savedToAccount = false;
+      try {
+        savedToAccount = await Promise.race([
+          getSupabase().then((sb) => saveToAccount(sb, snapshot)),
+          new Promise((resolve) => setTimeout(() => resolve(false), 8000))
+        ]);
+      } catch (_) { savedToAccount = false; }
+      status.textContent = "Thank you. Your waiver has been submitted." + (savedToAccount ? " A copy has also been saved to your account." : "") + " If you do not receive confirmation from Paws N Play, please contact the business directly.";
       form.reset();
       root.querySelector("#pnp-date").value = localToday;
       dogConfirm.dataset.userEdited = "";
