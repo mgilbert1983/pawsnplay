@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Staff Area | Paws N Play</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+  :root{--p:#3414fd;--soft:#7b68ee;--pink:#fad4fc;--line:#d9d3ff;--ok:#0f7a3d;--warn:#b45309;--bad:#b91c1c}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#1f1a4d;background:#faf9ff}
+  header{background:var(--p);color:#fff;padding:.8rem 1rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+  header h1{font-size:1.1rem;margin:0;flex:1}
+  header a,header button{color:#fff;background:none;border:1px solid #fff;border-radius:8px;padding:.4rem .8rem;font:inherit;cursor:pointer;text-decoration:none}
+  main{max-width:1000px;margin:1rem auto;padding:0 1rem 3rem}
+  nav.tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem}
+  nav.tabs button{background:#fff;color:var(--p);border:2px solid var(--soft);border-radius:9px;padding:.55rem 1rem;font:inherit;font-weight:700;cursor:pointer}
+  nav.tabs button[aria-selected=true]{background:var(--soft);color:#fff}
+  section.panel{display:none}section.panel.on{display:block}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:.9rem 1rem;margin:.6rem 0}
+  .row{display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;justify-content:space-between}
+  h2{font-size:1.2rem;margin:.2rem 0 .6rem;color:var(--p)}
+  h3{font-size:1rem;margin:1rem 0 .3rem}
+  .muted{color:#5b5690;font-size:.9rem}
+  .badge{display:inline-block;border-radius:99px;padding:.15rem .6rem;font-size:.8rem;font-weight:700;margin-right:.3rem;background:#eee;color:#333}
+  .b-ok{background:#dcfce7;color:var(--ok)}.b-warn{background:#fef3c7;color:var(--warn)}.b-bad{background:#fee2e2;color:var(--bad)}
+  button.act{background:var(--soft);color:#fff;border:0;border-radius:8px;padding:.45rem .9rem;font:inherit;font-weight:700;cursor:pointer;margin-right:.3rem}
+  button.act.no{background:#fff;color:var(--bad);border:2px solid var(--bad)}
+  button:disabled{opacity:.55;cursor:wait}
+  input[type=search],select,input[type=text]{min-height:40px;padding:.4rem .7rem;border:1px solid #c9c1ff;border-radius:8px;font:inherit}
+  input[type=search]{width:100%;max-width:380px}
+  table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{text-align:left;padding:.4rem .5rem;border-bottom:1px solid var(--line);vertical-align:top}
+  .scroll{overflow-x:auto}
+  .msg{font-weight:650;min-height:1.3em}
+  .hidden{display:none}
+  .note{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:.6rem .8rem;margin:.6rem 0;font-size:.92rem}
+</style>
+</head>
+<body>
+<header>
+  <h1>Paws N Play &ndash; Staff Area</h1>
+  <span id="who" class="muted" style="color:#fff"></span>
+  <button id="refresh" type="button">Refresh</button>
+  <button id="signout" type="button">Sign out</button>
+</header>
+<main>
+  <p id="gate" class="card">Loading&hellip;</p>
+  <p id="err" class="msg" style="color:var(--bad)" role="alert"></p>
+
+  <div id="app" class="hidden">
+    <nav class="tabs" role="tablist">
+      <button type="button" data-tab="today" aria-selected="true">Today</button>
+      <button type="button" data-tab="customers" aria-selected="false">Customers &amp; dogs</button>
+      <button type="button" data-tab="records" aria-selected="false">Waivers &amp; vaccinations</button>
+      <button type="button" data-tab="staff" aria-selected="false" id="tab-staff">Staff accounts</button>
+    </nav>
+
+    <section id="p-today" class="panel on">
+      <h2>Today's bookings</h2>
+      <p class="muted" id="today-sub"></p>
+      <div id="today-list"></div>
+      <h3>Extra-time requests waiting</h3>
+      <p class="note">When you approve a request, also extend that appointment in Google Calendar so the calendar stays correct.</p>
+      <div id="treq-list"></div>
+      <h3>Coming up (next 7 days)</h3>
+      <div id="soon-list"></div>
+    </section>
+
+    <section id="p-customers" class="panel">
+      <h2>Customers &amp; dogs</h2>
+      <input id="q" type="search" placeholder="Search name, email, phone or dog" aria-label="Search customers">
+      <div id="cust-list"></div>
+    </section>
+
+    <section id="p-records" class="panel">
+      <h2>Vaccination records to review</h2>
+      <div id="vax-pending"></div>
+      <h2 style="margin-top:1.5rem">Every dog's status</h2>
+      <label class="muted"><input type="checkbox" id="only-problems"> Show only dogs that need attention</label>
+      <div class="scroll"><table id="dog-status"></table></div>
+    </section>
+
+    <section id="p-staff" class="panel">
+      <h2>Staff accounts</h2>
+      <div class="note">
+        <strong>To add a new staff member:</strong> in Supabase go to Authentication &rarr; Users &rarr; Add user &rarr; Create new user (tick auto-confirm). Then refresh this page and set their role below to <em>staff</em>. The TV computer gets its own user with the <em>display</em> role.
+      </div>
+      <div class="scroll"><table id="role-table"></table></div>
+      <h3>Backup</h3>
+      <p class="muted">The free database has no automatic backups. Download this file regularly (for example every Friday) and keep it somewhere private.</p>
+      <button class="act" id="backup" type="button">Download customers &amp; dogs backup (CSV)</button>
+    </section>
+  </div>
+</main>
+
+<script src="pnp-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js"></script>
+<script>
+"use strict";
+/* ===== pure helpers (unit-tested) ===== */
+//PURE-START
+var TZ = "America/Vancouver";
+function ymdIn(date, tz) {
+  var p = new Intl.DateTimeFormat("en-CA", { timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit" }).format(date);
+  return p; // YYYY-MM-DD
+}
+function offsetIn(date, tz) {
+  var parts = new Intl.DateTimeFormat("en-US", { timeZone: tz, timeZoneName: "longOffset" }).formatToParts(date);
+  var n = parts.filter(function (x) { return x.type === "timeZoneName"; })[0].value; // "GMT-07:00" or "GMT"
+  return n === "GMT" ? "+00:00" : n.replace("GMT", "");
+}
+function dayBounds(now, tz, days) {
+  var ymd = ymdIn(now, tz);
+  var start = new Date(ymd + "T00:00:00" + offsetIn(new Date(ymd + "T12:00:00Z"), tz));
+  var end = new Date(start.getTime() + days * 86400000);
+  return { start: start, end: end };
+}
+// status of one vaccine for one dog: ok | expired | pending | missing
+function vaxStatus(records, dogId, vaccine, todayYmd) {
+  var mine = records.filter(function (r) { return r.dog_id === dogId && r.vaccine === vaccine; });
+  var approved = mine.filter(function (r) { return r.status === "approved"; })
+                     .sort(function (a, b) { return a.expiry_date < b.expiry_date ? 1 : -1; })[0];
+  if (approved) return approved.expiry_date >= todayYmd ? { s: "ok", d: approved.expiry_date } : { s: "expired", d: approved.expiry_date };
+  if (mine.some(function (r) { return r.status === "pending"; })) return { s: "pending" };
+  return { s: "missing" };
+}
+function csvCell(v) {
+  var s = v == null ? "" : String(v);
+  if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;      // stop spreadsheet formula injection
+  return '"' + s.replace(/"/g, '""') + '"';
+}
+function overlapIds(appts) {
+  var ids = {};
+  var a = appts.slice().sort(function (x, y) { return new Date(x.start_time) - new Date(y.start_time); });
+  for (var i = 0; i < a.length; i++) for (var j = i + 1; j < a.length; j++) {
+    if (new Date(a[j].start_time) >= new Date(a[i].end_time)) break;
+    ids[a[i].id] = ids[a[j].id] = true;
+  }
+  return ids;
+}
+//PURE-END
+
+/* ===== app ===== */
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function add(parent) { for (var i = 1; i < arguments.length; i++) if (arguments[i]) parent.appendChild(arguments[i]); return parent; }
+  function badge(text, kind) { return el("span", "badge " + (kind ? "b-" + kind : ""), text); }
+  function fmtTime(iso) { return new Date(iso).toLocaleTimeString("en-CA", { timeZone: TZ, hour: "numeric", minute: "2-digit" }); }
+  function fmtDay(iso) { return new Date(iso).toLocaleDateString("en-CA", { timeZone: TZ, weekday: "short", month: "short", day: "numeric" }); }
+  function fail(m) { $("err").textContent = m; }
+
+  var cfg = window.PNP_CONFIG || {};
+  if (!cfg.SUPABASE_URL || cfg.SUPABASE_URL.indexOf("PASTE_") === 0 || !window.supabase) { $("gate").textContent = "Staff area is not switched on yet."; return; }
+  var sb = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
+  var me = null, role = null, D = {};
+
+  async function start() {
+    var s = await sb.auth.getSession();
+    if (!s.data.session) { $("gate").innerHTML = ""; add($("gate"), el("span", null, "Please "), Object.assign(el("a", null, "sign in"), { href: "account.html" }), el("span", null, " first.")); return; }
+    me = s.data.session.user;
+    var p = await sb.from("profiles").select("role").eq("id", me.id).maybeSingle();
+    role = p.data && p.data.role;
+    if (role !== "staff" && role !== "admin") { $("gate").textContent = "This area is for Paws N Play staff only."; return; }
+    $("who").textContent = me.email + " (" + role + ")";
+    $("gate").classList.add("hidden"); $("app").classList.remove("hidden");
+    if (role !== "admin") $("tab-staff").classList.add("hidden");
+    await load();
+  }
+
+  async function load() {
+    fail("");
+    var b = dayBounds(new Date(), TZ, 1), week = dayBounds(new Date(), TZ, 8);
+    var r = await Promise.all([
+      sb.from("appointments").select("id,service,owner_name,dog_name,customer_email,start_time,end_time,rescheduled").eq("status", "confirmed").gte("start_time", b.start.toISOString()).lt("start_time", week.end.toISOString()).order("start_time"),
+      sb.from("time_requests").select("id,extra_minutes,created_at,appointments(service,owner_name,dog_name,start_time,end_time)").eq("status", "pending").order("created_at"),
+      sb.from("profiles").select("id,role,email,full_name,phone,emergency_name,emergency_phone,created_at").order("created_at"),
+      sb.from("dogs").select("id,owner_id,name,breed,licence_tag,vet_name,vet_phone"),
+      sb.from("waivers").select("id,owner_id,dog_id,signed_name,waiver_version,signed_at").order("signed_at", { ascending: false }),
+      sb.from("vaccination_records").select("id,dog_id,owner_id,vaccine,expiry_date,file_path,status,uploaded_at").order("uploaded_at", { ascending: false })
+    ]);
+    var errs = r.filter(function (x) { return x.error; });
+    if (errs.length) { fail("Could not load some data. Please refresh. (" + errs[0].error.message + ")"); }
+    D = { appts: r[0].data || [], treq: r[1].data || [], profiles: r[2].data || [], dogs: r[3].data || [], waivers: r[4].data || [], vax: r[5].data || [], bounds: b };
+    renderToday(); renderCustomers(); renderRecords(); renderStaff();
+  }
+
+  /* ---- Today ---- */
+  function apptCard(a, ov) {
+    var c = el("div", "card"), row = el("div", "row");
+    var left = el("div");
+    add(left, el("strong", null, fmtTime(a.start_time) + " – " + fmtTime(a.end_time)), el("span", "muted", "  (" + Math.round((new Date(a.end_time) - new Date(a.start_time)) / 60000) + " min)"));
+    add(left, el("div", null, (a.service || "Appointment") + " • " + (a.dog_name || "dog?") + " • " + (a.owner_name || "owner?")));
+    var tags = el("div");
+    if (ov[a.id]) add(tags, badge("Overlaps another booking", "warn"));
+    if (a.rescheduled) add(tags, badge("Time changed", "warn"));
+    add(left, tags); add(row, left); add(c, row); return c;
+  }
+  function renderToday() {
+    var ov = overlapIds(D.appts), todayEnd = D.bounds.end.getTime();
+    var today = D.appts.filter(function (a) { return new Date(a.start_time).getTime() < todayEnd; });
+    var soon = D.appts.filter(function (a) { return new Date(a.start_time).getTime() >= todayEnd; });
+    $("today-sub").textContent = new Date().toLocaleDateString("en-CA", { timeZone: TZ, weekday: "long", month: "long", day: "numeric" }) + " – " + today.length + " booking" + (today.length === 1 ? "" : "s");
+    var tl = $("today-list"); tl.innerHTML = "";
+    if (!today.length) add(tl, el("p", "muted", "No bookings today."));
+    today.forEach(function (a) { add(tl, apptCard(a, ov)); });
+    var sl = $("soon-list"); sl.innerHTML = "";
+    if (!soon.length) add(sl, el("p", "muted", "Nothing booked in the next 7 days."));
+    var lastDay = "";
+    soon.forEach(function (a) { var d = fmtDay(a.start_time); if (d !== lastDay) { add(sl, el("h3", null, d)); lastDay = d; } add(sl, apptCard(a, ov)); });
+    var rl = $("treq-list"); rl.innerHTML = "";
+    if (!D.treq.length) add(rl, el("p", "muted", "No requests waiting."));
+    D.treq.forEach(function (t) {
+      var ap = t.appointments || {}, c = el("div", "card"), row = el("div", "row"), left = el("div");
+      add(left, el("strong", null, "+" + t.extra_minutes + " min requested"));
+      add(left, el("div", null, (ap.dog_name || "") + " • " + (ap.owner_name || "") + " • " + (ap.service || "")));
+      add(left, el("div", "muted", ap.start_time ? fmtDay(ap.start_time) + " " + fmtTime(ap.start_time) + " – " + fmtTime(ap.end_time) : ""));
+      var btns = el("div"), ok = el("button", "act", "Approve"), no = el("button", "act no", "Decline");
+      ok.type = no.type = "button";
+      ok.onclick = function () { decideReq(t.id, "approved", [ok, no]); };
+      no.onclick = function () { decideReq(t.id, "declined", [ok, no]); };
+      add(btns, ok, no); add(row, left, btns); add(c, row); add(rl, c);
+    });
+  }
+  async function decideReq(id, status, btns) {
+    btns.forEach(function (b) { b.disabled = true; });
+    var r = await sb.from("time_requests").update({ status: status, decided_by: me.id, decided_at: new Date().toISOString() }).eq("id", id).select("id");
+    if (r.error || !r.data || !r.data.length) { fail("Could not save that decision. Please refresh and try again."); btns.forEach(function (b) { b.disabled = false; }); return; }
+    await load();
+  }
+
+  /* ---- Customers & dogs ---- */
+  function dogLine(d) {
+    var today = ymdIn(new Date(), TZ);
+    var line = el("div", "card"), top = el("div");
+    add(top, el("strong", null, d.name), el("span", "muted", d.breed ? "  " + d.breed : ""));
+    add(line, top);
+    add(line, el("div", "muted", "Licence tag: " + (d.licence_tag || "not given") + (d.vet_name ? " • Vet: " + d.vet_name + (d.vet_phone ? " " + d.vet_phone : "") : "")));
+    var b = el("div");
+    ["rabies", "bordetella"].forEach(function (v) {
+      var s = vaxStatus(D.vax, d.id, v, today), label = v === "rabies" ? "Rabies" : "Kennel cough";
+      add(b, badge(label + ": " + ({ ok: "OK until " + s.d, expired: "EXPIRED " + s.d, pending: "awaiting review", missing: "missing" })[s.s], s.s === "ok" ? "ok" : s.s === "pending" ? "warn" : "bad"));
+    });
+    add(line, b); return line;
+  }
+  function renderCustomers() {
+    var q = ($("q").value || "").trim().toLowerCase(), list = $("cust-list"); list.innerHTML = "";
+    var people = D.profiles.filter(function (p) { return p.role === "customer"; });
+    var shown = 0;
+    people.forEach(function (p) {
+      var dogs = D.dogs.filter(function (d) { return d.owner_id === p.id; });
+      var hay = [p.full_name, p.email, p.phone].concat(dogs.map(function (d) { return d.name; })).join(" ").toLowerCase();
+      if (q && hay.indexOf(q) < 0) return;
+      shown++;
+      var c = el("div", "card");
+      add(c, el("strong", null, p.full_name || "(no name yet)"), el("div", "muted", [p.email, p.phone].filter(Boolean).join(" • ")));
+      if (p.emergency_name || p.emergency_phone) add(c, el("div", "muted", "Emergency: " + [p.emergency_name, p.emergency_phone].filter(Boolean).join(" ")));
+      var w = D.waivers.filter(function (x) { return x.owner_id === p.id; })[0];
+      add(c, w ? badge("Waiver on file " + fmtDay(w.signed_at), "ok") : badge("No waiver on file", "bad"));
+      dogs.forEach(function (d) { add(c, dogLine(d)); });
+      if (!dogs.length) add(c, el("div", "muted", "No dogs added yet."));
+      add(list, c);
+    });
+    if (!shown) add(list, el("p", "muted", people.length ? "No matches." : "No customer accounts yet."));
+  }
+  $("q").addEventListener("input", renderCustomers);
+
+  /* ---- Waivers & vaccinations ---- */
+  function renderRecords() {
+    var today = ymdIn(new Date(), TZ), pend = $("vax-pending"); pend.innerHTML = "";
+    var pending = D.vax.filter(function (v) { return v.status === "pending"; });
+    if (!pending.length) add(pend, el("p", "muted", "Nothing waiting for review."));
+    pending.forEach(function (v) {
+      var dog = D.dogs.filter(function (d) { return d.id === v.dog_id; })[0] || {};
+      var owner = D.profiles.filter(function (p) { return p.id === v.owner_id; })[0] || {};
+      var c = el("div", "card"), row = el("div", "row"), left = el("div");
+      add(left, el("strong", null, (dog.name || "dog") + " – " + (v.vaccine === "rabies" ? "Rabies" : "Kennel cough")));
+      add(left, el("div", "muted", (owner.full_name || owner.email || "") + " • expires " + v.expiry_date));
+      var btns = el("div"), view = el("button", "act", "View file"), ok = el("button", "act", "Approve"), no = el("button", "act no", "Reject");
+      view.type = ok.type = no.type = "button";
+      view.onclick = async function () {
+        var r = await sb.storage.from("vaccination-records").createSignedUrl(v.file_path, 120);
+        if (r.error) { fail("Could not open that file."); return; }
+        window.open(r.data.signedUrl, "_blank", "noopener");
+      };
+      ok.onclick = function () { reviewVax(v.id, "approved", [view, ok, no]); };
+      no.onclick = function () { reviewVax(v.id, "rejected", [view, ok, no]); };
+      add(btns, view, ok, no); add(row, left, btns); add(c, row); add(pend, c);
+    });
+    var t = $("dog-status"); t.innerHTML = "";
+    var head = el("tr"); ["Dog", "Owner", "Waiver", "Rabies", "Kennel cough"].forEach(function (h) { add(head, el("th", null, h)); }); add(t, head);
+    var only = $("only-problems").checked;
+    D.dogs.forEach(function (d) {
+      var owner = D.profiles.filter(function (p) { return p.id === d.owner_id; })[0] || {};
+      var w = D.waivers.filter(function (x) { return x.owner_id === d.owner_id; })[0];
+      var r1 = vaxStatus(D.vax, d.id, "rabies", today), r2 = vaxStatus(D.vax, d.id, "bordetella", today);
+      var bad = !w || r1.s !== "ok" || r2.s !== "ok";
+      if (only && !bad) return;
+      var tr = el("tr"), cell = function (s) { var td = el("td"); add(td, s); return td; };
+      function vb(s) { return badge({ ok: "OK " + s.d, expired: "Expired " + s.d, pending: "Awaiting review", missing: "Missing" }[s.s], s.s === "ok" ? "ok" : s.s === "pending" ? "warn" : "bad"); }
+      add(tr, cell(el("strong", null, d.name)), cell(el("span", null, owner.full_name || owner.email || "")), cell(w ? badge("On file", "ok") : badge("None", "bad")), cell(vb(r1)), cell(vb(r2)));
+      add(t, tr);
+    });
+    if (t.rows.length === 1) { var tr2 = el("tr"), td2 = el("td", "muted", D.dogs.length ? "Every dog is up to date." : "No dogs added yet."); td2.colSpan = 5; add(tr2, td2); add(t, tr2); }
+  }
+  $("only-problems").addEventListener("change", renderRecords);
+  async function reviewVax(id, status, btns) {
+    btns.forEach(function (b) { b.disabled = true; });
+    var r = await sb.from("vaccination_records").update({ status: status, reviewed_by: me.id, reviewed_at: new Date().toISOString() }).eq("id", id).select("id");
+    if (r.error || !r.data || !r.data.length) { fail("Could not save that review. Please refresh and try again."); btns.forEach(function (b) { b.disabled = false; }); return; }
+    await load();
+  }
+
+  /* ---- Staff accounts (admin only) ---- */
+  function renderStaff() {
+    if (role !== "admin") return;
+    var t = $("role-table"); t.innerHTML = "";
+    var head = el("tr"); ["Name", "Email", "Role", ""].forEach(function (h) { add(head, el("th", null, h)); }); add(t, head);
+    D.profiles.forEach(function (p) {
+      var tr = el("tr"), sel = el("select"), save = el("button", "act", "Save");
+      ["customer", "staff", "admin", "display"].forEach(function (r) { var o = el("option", null, r); o.value = r; if (r === p.role) o.selected = true; add(sel, o); });
+      save.type = "button";
+      var self = p.id === me.id;
+      if (self) { sel.disabled = true; save.disabled = true; }
+      save.onclick = async function () {
+        save.disabled = true;
+        var r = await sb.from("profiles").update({ role: sel.value }).eq("id", p.id).select("id");
+        if (r.error || !r.data || !r.data.length) { fail("Could not change that role."); save.disabled = false; return; }
+        await load();
+      };
+      var td = function (n) { var x = el("td"); add(x, n); return x; };
+      add(tr, td(el("span", null, p.full_name || "")), td(el("span", null, (p.email || "") + (self ? " (you)" : ""))), td(sel), td(save));
+      add(t, tr);
+    });
+  }
+  $("backup").onclick = function () {
+    var rows = [["Owner name", "Owner email", "Owner phone", "Emergency contact", "Emergency phone", "Dog", "Breed", "Licence tag", "Vet", "Vet phone", "Waiver signed"]];
+    D.profiles.filter(function (p) { return p.role === "customer"; }).forEach(function (p) {
+      var w = D.waivers.filter(function (x) { return x.owner_id === p.id; })[0];
+      var dogs = D.dogs.filter(function (d) { return d.owner_id === p.id; });
+      if (!dogs.length) dogs = [{}];
+      dogs.forEach(function (d) { rows.push([p.full_name, p.email, p.phone, p.emergency_name, p.emergency_phone, d.name, d.breed, d.licence_tag, d.vet_name, d.vet_phone, w ? w.signed_at : ""]); });
+    });
+    var csv = rows.map(function (r) { return r.map(csvCell).join(","); }).join("\r\n");
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+    a.download = "pawsnplay-backup-" + ymdIn(new Date(), TZ) + ".csv";
+    document.body.appendChild(a); a.click(); a.remove();
+  };
+
+  /* ---- wiring ---- */
+  document.querySelectorAll("nav.tabs button").forEach(function (b) {
+    b.onclick = function () {
+      document.querySelectorAll("nav.tabs button").forEach(function (x) { x.setAttribute("aria-selected", String(x === b)); });
+      document.querySelectorAll("section.panel").forEach(function (s) { s.classList.toggle("on", s.id === "p-" + b.dataset.tab); });
+    };
+  });
+  $("refresh").onclick = load;
+  $("signout").onclick = async function () { await sb.auth.signOut(); location.href = "account.html"; };
+  setInterval(function () { if (!document.hidden && me) load(); }, 120000);
+  start();
+})();
+</script>
+</body>
+</html>

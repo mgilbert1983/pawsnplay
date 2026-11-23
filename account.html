@@ -62,6 +62,7 @@
   <section id="in" class="card hidden">
     <p>Signed in as <strong id="who"></strong></p>
     <p class="small" id="role-line"></p>
+    <p id="admin-link" class="small hidden"><a href="admin.html"><strong>Open the Staff Area</strong></a></p>
     <p class="small">Your dogs, waiver, bookings and appointment timer are coming next.</p>
     <button id="signout" class="alt" type="button">Sign out</button>
   </section>
@@ -157,6 +158,7 @@
     var p = await sb.from("profiles").select("role").eq("id", session.user.id).maybeSingle();
     var role = p.data && p.data.role;
     $("role-line").textContent = ROLE_TEXT[role] || "";
+    $("admin-link").classList.toggle("hidden", !(role === "staff" || role === "admin"));
     show("in");
   }
 
