@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Dogs &amp; Records | Paws N Play</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+  :root{--p:#3414fd;--soft:#7b68ee;--pink:#fad4fc;--line:#d9d3ff;--ok:#0f7a3d;--warn:#b45309;--bad:#b91c1c}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#1f1a4d;background:#faf9ff}
+  main{max-width:720px;margin:1.5rem auto 4rem;padding:0 1rem}
+  h1{font-size:1.6rem;margin:.2rem 0 .8rem;color:var(--p)}
+  h2{font-size:1.2rem;margin:1.6rem 0 .5rem;color:var(--p)}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem;margin:.7rem 0}
+  label{display:block;font-weight:650;font-size:.92rem;margin:.8rem 0 .25rem}
+  input,select{width:100%;min-height:44px;padding:.6rem .75rem;border:1px solid #c9c1ff;border-radius:8px;font:inherit;background:#fff;color:#1f1a4d}
+  button{min-height:44px;padding:.6rem 1.1rem;border:0;border-radius:9px;background:var(--soft);color:#fff;font:inherit;font-weight:750;cursor:pointer;margin-top:.9rem}
+  button.alt{background:#fff;color:var(--p);border:2px solid var(--soft)}
+  button.danger{background:#fff;color:var(--bad);border:2px solid var(--bad)}
+  button.sm{min-height:36px;padding:.3rem .8rem;margin:.4rem .4rem 0 0}
+  button:disabled{opacity:.6;cursor:wait}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+  @media(max-width:560px){.row{grid-template-columns:1fr}}
+  .badge{display:inline-block;border-radius:99px;padding:.15rem .6rem;font-size:.82rem;font-weight:700;margin:.2rem .3rem 0 0;background:#eee;color:#333}
+  .b-ok{background:#dcfce7;color:var(--ok)}.b-warn{background:#fef3c7;color:var(--warn)}.b-bad{background:#fee2e2;color:var(--bad)}
+  .muted{color:#5b5690;font-size:.9rem}
+  .msg{font-weight:650;min-height:1.3em;margin:.6rem 0 0}
+  .hidden{display:none}
+  details{margin-top:.8rem;border-top:1px solid var(--line);padding-top:.6rem}
+  summary{cursor:pointer;font-weight:700;color:var(--p)}
+  a{color:var(--p)}
+  .top{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+</style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <a href="index.html">&larr; Back to the Paws N Play website</a>
+    <span><a href="account.html">Sign-in page</a> &nbsp; <button id="signout" type="button" class="alt sm hidden">Sign out</button></span>
+  </div>
+  <h1>My dogs &amp; records</h1>
+  <p id="gate" class="card">Loading&hellip;</p>
+  <p id="err" class="msg" style="color:var(--bad)" role="alert"></p>
+
+  <div id="app" class="hidden">
+    <div class="card" id="waiver-card"></div>
+
+    <h2>My details</h2>
+    <form id="me-form" class="card" novalidate>
+      <div class="row">
+        <div><label for="m-name">Your name</label><input id="m-name" maxlength="120" autocomplete="name"></div>
+        <div><label for="m-phone">Phone</label><input id="m-phone" type="tel" maxlength="40" autocomplete="tel"></div>
+        <div><label for="m-en">Emergency contact name</label><input id="m-en" maxlength="120"></div>
+        <div><label for="m-ep">Emergency contact phone</label><input id="m-ep" type="tel" maxlength="40"></div>
+      </div>
+      <p class="muted" id="m-email"></p>
+      <button type="submit">Save my details</button>
+      <p class="msg" id="m-msg" role="status"></p>
+    </form>
+
+    <h2>My dogs</h2>
+    <div id="dogs"></div>
+
+    <details class="card" id="dog-form-wrap">
+      <summary id="dog-form-title">Add a dog</summary>
+      <form id="dog-form" novalidate>
+        <div class="row">
+          <div><label for="d-name">Dog's name *</label><input id="d-name" maxlength="80"></div>
+          <div><label for="d-breed">Breed</label><input id="d-breed" maxlength="120"></div>
+          <div><label for="d-tag">Dog licence tag number *</label><input id="d-tag" maxlength="40"></div>
+          <div><label for="d-vet">Veterinarian</label><input id="d-vet" maxlength="120"></div>
+          <div><label for="d-vetp">Vet phone</label><input id="d-vetp" type="tel" maxlength="40"></div>
+        </div>
+        <button type="submit" id="d-save">Save dog</button>
+        <button type="button" class="alt" id="d-cancel">Cancel</button>
+        <p class="msg" id="d-msg" role="status"></p>
+      </form>
+    </details>
+
+    <p class="muted">Bookings and your appointment timer are coming soon.</p>
+  </div>
+</main>
+
+<script src="pnp-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js"></script>
+<script>
+"use strict";
+//PURE-START
+var TZ = "America/Vancouver";
+var MAX_BYTES = 5 * 1024 * 1024;
+var TYPES = { pdf: "application/pdf", jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", webp: "image/webp", heic: "image/heic" };
+function ymdIn(date, tz) { return new Intl.DateTimeFormat("en-CA", { timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit" }).format(date); }
+// Returns { ok, ext, mime, error }
+function checkFile(name, size) {
+  var m = /\.([a-z0-9]+)$/i.exec(name || ""); var ext = m ? m[1].toLowerCase() : "";
+  if (!TYPES[ext]) return { ok: false, error: "Please choose a PDF or a photo (JPG, PNG, WEBP or HEIC)." };
+  if (!size) return { ok: false, error: "That file looks empty." };
+  if (size > MAX_BYTES) return { ok: false, error: "That file is too large. The limit is 5 MB. Try a smaller photo or a PDF." };
+  return { ok: true, ext: ext, mime: TYPES[ext] };
+}
+function safeName(s) { return String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 30) || "file"; }
+// one vaccine for one dog -> {s: ok|expired|pending|rejected|missing, d}
+function vaxState(records, dogId, vaccine, todayYmd) {
+  var mine = records.filter(function (r) { return r.dog_id === dogId && r.vaccine === vaccine; });
+  var ok = mine.filter(function (r) { return r.status === "approved"; }).sort(function (a, b) { return a.expiry_date < b.expiry_date ? 1 : -1; })[0];
+  if (ok) return ok.expiry_date >= todayYmd ? { s: "ok", d: ok.expiry_date } : { s: "expired", d: ok.expiry_date };
+  if (mine.some(function (r) { return r.status === "pending"; })) return { s: "pending" };
+  if (mine.some(function (r) { return r.status === "rejected"; })) return { s: "rejected" };
+  return { s: "missing" };
+}
+//PURE-END
+
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function add(p) { for (var i = 1; i < arguments.length; i++) if (arguments[i]) p.appendChild(arguments[i]); return p; }
+  function badge(t, k) { return el("span", "badge" + (k ? " b-" + k : ""), t); }
+  function say(id, t, bad) { var e = $(id); e.textContent = t; e.style.color = bad ? "var(--bad)" : "var(--ok)"; }
+
+  var cfg = window.PNP_CONFIG || {};
+  if (!cfg.SUPABASE_URL || cfg.SUPABASE_URL.indexOf("PASTE_") === 0 || !window.supabase) { $("gate").textContent = "Accounts are not switched on yet. Please call 778-737-7529."; return; }
+  var sb = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
+  var me = null, P = null, dogs = [], vax = [], waivers = [], editingId = null;
+  var VAX_LABEL = { rabies: "Rabies", bordetella: "Kennel cough (Bordetella)" };
+
+  async function start() {
+    var s = await sb.auth.getSession();
+    if (!s.data.session) { $("gate").innerHTML = ""; add($("gate"), el("span", null, "Please "), Object.assign(el("a", null, "sign in"), { href: "account.html" }), el("span", null, " to see your dogs and records.")); return; }
+    me = s.data.session.user;
+    $("signout").classList.remove("hidden");
+    $("gate").classList.add("hidden"); $("app").classList.remove("hidden");
+    await load();
+  }
+  async function load() {
+    var r = await Promise.all([
+      sb.from("profiles").select("full_name,phone,emergency_name,emergency_phone,email").eq("id", me.id).maybeSingle(),
+      sb.from("dogs").select("id,name,breed,licence_tag,vet_name,vet_phone").order("created_at"),
+      sb.from("vaccination_records").select("id,dog_id,vaccine,expiry_date,file_path,status,uploaded_at").order("uploaded_at", { ascending: false }),
+      sb.from("waivers").select("id,signed_at").order("signed_at", { ascending: false })
+    ]);
+    if (r.some(function (x) { return x.error; })) $("err").textContent = "Could not load everything. Please refresh the page.";
+    P = r[0].data || {}; dogs = r[1].data || []; vax = r[2].data || []; waivers = r[3].data || [];
+    renderWaiver(); renderMe(); renderDogs();
+  }
+
+  function renderWaiver() {
+    var c = $("waiver-card"); c.innerHTML = "";
+    if (waivers.length) add(c, badge("Waiver on file", "ok"), el("span", "muted", " signed " + new Date(waivers[0].signed_at).toLocaleDateString("en-CA", { timeZone: TZ, month: "long", day: "numeric", year: "numeric" })));
+    else add(c, badge("No waiver on file yet", "bad"), el("div", "muted", "Please complete the Dog Owner Waiver before your visit."), Object.assign(el("a", null, "Go to the waiver"), { href: "index.html#waiver" }));
+  }
+  function renderMe() {
+    $("m-name").value = P.full_name || ""; $("m-phone").value = P.phone || "";
+    $("m-en").value = P.emergency_name || ""; $("m-ep").value = P.emergency_phone || "";
+    $("m-email").textContent = "Sign-in email: " + (P.email || me.email);
+  }
+  $("me-form").addEventListener("submit", async function (e) {
+    e.preventDefault(); say("m-msg", "", false);
+    var r = await sb.from("profiles").update({ full_name: $("m-name").value.trim(), phone: $("m-phone").value.trim(), emergency_name: $("m-en").value.trim(), emergency_phone: $("m-ep").value.trim() }).eq("id", me.id).select("id");
+    if (r.error || !r.data || !r.data.length) say("m-msg", "Could not save. Please try again.", true); else say("m-msg", "Saved.", false);
+  });
+
+  function vaxBadge(v) {
+    var s = vaxState(vax, v.dogId, v.vaccine, ymdIn(new Date(), TZ)), name = VAX_LABEL[v.vaccine];
+    var t = { ok: name + ": OK until " + s.d, expired: name + ": EXPIRED " + s.d + " – please upload a new record", pending: name + ": received, awaiting review", rejected: name + ": record not accepted – please upload again", missing: name + ": needed" }[s.s];
+    return badge(t, s.s === "ok" ? "ok" : s.s === "pending" ? "warn" : "bad");
+  }
+
+  function renderDogs() {
+    var box = $("dogs"); box.innerHTML = "";
+    if (!dogs.length) add(box, el("p", "muted", "No dogs added yet. Use \"Add a dog\" below."));
+    dogs.forEach(function (d) {
+      var c = el("div", "card");
+      add(c, el("strong", null, d.name), el("span", "muted", d.breed ? "  " + d.breed : ""));
+      add(c, el("div", "muted", "Licence tag: " + (d.licence_tag || "not given")));
+      var b = el("div"); ["rabies", "bordetella"].forEach(function (v) { add(b, vaxBadge({ dogId: d.id, vaccine: v })); }); add(c, b);
+
+      var mine = vax.filter(function (r) { return r.dog_id === d.id; });
+      mine.forEach(function (r) {
+        var line = el("div", "muted", VAX_LABEL[r.vaccine] + " – expires " + r.expiry_date + " – " + ({ pending: "awaiting review", approved: "accepted", rejected: "not accepted" })[r.status] + "  ");
+        if (r.status === "pending") {
+          var rm = el("button", "danger sm", "Remove"); rm.type = "button";
+          rm.onclick = async function () {
+            rm.disabled = true;
+            var x = await sb.from("vaccination_records").delete().eq("id", r.id).select("id");
+            if (!x.error && x.data && x.data.length) await sb.storage.from("vaccination-records").remove([r.file_path]);
+            await load();
+          };
+          add(line, rm);
+        }
+        add(c, line);
+      });
+
+      var det = el("details"), sum = el("summary", null, "Upload a vaccination record"); add(det, sum);
+      var form = el("form"); form.noValidate = true;
+      var sel = el("select"); [["rabies", "Rabies"], ["bordetella", "Kennel cough (Bordetella)"]].forEach(function (o) { var op = el("option", null, o[1]); op.value = o[0]; add(sel, op); });
+      var exp = el("input"); exp.type = "date";
+      var file = el("input"); file.type = "file"; file.accept = ".pdf,.jpg,.jpeg,.png,.webp,.heic,image/*,application/pdf";
+      var go = el("button", null, "Upload"); go.type = "submit";
+      var msg = el("p", "msg"); msg.setAttribute("role", "status");
+      add(form, el("label", null, "Which vaccine?"), sel, el("label", null, "Expiry / renewal date on the record"), exp, el("label", null, "Photo or PDF (5 MB or less)"), file, go, msg);
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault(); msg.textContent = ""; msg.style.color = "var(--bad)";
+        var f = file.files[0];
+        if (!f) { msg.textContent = "Please choose a file."; return; }
+        if (!exp.value) { msg.textContent = "Please enter the expiry date shown on the record."; return; }
+        if (exp.value < ymdIn(new Date(), TZ)) { msg.textContent = "That date has already passed. Please upload a current record."; return; }
+        var chk = checkFile(f.name, f.size);
+        if (!chk.ok) { msg.textContent = chk.error; return; }
+        go.disabled = true; msg.style.color = "var(--ok)"; msg.textContent = "Uploading…";
+        var path = me.id + "/" + d.id + "/" + Date.now() + "-" + safeName(sel.value) + "." + chk.ext;
+        var up = await sb.storage.from("vaccination-records").upload(path, f, { contentType: chk.mime, upsert: false });
+        if (up.error) { msg.style.color = "var(--bad)"; msg.textContent = "Upload failed. Please try again or bring the record to the store."; go.disabled = false; return; }
+        var ins = await sb.from("vaccination_records").insert({ dog_id: d.id, owner_id: me.id, vaccine: sel.value, expiry_date: exp.value, file_path: path }).select("id");
+        if (ins.error || !ins.data || !ins.data.length) {
+          await sb.storage.from("vaccination-records").remove([path]);
+          msg.style.color = "var(--bad)"; msg.textContent = "Could not save the record. You may have reached the limit. Please call 778-737-7529."; go.disabled = false; return;
+        }
+        await load();
+      });
+      add(det, form); add(c, det);
+
+      var ed = el("button", "alt sm", "Edit dog"), del = el("button", "danger sm", "Remove dog"); ed.type = del.type = "button";
+      ed.onclick = function () { openDogForm(d); };
+      del.onclick = async function () {
+        if (!confirm("Remove " + d.name + " and their vaccination records? This cannot be undone.")) return;
+        var recs = vax.filter(function (r) { return r.dog_id === d.id; }).map(function (r) { return r.file_path; });
+        var x = await sb.from("dogs").delete().eq("id", d.id).select("id");
+        if (x.error || !x.data || !x.data.length) { $("err").textContent = "Could not remove that dog."; return; }
+        if (recs.length) await sb.storage.from("vaccination-records").remove(recs);
+        await load();
+      };
+      add(c, ed, del); add(box, c);
+    });
+  }
+
+  function openDogForm(d) {
+    editingId = d ? d.id : null;
+    $("dog-form-title").textContent = d ? "Edit " + d.name : "Add a dog";
+    $("d-name").value = d ? d.name : ""; $("d-breed").value = d && d.breed || ""; $("d-tag").value = d && d.licence_tag || "";
+    $("d-vet").value = d && d.vet_name || ""; $("d-vetp").value = d && d.vet_phone || ""; $("d-msg").textContent = "";
+    $("dog-form-wrap").open = true; $("dog-form-wrap").scrollIntoView({ behavior: "smooth" });
+  }
+  $("d-cancel").onclick = function () { openDogForm(null); $("dog-form-wrap").open = false; };
+  $("dog-form-wrap").addEventListener("toggle", function () { if (!this.open && !editingId) $("dog-form-title").textContent = "Add a dog"; });
+  $("dog-form").addEventListener("submit", async function (e) {
+    e.preventDefault(); say("d-msg", "", true);
+    var row = { name: $("d-name").value.trim(), breed: $("d-breed").value.trim() || null, licence_tag: $("d-tag").value.trim(), vet_name: $("d-vet").value.trim() || null, vet_phone: $("d-vetp").value.trim() || null };
+    if (!row.name) { say("d-msg", "Please enter your dog's name.", true); return; }
+    if (!row.licence_tag) { say("d-msg", "Please enter the licence tag number from your dog's collar.", true); return; }
+    $("d-save").disabled = true;
+    var r = editingId ? await sb.from("dogs").update(row).eq("id", editingId).select("id")
+                      : await sb.from("dogs").insert(Object.assign({ owner_id: me.id }, row)).select("id");
+    $("d-save").disabled = false;
+    if (r.error || !r.data || !r.data.length) { say("d-msg", /limit/i.test(r.error && r.error.message || "") ? "You have reached the limit of 10 dogs. Please call 778-737-7529." : "Could not save. Please try again.", true); return; }
+    editingId = null; openDogForm(null); $("dog-form-wrap").open = false; await load();
+  });
+
+  $("signout").onclick = async function () { await sb.auth.signOut(); location.href = "account.html"; };
+  start();
+})();
+</script>
+</body>
+</html>
