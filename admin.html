@@ -53,6 +53,7 @@
       <button type="button" data-tab="customers" aria-selected="false">Customers &amp; dogs</button>
       <button type="button" data-tab="records" aria-selected="false">Waivers &amp; vaccinations</button>
       <button type="button" data-tab="staff" aria-selected="false" id="tab-staff">Staff accounts</button>
+      <button type="button" data-tab="help" aria-selected="false">Help</button>
     </nav>
 
     <section id="p-today" class="panel on">
@@ -89,6 +90,37 @@
       <h3>Backup</h3>
       <p class="muted">The free database has no automatic backups. Download this file regularly (for example every Friday) and keep it somewhere private.</p>
       <button class="act" id="backup" type="button">Download customers &amp; dogs backup (CSV)</button>
+    </section>
+
+    <section id="p-help" class="panel">
+      <h2>Help</h2>
+      <h3>Daily routine</h3>
+      <div class="card">
+        <ol>
+          <li><strong>Today</strong> tab: check the day's bookings. The page refreshes by itself every couple of minutes, or press <em>Refresh</em>. New bookings from the website appear within about 5 minutes.</li>
+          <li><strong>Waivers &amp; vaccinations</strong> tab: open the records waiting for review, press <em>View file</em> to check the vet record (right dog, right vaccine, date not expired), then <em>Approve</em> or <em>Reject</em>.</li>
+          <li><strong>Extra-time requests</strong> (bottom of Today): <em>Approve</em> or <em>Decline</em>. If you approve, also lengthen that appointment in Google Calendar by hand.</li>
+          <li><strong>Customers &amp; dogs</strong> tab: search by name, email, phone or dog's name. Red means something is missing or expired.</li>
+        </ol>
+      </div>
+      <h3>Common questions</h3>
+      <div class="card">
+        <p><strong>A customer forgot their password.</strong> Ask them to open the sign-in page and click &ldquo;Forgot your password?&rdquo;.</p>
+        <p><strong>A customer says their upload failed.</strong> Files must be a PDF or photo (JPG, PNG, WEBP, HEIC) of 5 MB or less. They can also bring the record to the store.</p>
+        <p><strong>A booking looks wrong or missing.</strong> The calendar is the master copy. Fix it in Google Calendar and it will update here within about 5 minutes.</p>
+        <p><strong>Who can see what?</strong> Customers see only their own information. Staff see all customers. Only admins can change roles or download the backup.</p>
+      </div>
+      <div id="owner-notes" class="hidden">
+        <h3>Owner notes (admins only)</h3>
+        <div class="card">
+          <p><strong>Waiver: legal review.</strong> It is recommended that a lawyer licensed in British Columbia reviews the waiver before you rely on it.</p>
+          <p><strong>Electronic signature.</strong> Customers sign by typing their full name. Confirm with your legal adviser that this method meets your operational and legal requirements.</p>
+          <p><strong>Backups.</strong> The free database has no automatic backups. Download the CSV from the Staff accounts tab regularly, and keep it somewhere private.</p>
+          <p><strong>Keep the database awake.</strong> Free Supabase projects pause after about a week of very low activity. The calendar sync that runs every 5 minutes helps prevent this. If you ever receive a &ldquo;project will be paused&rdquo; email, open the Supabase dashboard once.</p>
+          <p><strong>Secrets.</strong> The Supabase secret key lives only in the Apps Script project&rsquo;s Script properties. Never put it on GitHub or send it to anyone.</p>
+          <p><strong>Practice data.</strong> Fake &ldquo;Training&rdquo; customers can be removed with the 04_remove_training_data.sql script.</p>
+        </div>
+      </div>
     </section>
   </div>
 </main>
@@ -165,6 +197,7 @@ function overlapIds(appts) {
     $("who").textContent = me.email + " (" + role + ")";
     $("gate").classList.add("hidden"); $("app").classList.remove("hidden");
     if (role !== "admin") $("tab-staff").classList.add("hidden");
+    if (role === "admin") $("owner-notes").classList.remove("hidden");
     await load();
   }
 

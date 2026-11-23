@@ -177,7 +177,7 @@
             <div class="pnp-field"><label for="pnp-dog-confirm">Dog's name (confirm) <span class="pnp-required">*</span></label><input id="pnp-dog-confirm" name="Dog Name at Signature" required></div>
             <div class="pnp-field"><label for="pnp-witness">Paws N Play staff/witness (if completed onsite)</label><input id="pnp-witness" name="Paws N Play Staff or Witness"></div>
           </div>
-          <p class="pnp-small">Typing your name is an electronic-signature method for this web form. Confirm with your legal adviser whether this method meets your operational and legal requirements.</p>
+          <p class="pnp-small">By typing your full name, you are signing this waiver electronically.</p>
         </fieldset>
 
         <div class="pnp-actions">
@@ -186,7 +186,7 @@
           <span class="pnp-small">Your submission will be sent to Paws N Play and copied to the team.</span>
         </div>
         <p id="pnp-status" class="pnp-status" role="status" aria-live="polite"></p>
-        <p class="pnp-small">Recommended: Have this waiver reviewed by a lawyer licensed in British Columbia before putting it into use. Do not use this form to submit urgent medical information.</p>
+        <p class="pnp-small">Please do not use this form to submit urgent medical information.</p>
       </form>
     </section>
   `;
