@@ -1,57 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Paws n' Play</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paws n' Play | Dog Café in Vancouver</title>
+<meta name="description" content="Vancouver's first registered dog café. Coffee for you, play for your pup, plus dog walking, grooming, birthday parties and a shop. 261 Keefer Street.">
+<meta name="theme-color" content="#fad4fc">
 
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@900&family=Josefin+Sans:wght@400;600&display=swap" rel="stylesheet" />
+<!-- Flags JS support early so scroll-reveal never hides content when scripts are off -->
+<script>document.documentElement.classList.add('js');</script>
+
+<!-- Faster third-party loading -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://iili.io" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+<!-- Fonts and icons -->
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@900&family=Josefin+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
 <style>
 /* =========================================================
-   GLOBAL
+   TOKENS
+   Change brand colours and fonts here.
 ========================================================= */
-html, body {
-  max-width: 100%;
-  overflow-x: clip;
-}
-   
-body {
-  word-break: normal;
-  margin: 0;
-  font-family: 'Josefin Sans', sans-serif;
-  color: #7b68ee;
-  background-color: #ffffff;
-  text-align: justify;
-  text-justify: inter-word;
-  hyphens: none;
+:root {
+  --purple: #7b68ee;
+  --purple-deep: #5b47cf;
+  --blue: #3414fd;
+  --pink: #fad4fc;
+  --white: #ffffff;
+  --sun: #ffd23f;
+  --font-display: 'League Spartan', sans-serif;
+  --font-body: 'Josefin Sans', sans-serif;
+  --header-h: 100px;
 }
 
-/* Headers */
+/* =========================================================
+   GLOBAL
+========================================================= */
+html {
+  max-width: 100%;
+  overflow-x: clip;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  max-width: 100%;
+  overflow-x: clip;
+  font-family: var(--font-body);
+  color: var(--purple);
+  background-color: var(--white);
+  text-align: justify;
+  text-justify: inter-word;
+  word-break: normal;
+  hyphens: none;
+  -webkit-hyphens: none;
+}
+
 .section h2,
 .subsection h3,
 .paw-header,
 .contact-title {
-  color: #7b68ee;
+  color: var(--purple);
 }
 
-/* Forms */
 input,
 textarea,
 button {
-  font-family: 'Josefin Sans', sans-serif;
-  color: #7b68ee;
+  font-family: var(--font-body);
+  color: var(--purple);
 }
+
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -80px;
+  z-index: 10000;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: var(--blue);
+  color: var(--white);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skip-link:focus { top: 12px; }
+
+main:focus { outline: none; }
 
 /* =========================================================
    HEADER
 ========================================================= */
-
 header {
-  background-color: #fad4fc;
-  height: 100px;
+  background-color: var(--pink);
+  height: var(--header-h);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -67,46 +111,28 @@ header img {
   transition: transform 0.3s ease;
 }
 
-header img:hover {
-  transform: scale(1.05);
-}
+header img:hover { transform: scale(1.05); }
 
-nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.section[id],
+footer[id] { scroll-margin-top: var(--header-h); }
+
+.social-container {
   display: flex;
-  gap: 24px;
-}
-
-nav a {
-  text-decoration: none;
-  color: #7b68ee;
-  font-weight: 600;
-  transition: color 0.3s ease;
-}
-
-nav a:hover {
-  color: #5b47cf;
-}
-
-/* Header social icons + hamburger menu */
-html { scroll-behavior: smooth; }
-
-.section[id], footer[id] { scroll-margin-top: 100px; }
-
-header .social-container {
+  justify-content: center;
   flex-wrap: nowrap;
   gap: 20px;
 }
 
-header .social-container a {
+.social-container a {
   font-size: 1.4rem;
+  color: var(--purple);
+  transition: transform 0.3s;
 }
 
-.menu {
-  position: relative;
-}
+.social-container a:hover { transform: scale(1.2); }
+
+/* Hamburger menu */
+.menu { position: relative; }
 
 .menu-toggle {
   display: flex;
@@ -126,13 +152,13 @@ header .social-container a {
   display: block;
   height: 3px;
   width: 100%;
-  background-color: #7b68ee;
+  background-color: var(--purple);
   border-radius: 2px;
   transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
 }
 
-.menu-toggle:hover span { background-color: #5b47cf; }
-.menu-toggle:focus-visible { outline: 2px solid #7b68ee; outline-offset: 2px; border-radius: 6px; }
+.menu-toggle:hover span { background-color: var(--purple-deep); }
+.menu-toggle:focus-visible { outline: 2px solid var(--purple); outline-offset: 2px; border-radius: 6px; }
 
 .menu-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
 .menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
@@ -145,7 +171,7 @@ header .social-container a {
   min-width: 210px;
   display: none;
   flex-direction: column;
-  background-color: #ffffff;
+  background-color: var(--white);
   border-radius: 12px;
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
   padding: 8px 0;
@@ -157,7 +183,7 @@ header .social-container a {
 .menu-panel a {
   padding: 12px 22px;
   text-decoration: none;
-  color: #7b68ee;
+  color: var(--purple);
   font-weight: 600;
   text-align: left;
   transition: background-color 0.2s ease, color 0.2s ease;
@@ -165,19 +191,18 @@ header .social-container a {
 
 .menu-panel a:hover,
 .menu-panel a:focus-visible {
-  background-color: #fad4fc;
-  color: #5b47cf;
+  background-color: var(--pink);
+  color: var(--purple-deep);
   outline: none;
 }
 
 /* =========================================================
    TICKER
 ========================================================= */
-
 .ticker-tape-container {
-  background: #fff;
+  background: var(--white);
   padding: 8px 0;
-  overflow: hidden; /* keeps animation inside */
+  overflow: hidden;
   position: relative;
   width: 100%;
 }
@@ -192,34 +217,31 @@ header .social-container a {
 }
 
 .ticker-text {
-  white-space: nowrap !important;
+  white-space: nowrap;
   display: inline-block;
 }
 
 .ticker-email {
-  color: #7b68ee;
+  color: var(--purple);
   font-weight: 700;
   text-decoration: none;
 }
 
 .ticker-email:hover {
-  color: #5b47cf;
+  color: var(--purple-deep);
   text-decoration: underline;
 }
 
-.ticker-tape:hover .ticker-content {
-  animation-play-state: paused;
-}
+.ticker-tape:hover .ticker-content { animation-play-state: paused; }
 
 @keyframes ticker-scroll {
-  0% { transform: translateX(0); }
+  0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
 /* =========================================================
-   HERO PARALLAX (TOP)
+   HERO
 ========================================================= */
-
 .parallax {
   background-image: url("https://iili.io/Ke63t2I.png");
   min-height: 50vh;
@@ -229,9 +251,9 @@ header .social-container a {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
-/* Hero layout container */
 .parallax-text {
   display: flex;
   align-items: center;
@@ -241,54 +263,114 @@ header .social-container a {
   position: relative;
 }
 
-/* HERO HEADLINE */
 .hero-copy {
+  margin: 0;
   text-align: center;
-
-  font-family: 'League Spartan', sans-serif;
+  font-family: var(--font-display);
   font-weight: 900;
-font-size: clamp(32px, 3.5vw, 58px);
-  color: #ffffff;
+  font-size: clamp(32px, 3.5vw, 58px);
+  color: var(--white);
   line-height: 1.05;
-
   text-shadow:
-    -3px -3px 0 #3414fd,
-     3px -3px 0 #3414fd,
-    -3px  3px 0 #3414fd,
-     3px  3px 0 #3414fd;
-
+    -3px -3px 0 var(--blue),
+     3px -3px 0 var(--blue),
+    -3px  3px 0 var(--blue),
+     3px  3px 0 var(--blue);
   white-space: nowrap;
 }
 
-/* POPPERS */
-.popper-img {
-  width: 100px;
-  height: 100px;
-  animation: float 3s ease-in-out infinite;
-  flex-shrink: 0;
+/* ---------- Party poppers (inline SVG, replaces the old GIFs) ----------
+   Sticker style: deep blue outline to match the headline. The two poppers
+   take turns going off (--o is each popper's offset into the 3.6s cycle). */
+.popper {
+  --o: 0s;
+  flex: 0 0 auto;
+  width: 170px;
+  height: 170px;
+  animation: popper-float 3s ease-in-out infinite;
 }
 
-/* Left / Right positioning (REMOVES flex influence) */
-.popper-img.left {
-  transform: scaleX(-1);
+.popper.left { --o: 1.8s; }
+
+.popper svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
 
-/* ANIMATION */
-@keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.popper.right svg { transform: scaleX(-1); }
+
+.popper .body {
+  transform-origin: 22px 100px;
+  animation: popper-recoil 3.6s ease-out infinite;
+  animation-delay: var(--o);
 }
 
-@keyframes float {
+.popper .burst,
+.popper .c {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
+
+.popper .burst {
+  animation: popper-burst 3.6s ease-out infinite;
+  animation-delay: var(--o);
+}
+
+.popper .c {
+  animation: popper-confetti 3.6s cubic-bezier(0.2, 0.7, 0.3, 1) infinite;
+  animation-delay: calc(var(--o) + var(--d, 0s));
+}
+
+@keyframes popper-float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  50%      { transform: translateY(-6px); }
+}
+
+@keyframes popper-recoil {
+  0%       { transform: none; }
+  3%       { transform: translate(-5px, 5px) rotate(-8deg) scale(0.95); }
+  9%       { transform: translate(1px, -1px) rotate(3deg); }
+  15%, 100% { transform: none; }
+}
+
+@keyframes popper-burst {
+  0%       { opacity: 0; transform: scale(0.3); }
+  3%       { opacity: 1; }
+  12%      { opacity: 1; transform: scale(1.1); }
+  24%, 100% { opacity: 0; transform: scale(1.3); }
+}
+
+@keyframes popper-confetti {
+  0%   { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(0.3); }
+  3%   { opacity: 1; }
+  38%  { opacity: 1; transform: translate(var(--dx), var(--dy)) rotate(var(--r)) scale(1.5); }
+  68%, 100% {
+    opacity: 0;
+    transform: translate(calc(var(--dx) * 1.12), calc(var(--dy) + 22px)) rotate(calc(var(--r) * 1.5)) scale(1.3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-content,
+  .popper,
+  .popper .body,
+  .popper .burst { animation: none; }
+  .popper .c {
+    animation: none;
+    opacity: 1;
+    transform: translate(var(--dx), var(--dy)) rotate(var(--r)) scale(1.5);
+  }
+  html { scroll-behavior: auto; }
 }
 
 /* =========================================================
-   BANNERS (FIXED SYSTEM)
+   PARALLAX BANNERS
+   The image layer is taller than its box when parallax is on
+   (script adds html.parallax-on on larger screens).
 ========================================================= */
-
-/* Base banner style */
 .parallax-banner,
 .parallax-section {
   position: relative;
@@ -297,7 +379,6 @@ font-size: clamp(32px, 3.5vw, 58px);
   overflow: hidden;
 }
 
-/* Unified image layer */
 .parallax-banner-image,
 .parallax-section-image {
   position: absolute;
@@ -305,40 +386,37 @@ font-size: clamp(32px, 3.5vw, 58px);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  will-change: auto;
 }
 
-/* Banner images */
+.parallax-on .parallax-banner-image,
+.parallax-on .parallax-section-image {
+  inset: -15% 0;
+  will-change: transform;
+}
+
 .parallax-banner-image.main-banner {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/LARGE_BANNER_001.png");
 }
-
 .parallax-section-image.shop-parallax {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_002.jpg");
 }
-
 .parallax-section-image.walking-parallax {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_003.jpg");
 }
-
 .parallax-section-image.birthday-parallax {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_004.jpg");
 }
-
 .parallax-section-image.grooming-parallax {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_005.jpg");
 }
-
 .parallax-section-image.team-parallax {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_006.jpg");
 }
-
-/* New banners: banner_007.jpg and banner_008.jpg show on top once uploaded to the repo.
-   Until then the existing photo listed second shows underneath. */
+/* banner_007.jpg and banner_008.jpg show on top once uploaded to the repo.
+   Until then the photo listed second shows underneath. */
 .parallax-section-image.booking-parallax {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_007.jpg"), url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/LARGE_BANNER_001.png");
 }
-
 .parallax-section-image.waiver-parallax {
   background-image: url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_008.jpg"), url("https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/banner_006.jpg");
 }
@@ -346,7 +424,6 @@ font-size: clamp(32px, 3.5vw, 58px);
 /* =========================================================
    THREE COLUMN
 ========================================================= */
-
 .three-column-section {
   display: flex;
   justify-content: space-between;
@@ -357,7 +434,7 @@ font-size: clamp(32px, 3.5vw, 58px);
 
 .column {
   flex: 1;
-  min-width: 300px;
+  min-width: 250px;
   text-align: center;
 }
 
@@ -371,7 +448,7 @@ font-size: clamp(32px, 3.5vw, 58px);
 }
 
 .column h2 {
-  font-family: 'League Spartan', sans-serif;
+  font-family: var(--font-display);
   font-size: 1.8em;
 }
 
@@ -384,7 +461,6 @@ font-size: clamp(32px, 3.5vw, 58px);
 /* =========================================================
    SECTIONS
 ========================================================= */
-
 .section {
   padding: 30px 10%;
   display: flex;
@@ -397,147 +473,128 @@ font-size: clamp(32px, 3.5vw, 58px);
 .section.pink {
   justify-content: center;
   text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .section.pink.reverse {
   gap: 30px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   position: relative;
-  z-index: 3; /* Higher than parallax sections */
-  justify-content: center; /* Center the content */
-  text-align: center; /* Center text alignment */
+  z-index: 3; /* sits above the parallax banners */
 }
 
-/* Center images in pink sections */
 .section.pink img {
+  display: block;
   width: 275px;
   height: 275px;
+  margin: 0 auto;
   border-radius: 40px;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 1s ease, transform 1s ease;
-  margin: 0 auto; /* Center the image */
-  display: block; /* Ensure proper centering */
 }
 
-/* Center content in pink sections */
-.section.pink .section-content {
-  flex: 1;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 1s ease, transform 1s ease;
-  max-width: 500px; /* Slightly wider for better centering */
-  min-height: 275px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center; /* Center text alignment */
-  margin: 0 auto; /* Center the content block */
-}
-
-/* Dog illustrations: same 275x275 box as the other section images, shown whole without stretching */
+/* Dog illustrations: same 275x275 box as the other section images, shown whole */
 .section.pink img.dog-illustration {
   object-fit: contain;
   border-radius: 0;
 }
 
-.section.visible img,
-.section.visible .section-content {
-  opacity: 1;
-  transform: translateY(0);
+.section.pink .section-content {
+  flex: 1;
+  max-width: 500px;
+  min-height: 275px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Scroll reveal: content starts hidden only when JS is running */
+.section.pink img,
+.section.pink .section-content {
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.js .section.pink:not(.visible) img,
+.js .section.pink:not(.visible) .section-content {
+  opacity: 0;
+  transform: translateY(40px);
 }
 
 .section h2 {
-  font-family: 'League Spartan', sans-serif;
+  font-family: var(--font-display);
   font-size: 2.2em;
   margin-bottom: 16px;
   width: 100%;
   text-align: center;
-  text-align: center !important;
-  text-justify: auto !important;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  -moz-hyphens: none !important;
-  -ms-hyphens: none !important;
 }
 
-/* SECTION PARAGRAPHS - 60 CHARACTERS WIDE */
 .section p {
   line-height: 1.6;
   text-align: justify;
-  text-justify: inter-word;
-  hyphens: none;
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
   width: 100%;
   font-size: 0.95em;
-  word-wrap: normal;
-  overflow-wrap: normal;
-  max-width: 36ch; /* Approximately 60 characters wide */
+  max-width: 36ch; /* narrow reading column */
   margin: 0 auto;
 }
 
-.section.reverse {
-  flex-direction: row-reverse;
-}
+.section.reverse { flex-direction: row-reverse; }
 
-/* COLOR SPECIFIC SECTIONS */
-.section.pink { background-color: #fad4fc; }
-.section.white { background-color: #ffffff; }
+.section.pink  { background-color: var(--pink); }
+.section.white { background-color: var(--white); }
 
-/* SUBSECTIONS - CONSISTENT WIDTH */
+/* =========================================================
+   SUBSECTIONS AND PHOTO GRID
+========================================================= */
 .subsection {
   padding: 100px 10%;
+  margin: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 55px;
   flex-wrap: wrap;
-  position: relative; /* Ensure proper stacking context */
-  z-index: 3; /* Higher than parallax sections */
-  margin: 0; /* Ensure no margins */
+  position: relative;
+  z-index: 3;
 }
 
-.subsection.white { background-color: #ffffff; }
-.subsection.pink { 
-  background-color: #fad4fc; 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* 25% opacity shadow */
-  position: relative;
-  z-index: 3; /* Higher than parallax sections */
+.subsection.white { background-color: var(--white); }
+
+.subsection.pink {
+  background-color: var(--pink);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .subsection h3 {
-  font-family: 'League Spartan', sans-serif;
+  font-family: var(--font-display);
   font-size: 2em;
-  color: #7b68ee;
   margin-bottom: 40px;
   width: 100%;
   text-align: center;
-  text-align: center !important;
-  text-justify: auto !important;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  -moz-hyphens: none !important;
-  -ms-hyphens: none !important;
 }
 
-/* --- UPDATED: SEE THE FUN IN ACTION - 6 PANEL GRID --- */
-
-/* container */
 .subsection-gallery {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 24px;
+  gap: 32px;
   align-items: center;
   width: 100%;
 }
 
-  /* ============================= */
-/* DOG TREATS ROW CUSTOMIZATION */
-/* ============================= */
+.photo-box {
+  display: block;
+  flex: 1 1 calc(33.333% - 24px);
+  max-width: calc(33.333% - 24px);
+  aspect-ratio: 1 / 1;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  color: inherit;
+  background-color: var(--white);
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+  -webkit-tap-highlight-color: transparent;
+}
 
 .subsection-gallery .photo-box {
   flex: 0 1 calc(30% - 24px);
@@ -545,54 +602,17 @@ font-size: clamp(32px, 3.5vw, 58px);
   aspect-ratio: 4 / 3;
 }
 
-.subsection-gallery {
-  gap: 32px;
-}
-  /* ============================= */
-/* DOG TREATS ROW ONLY */
-/* ============================= */
-
-.treats-row .photo-box {
-  flex: 0 1 calc(30% - 24px);
-  max-width: calc(30% - 24px);
-  aspect-ratio: 4 / 3;
-}
-
-.treats-row {
-  gap: 32px;
-}
-  
-/* make .photo-box a clickable card (anchor) */
-.photo-box {
-  display: block; /* anchor behaves like block */
-  flex: 1 1 calc(33.333% - 24px);
-  max-width: calc(33.333% - 24px);
-  aspect-ratio: 1 / 1;           /* equal width & height */
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  text-decoration: none;
-  color: inherit;
-  background-color: #fff;
-  transition: transform 0.28s ease, box-shadow 0.28s ease;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* image fills dominant area */
 .photo-box img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
-  vertical-align: middle;
 }
 
-/* overlay that appears on hover */
 .photo-box .overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.0) 40%, rgba(52,20,253,0.12) 70%, rgba(250,212,252,0.9) 100%); 
+  background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(52,20,253,0.12) 70%, rgba(250,212,252,0.9) 100%);
   opacity: 0;
   transition: opacity 0.28s ease;
   display: flex;
@@ -602,53 +622,57 @@ font-size: clamp(32px, 3.5vw, 58px);
   box-sizing: border-box;
 }
 
-/* caption sits inside overlay for consistent placement */
 .photo-box .overlay .caption-inner {
   width: 100%;
   text-align: center;
   font-weight: 700;
-  color: #3414fd;
-  background: rgba(255,255,255,0.85);
+  color: var(--blue);
+  background: rgba(255, 255, 255, 0.85);
   padding: 8px 10px;
   border-radius: 8px;
   transform: translateY(8px);
   transition: transform 0.28s ease;
-  text-align: center !important;
-  text-justify: auto !important;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  -moz-hyphens: none !important;
-  -ms-hyphens: none !important;
 }
 
-/* hover / focus effects (also keyboard-accessible) */
 .photo-box:hover,
-.photo-box:focus {
+.photo-box:focus-visible {
   transform: scale(1.04);
-  box-shadow: 0 8px 22px rgba(0,0,0,0.18);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
   z-index: 2;
+  outline: none;
 }
 
 .photo-box:hover .overlay,
-.photo-box:focus .overlay {
-  opacity: 1;
-}
+.photo-box:focus-visible .overlay { opacity: 1; }
 
 .photo-box:hover .overlay .caption-inner,
-.photo-box:focus .overlay .caption-inner {
-  transform: translateY(0);
+.photo-box:focus-visible .overlay .caption-inner { transform: translateY(0); }
+
+/* On touch screens there is no hover, so keep the captions visible */
+@media (hover: none) {
+  .photo-box .overlay { opacity: 1; }
+  .photo-box .overlay .caption-inner { transform: none; }
 }
 
-/* FOOTER */
+/* =========================================================
+   FOOTER AND CONTACT FORM
+========================================================= */
 footer {
-  background-color: #fad4fc;
+  background-color: var(--pink);
   padding: 40px 10%;
   text-align: center;
-  width: 100%; /* ensure it spans the full width */
-  box-sizing: border-box; /* include padding in width calculation */
-  position: relative; /* Ensure proper stacking context */
-  z-index: 3; /* Higher than parallax sections */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* 25% opacity shadow */
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 3;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+footer img { height: auto; }
+
+footer small {
+  display: block;
+  margin-top: 10px;
 }
 
 .contact-section {
@@ -659,13 +683,9 @@ footer {
   box-sizing: border-box;
 }
 
-  .contact-form {
-  width: 100%;
-}
-  
-.contact-intro > * + * {
-  margin-top: 1rem;
-}
+.contact-form { width: 100%; }
+
+.contact-intro > * + * { margin-top: 1rem; }
 
 .contact-title {
   font-size: 1.875rem;
@@ -673,18 +693,12 @@ footer {
   font-weight: 700;
 }
 
-/* FOOTER CONTENT - 60 CHARACTERS WIDE */
 .contact-description {
   color: rgb(107 114 128);
-  max-width: 36ch; /* Approximately 60 characters wide */
+  max-width: 36ch;
   margin-left: auto;
   margin-right: auto;
   text-align: justify;
-  text-justify: inter-word;
-  hyphens: none;
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
 }
 
 .form-group-container {
@@ -698,75 +712,43 @@ footer {
   flex-direction: column;
 }
 
-.form-label {
-  margin-bottom: 0.5rem;
-}
+.form-label { margin-bottom: 0.5rem; }
 
 .form-input,
 .form-textarea {
-  padding: 0.5rem;
-  border: 1px solid #7B68EE;
-  display: flex;
-  height: 2.5rem;
+  display: block;
+  box-sizing: border-box;
   width: 100%;
+  height: 2.5rem;
+  padding: 0.5rem;
+  border: 1px solid var(--purple);
   border-radius: 0.375rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
 
-.form-input::placeholder,
-.form-textarea:focus-visible {
-  color: #7B68EE;
+.form-textarea {
+  height: auto;
+  min-height: 120px;
+  resize: vertical;
 }
+
+.form-input::placeholder,
+.form-textarea::placeholder { color: var(--purple); }
 
 .form-input:focus-visible,
 .form-textarea:focus-visible {
-  outline: 2px solid #7B68EE;
+  outline: 2px solid var(--purple);
   outline-offset: 2px;
 }
 
-.form-textarea {
-  min-height: 120px;
-}
-
-.form-submit {
-  width: 20%;
-  margin-top: 1.2rem;
-  background-color: #7B68EE;
-  display: flex;
-  color: #fff;
-  padding: 13px 5px;
-  border-radius: 0.375rem;
-}
-
-.social-icons {
-  margin: 20px 0;
-}
-
-.social-icons a {
-  margin: 0 10px;
-  font-size: 1.5em;
-  color: #7b68ee;
-  transition: transform 0.3s ease;
-}
-
-.social-icons a:hover {
-  transform: scale(1.2);
-}
-
-footer small {
-  display: block;
-  margin-top: 10px;
-}
-
-/* SPLASH */
+/* =========================================================
+   SPLASH
+========================================================= */
 #splash {
-  background-color: #fad4fc;
+  background-color: var(--pink);
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -778,30 +760,29 @@ footer small {
   overflow: hidden;
 }
 
+#splash.is-leaving { transform: translateY(-100%); }
+
 #splash img {
   width: 200px;
   max-width: 65vw;
   height: auto;
-  cursor: pointer;
   display: block;
   margin: 0 auto;
   opacity: 0;
   transform-origin: center;
   animation: splash-logo-bounce 1.35s cubic-bezier(0.2, 0.75, 0.25, 1) 0.15s forwards;
-  will-change: transform, opacity;
 }
 
 #splash .splash-enter {
   margin: 0;
-  color: #7b68ee;
-  font-family: 'Josefin Sans', sans-serif;
+  color: var(--purple);
+  font-family: var(--font-body);
   font-size: clamp(16px, 2.5vw, 21px);
   font-weight: 600;
   letter-spacing: 0.08em;
   opacity: 0;
   transform: translateY(8px);
   animation: splash-text-fade 0.65s ease 1.45s forwards;
-  cursor: pointer;
   user-select: none;
 }
 
@@ -818,19 +799,18 @@ footer small {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #splash img {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
+  #splash img,
   #splash .splash-enter {
     animation: none;
     opacity: 1;
     transform: none;
   }
+  #splash { transition: none; }
 }
 
-/* TABLE CONTAINER - CONSISTENT WIDTH */
+/* =========================================================
+   TABLES
+========================================================= */
 .table-container {
   width: 100%;
   max-width: 100%;
@@ -839,53 +819,32 @@ footer small {
   box-sizing: border-box;
 }
 
-/* TABLES - CONSISTENT WIDTH */
 .grooming-table {
   width: 100%;
   margin: 0 auto;
   border-collapse: separate;
   border-spacing: 0;
-  font-family: Arial, sans-serif;
+  table-layout: fixed;
+  font-family: inherit;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: left !important;
-  text-justify: auto !important;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  -moz-hyphens: none !important;
-  -ms-hyphens: none !important;
-  table-layout: fixed; /* Added for consistent column sizing */
+  text-align: left;
 }
 
 .grooming-table th {
-  background-color: #7B68EE;
-  color: #FFFFFF;
+  background-color: var(--purple);
+  color: var(--white);
   padding: 15px 20px;
   text-align: left;
   border: none;
   font-size: 1.1em;
   font-weight: bold;
-  text-align: left !important;
-  text-justify: auto !important;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  -moz-hyphens: none !important;
-  -ms-hyphens: none !important;
 }
 
-/* TABLE CONTENT - 60 CHARACTERS WIDE */
 .grooming-table td {
   padding: 15px 20px;
   border: 1px solid #ccc;
   border-width: 0 1px 1px 0;
-  max-width: 36ch; /* Approximately 60 characters wide */
-  text-align: left !important;
-  text-justify: auto !important;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  -moz-hyphens: none !important;
-  -ms-hyphens: none !important;
-  word-wrap: normal; /* Ensure long words break */
-  overflow-wrap: normal; /* Ensure long words break */
+  text-align: left;
 }
 
 .grooming-table td:first-child {
@@ -893,31 +852,22 @@ footer small {
   font-weight: bold;
 }
 
-.grooming-table tbody tr:nth-child(odd) {
-  background-color: #FAD4FC;
-}
-
-.grooming-table tbody tr:nth-child(even) {
-  background-color: #FFFFFF;
-}
+.grooming-table tbody tr:nth-child(odd)  { background-color: var(--pink); }
+.grooming-table tbody tr:nth-child(even) { background-color: var(--white); }
 
 .section-header td {
-  background-color: #7B68EE !important;
-  color: #FFFFFF;
+  background-color: var(--purple) !important; /* beats the row striping above */
+  color: var(--white);
   font-weight: bold;
   text-align: center;
   font-size: 1.2em;
   padding: 12px 20px;
-  border: 1px solid #7B68EE;
-  text-align: center !important;
-  text-justify: auto !important;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  -moz-hyphens: none !important;
-  -ms-hyphens: none !important;
+  border: 1px solid var(--purple);
 }
 
-/* REVIEW CARDS */
+/* =========================================================
+   REVIEWS
+========================================================= */
 .reviews-container {
   display: flex;
   flex-wrap: wrap;
@@ -930,445 +880,53 @@ footer small {
 .review-card {
   flex: 1 1 calc(45% - 24px);
   max-width: calc(45% - 24px);
-  background-color: #fad4fc;
+  background-color: var(--pink);
   border-radius: 16px;
   padding: 24px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
   text-align: center;
-  transition: transform 0.3s ease;
 }
 
-/* REVIEW CARDS - 60 CHARACTERS WIDE */
 .review-card p {
-  max-width: 36ch; /* Approximately 60 characters wide */
+  max-width: 36ch;
   margin: 12px 0;
   line-height: 1.6;
   text-align: justify;
-  text-justify: inter-word;
-  hyphens: none;
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
 }
 
-/* SOCIAL CONTAINER */
-.social-container {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
+.review-card .review-author {
+  font-weight: 700;
+  color: var(--blue);
 }
 
-.social-container a {
-  font-size: 2.0rem;
-  transition: transform 0.3s, color 0.3s;
-  color: #7B68EE;
-}
-
-.social-container a:hover {
-  transform: scale(1.2);
-}
-
-/* CALL BUTTON STYLES */
+/* =========================================================
+   BUTTONS AND SHARED PIECES
+========================================================= */
 .call-button {
   display: inline-block;
-  background-color: #7B68EE;
-  color: #FFFFFF;
+  box-sizing: border-box;
+  background-color: var(--purple);
+  color: var(--white);
   padding: 15px 25px;
   font-size: 18px;
   font-weight: bold;
   text-decoration: none;
-  border-radius: 8px;
-  transition: background-color 0.3s, color 0.3s, transform 0.2s;
   text-align: center;
+  border: 0;
+  border-radius: 8px;
   margin: 20px 0;
-  text-align: center !important;
-  text-justify: auto !important;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  -moz-hyphens: none !important;
-  -ms-hyphens: none !important;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
 }
 
 .call-button:hover {
   background-color: #624fd8;
-  color: #FFFFFF;
+  color: var(--white);
   transform: scale(1.05);
 }
 
-/* CENTERED CONTENT */
-.centered-content {
-  text-align: center;
-  width: 100%;
-  margin: 20px 0;
-}
+.call-button:focus-visible { outline: 3px solid rgba(52, 20, 253, 0.35); outline-offset: 2px; }
 
-/* CENTERED CONTENT - 220 CHARACTERS WIDE */
-.centered-content p {
-  max-width: 132ch; /* Approximately 220 characters wide */
-  text-align: justify;
-  text-justify: inter-word;
-  hyphens: none;
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
-  margin-left: auto;
-  margin-right: auto;
-  line-height: 1.6;
-}
-
-/* WAIVER INTRO: centered like the rest of the page (overrides justify) */
-.centered-content p.waiver-intro {
-  text-align: center !important;
-  text-align-last: center !important;
-  max-width: 100% !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-
-/* PAW HEADER STYLES - CONSISTENT WIDTH */
-.paw-header {
-  text-align: center;
-  font-weight: bold;
-  color: #7b68ee;
-  font-size: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 30px auto;
-  width: 100%;
-  text-align: center !important;
-  text-justify: auto !important;
-  hyphens: none !important;
-  -webkit-hyphens: none !important;
-  -moz-hyphens: none !important;
-  -ms-hyphens: none !important;
-}
-
-.paw-header i {
-  margin: 0 12px;
-}
-
-.paw-header i:first-child {
-  transform: scaleX(-1);
-}
-
-/* HOVER ENLARGE EFFECT */
-.hover-enlarge {
-  transition: transform 0.3s ease;
-}
-
-.hover-enlarge:hover {
-  transform: scale(1.1);
-}
-
-/* CONSISTENT WIDTH TEXT BLOCKS */
-.consistent-width-text {
-  width: 100%;
-  margin: 0 auto 25px auto;
-  text-align: justify;
-  text-justify: inter-word;
-  hyphens: none;
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
-  line-height: 1.6;
-  padding: 0;
-}
-
-.consistent-width-text p {
-  margin: 0;
-  text-align: justify;
-  text-justify: inter-word;
-  hyphens: none;
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
-}
-
-.consistent-width-text.italic {
-  font-style: italic;
-}
-
-.consistent-width-text.justify {
-  text-align: justify;
-  text-justify: inter-word;
-  hyphens: none;
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
-}
-
-/* CONTENT CONTAINER FOR CONSISTENT WIDTH */
-.content-container {
-  width: 100%;
-  margin: 0 auto;
-}
-
-/* SECTION CONTENT WITH FULL WIDTH */
-.full-width-content {
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
-}
-
-/* ========================================================================== */
-/* MOBILE-SPECIFIC STYLES */
-/* ========================================================================== */
-@media (max-width: 768px) {
-  /* Fix header parallax height */
-  .parallax {
-    min-height: 20vh !important;
-    background-attachment: scroll !important;
-  }
-  
-.parallax-text {
-  display: grid !important;
-  grid-template-columns: auto 1fr auto;
-  grid-template-rows: auto auto;
-  align-items: center;
-  justify-items: center;
-  text-align: center;
-  gap: 6px 12px;
-  font-size: 1.4rem !important;
-}
-.hero-copy {
-  grid-column: 2;
-  grid-row: 1 / span 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  line-height: 1.05;
-  text-align: center;
-}
-   
-.popper-img.left {
-  grid-column: 1;
-  grid-row: 1 / span 2;
-}
-
-.popper-img.right {
-  grid-column: 3;
-  grid-row: 1 / span 2;
-}
-   .popper-img {
-  width: 50px !important;
-  height: 50px !important;
-}
-  
-  /* Fix parallax section spacing */
-  .parallax-banner,
-  .parallax-section {
-    height: 200px !important;
-    margin-top: 0 !important;
-  }
-  
-  .parallax-banner-image,
-  .parallax-section-image {
-    background-attachment: scroll !important;
-    height: 100% !important;
-  }
-  
-  /* Fix ticker tape readability */
-  .ticker-tape-container {
-    padding: 12px 0 !important;
-  }
-  
-.ticker-text {
-  white-space: nowrap !important;
-  display: inline-block;
-}
-  
- .ticker-content {
-  display: flex;
-  flex-wrap: nowrap;
-  white-space: nowrap;
-  width: max-content;
-}
-  
-  @keyframes ticker-scroll-mobile {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-50%);
-    }
-  }
-  
-  /* Stack white sections on mobile */
-  .section.white {
-    flex-direction: column !important;
-    gap: 30px !important;
-    padding: 40px 20px !important;
-  }
-  
-  .section.white .section-content {
-    text-align: center !important;
-  }
-  
-  /* Adjust section spacing for mobile */
-  .section {
-    padding: 40px 20px !important;
-    gap: 30px !important;
-  }
-  
-  .section.pink,
-  .section.pink.reverse {
-    flex-direction: column !important;
-  }
-  
-  .section img {
-    width: 100% !important;
-    max-width: 250px !important;
-    height: 250px !important;
-  }
-  
-  /* Adjust three column section for mobile */
-  .three-column-section {
-    padding: 40px 20px !important;
-    margin-top: 30px !important;
-    flex-direction: column !important;
-    gap: 40px !important;
-  }
-  
-  .column {
-    min-width: 100% !important;
-  }
-  
-  /* Adjust subsection padding */
-  .subsection {
-    padding: 60px 20px !important;
-  }
-  
-  /* Make call buttons full width on mobile */
-  .call-button {
-    width: 100% !important;
-    max-width: 280px !important;
-    margin: 15px auto !important;
-    display: block !important;
-  }
-  
-  /* Adjust paw header for mobile */
-  .paw-header {
-    font-size: 1.5rem !important;
-    flex-wrap: wrap !important;
-  }
-  
-  .paw-header i {
-    margin: 0 8px !important;
-  }
-  
-  /* Adjust tables for mobile */
-  .table-container {
-    margin: 0 auto 20px auto !important;
-  }
-  
-  .grooming-table {
-    font-size: 0.9rem !important;
-    min-width: 600px !important;
-  }
-  
-  .grooming-table td,
-  .grooming-table th {
-    padding: 12px 15px !important;
-  }
-  
-  /* Adjust reviews for mobile */
-  .reviews-container {
-    gap: 20px !important;
-    margin-top: 30px !important;
-  }
-  
-  .review-card {
-    flex: 1 1 100% !important;
-    max-width: 100% !important;
-  }
-  
-  /* Adjust footer for mobile */
-  footer {
-  overflow-x: hidden;
-}
-  
-  .contact-section {
-    padding: 2rem 0 !important;
-  }
-  
-  .form-submit {
-    width: 100% !important;
-    max-width: 200px !important;
-  }
-  
-  /* Adjust social container for mobile */
-  .social-container {
-    gap: 15px !important;
-  }
-  
-  .social-container a {
-    font-size: 1.5rem !important;
-  }
-  
-  /* Photo box adjustments for mobile */
-  .photo-box {
-    flex: 1 1 100% !important;
-    max-width: 100% !important;
-  }
-  
-  /* Header adjustments for mobile */
-  header {
-    height: 80px !important;
-    padding: 0 20px !important;
-  }
-  
-  header img {
-    height: 25px !important;
-  }
-  
-  nav ul {
-    gap: 15px !important;
-  }
-  
-  /* Responsive text adjustments */
-  .section h2 {
-    font-size: 1.8rem !important;
-  }
-  
-  .subsection h3 {
-    font-size: 1.6rem !important;
-    margin-bottom: 30px !important;
-  }
-  
-  .column h2 {
-    font-size: 1.5rem !important;
-  }
-}
-
-/* Responsive adjustments for medium screens */
-@media (max-width: 768px) {
-  .contact-section {
-    padding: 2rem 1rem !important;
-    text-align: center;
-  }
-
-  .form-group-container {
-    gap: 0.75rem;
-  }
-}
-  
-  .column {
-    min-width: 250px !important;
-  }
-}
-
-/* Photo box responsive adjustments */
-@media (max-width: 900px) {
-  .photo-box {
-    flex: 1 1 calc(50% - 24px) !important;
-    max-width: calc(50% - 24px) !important;
-  }
-}
-
-/* Call + Waiver button row */
 .button-row {
   display: flex;
   flex-wrap: wrap;
@@ -1377,30 +935,126 @@ footer small {
   gap: 16px;
 }
 
-.button-row .call-button {
-  margin: 0;
+.button-row .call-button { margin: 0; }
+
+.centered-content {
+  text-align: center;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.centered-content p {
+  max-width: 132ch;
+  text-align: justify;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* Waiver and booking intros are centred like the rest of the page */
+.centered-content p.waiver-intro {
+  text-align: center;
+  text-align-last: center;
+  max-width: 100%;
+}
+
+.paw-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 30px auto;
+  font-weight: bold;
+  font-size: 30px;
+  text-align: center;
+}
+
+.paw-header i { margin: 0 12px; }
+.paw-header i:first-child { transform: scaleX(-1); }
+
+.hover-enlarge { transition: transform 0.3s ease; }
+.hover-enlarge:hover { transform: scale(1.1); }
+
+.full-width-content {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* =========================================================
+   PHONES AND SMALL TABLETS
+========================================================= */
+@media (max-width: 900px) {
+  .photo-box,
+  .subsection-gallery .photo-box {
+    flex: 1 1 calc(50% - 24px);
+    max-width: calc(50% - 24px);
+  }
 }
 
 @media (max-width: 768px) {
-  .section[id], footer[id] { scroll-margin-top: 80px; }
+  :root { --header-h: 80px; }
 
-  header .social-container { gap: 10px !important; }
-  header .social-container a { font-size: 1.15rem !important; }
+  header { padding: 0 20px; }
+  header img { height: 25px; }
+  .social-container { gap: 10px; }
+  .social-container a { font-size: 1.15rem; }
+
+  .parallax { min-height: 20vh; }
 
   .parallax-text {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-    gap: 10px !important;
+    gap: 10px;
     padding: 0 16px;
     box-sizing: border-box;
   }
 
   .hero-copy {
     flex: 0 1 auto;
-    white-space: normal !important;
+    font-size: 1.5rem;
+    white-space: normal;
     text-wrap: balance;
-    font-size: 1.5rem !important;
+  }
+
+  .popper { width: 76px; height: 76px; }
+
+  .parallax-banner,
+  .parallax-section { height: 200px; }
+
+  .ticker-tape-container { padding: 12px 0; }
+
+  .three-column-section {
+    flex-direction: column;
+    gap: 40px;
+    padding: 40px 20px;
+    margin-top: 30px;
+  }
+
+  .section {
+    gap: 30px;
+    padding: 40px 20px;
+  }
+
+  .section.white,
+  .section.pink,
+  .section.pink.reverse { flex-direction: column; }
+
+  .section.pink img {
+    width: 100%;
+    max-width: 250px;
+    height: 250px;
+  }
+
+  .section h2 { font-size: 1.8rem; }
+  .column h2 { font-size: 1.5rem; }
+
+  .subsection { padding: 60px 20px; }
+  .subsection h3 { font-size: 1.6rem; margin-bottom: 30px; }
+
+  .call-button {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    margin: 15px auto;
   }
 
   .button-row {
@@ -1408,35 +1062,55 @@ footer small {
     gap: 12px;
   }
 
-  .button-row .call-button {
-    margin: 0 !important;
+  .button-row .call-button { margin: 0; }
+
+  .paw-header { font-size: 1.5rem; flex-wrap: wrap; }
+  .paw-header i { margin: 0 8px; }
+
+  .grooming-table { font-size: 0.9rem; min-width: 600px; }
+  .grooming-table td,
+  .grooming-table th { padding: 12px 15px; }
+  .table-container { margin: 0 auto 20px auto; }
+
+  .reviews-container { gap: 20px; margin-top: 30px; }
+  .review-card { flex: 1 1 100%; max-width: 100%; }
+
+  footer { overflow-x: hidden; }
+
+  .contact-section {
+    padding: 2rem 1rem;
+    text-align: center;
   }
+  .form-group-container { gap: 0.75rem; }
 }
 </style>
 <link rel="stylesheet" href="mobile_css.css">
+<noscript><style>#splash { display: none; } #mainContent[hidden] { display: block; }</style></noscript>
 </head>
 
 <body>
 
 <!-- SPLASH -->
-<div id="splash" role="button" tabindex="0" aria-label="Click to enter Paws n' Play" onclick="hideSplash()" onkeydown="if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); hideSplash(); }">
-  <img src="https://iili.io/KkTOXcP.md.png" alt="Paws n' Play logo" />
+<div id="splash" role="button" tabindex="0" aria-label="Click to enter Paws n' Play">
+  <img src="https://iili.io/KkTOXcP.md.png" alt="Paws n' Play logo" fetchpriority="high">
   <p class="splash-enter">Click to Enter</p>
 </div>
 
 <!-- MAIN -->
-<div id="mainContent" style="display:none;">
+<div id="mainContent" hidden>
+
+<a class="skip-link" href="#main">Skip to content</a>
 
 <header>
-  <a href="#"><img src="https://iili.io/KkTOXcP.md.png" alt="Logo" /></a>
+  <a href="#" aria-label="Paws n' Play, back to top"><img src="https://iili.io/KkTOXcP.md.png" alt="Paws n' Play"></a>
 
   <div class="social-container">
-    <a href="https://www.facebook.com/pawsnplayvancouver/" target="_blank" id="facebook"><i class="fab fa-facebook-f"></i></a>
-    <a href="https://www.instagram.com/pawsnplayvancouver/" target="_blank" id="instagram"><i class="fab fa-instagram"></i></a>
-    <a href="https://www.threads.com/@pawsnplayvancouver" target="_blank" id="threads"><i class="fab fa-threads"></i></a>
-    <a href="https://x.com/pawsnplayyvr" target="_blank" id="x"><i class="fab fa-x-twitter"></i></a>
-    <a href="https://www.tiktok.com/@pawsnplayvancouver" target="_blank" id="tiktok"><i class="fab fa-tiktok"></i></a>
-    <a href="https://www.youtube.com/@pawsnplayyvr" target="_blank" id="youtube"><i class="fab fa-youtube"></i></a>
+    <a href="https://www.facebook.com/pawsnplayvancouver/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://www.instagram.com/pawsnplayvancouver/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.threads.com/@pawsnplayvancouver" target="_blank" rel="noopener" aria-label="Threads"><i class="fab fa-threads"></i></a>
+    <a href="https://x.com/pawsnplayyvr" target="_blank" rel="noopener" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+    <a href="https://www.tiktok.com/@pawsnplayvancouver" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+    <a href="https://www.youtube.com/@pawsnplayyvr" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
   </div>
 
   <div class="menu">
@@ -1445,7 +1119,7 @@ footer small {
       <span></span>
       <span></span>
     </button>
-    <nav class="menu-panel" id="menuPanel">
+    <nav class="menu-panel" id="menuPanel" aria-label="Main">
       <a href="#cafe">Café</a>
       <a href="#shop">Shop</a>
       <a href="#walking">Dog Walking</a>
@@ -1459,153 +1133,198 @@ footer small {
   </div>
 </header>
 
-<!-- TICKER TAPE HEADER -->
+<!-- TICKER TAPE: the text is repeated so the loop is seamless -->
 <div class="ticker-tape-container">
   <div class="ticker-tape">
     <div class="ticker-content">
       <span class="ticker-text">We proudly practice force-free, positive reinforcement training with all dogs in our care. This means we use rewards, encouragement, and clear communication to build trust, confidence, and positive behaviors—never fear, punishment, or intimidation. Our goal is to create a safe, supportive environment where every dog can learn, play, and thrive. For more info, please email: <a href="mailto:pawsnplay@shaw.ca" class="ticker-email">pawsnplay@shaw.ca</a></span>
-      <span class="ticker-text">We proudly practice force-free, positive reinforcement training with all dogs in our care. This means we use rewards, encouragement, and clear communication to build trust, confidence, and positive behaviors—never fear, punishment, or intimidation. Our goal is to create a safe, supportive environment where every dog can learn, play, and thrive. For more info, please email: <a href="mailto:pawsnplay@shaw.ca" class="ticker-email">pawsnplay@shaw.ca</a></span>
+      <span class="ticker-text" aria-hidden="true">We proudly practice force-free, positive reinforcement training with all dogs in our care. This means we use rewards, encouragement, and clear communication to build trust, confidence, and positive behaviors—never fear, punishment, or intimidation. Our goal is to create a safe, supportive environment where every dog can learn, play, and thrive. For more info, please email: <a href="mailto:pawsnplay@shaw.ca" class="ticker-email" tabindex="-1">pawsnplay@shaw.ca</a></span>
     </div>
   </div>
 </div>
 
+<main id="main" tabindex="-1">
+
+<!-- HERO -->
 <div class="parallax">
   <div class="parallax-text">
-  <img src="https://iili.io/Kkx7umG.gif" class="popper-img left" alt="Left Popper" />
 
-  <div class="hero-copy">Opening soon!</div>
+    <div class="popper left" aria-hidden="true">
+      <svg viewBox="0 0 120 120" focusable="false">
+        <g class="body">
+          <g transform="translate(22 100) rotate(45)">
+            <polygon points="0,0 4.4,-14 -4.4,-14" fill="#ffd23f"/>
+            <polygon points="-4.4,-14 4.4,-14 8.8,-28 -8.8,-28" fill="#7b68ee"/>
+            <polygon points="-8.8,-28 8.8,-28 13.2,-42 -13.2,-42" fill="#fad4fc"/>
+            <polygon points="-13.2,-42 13.2,-42 17.6,-56 -17.6,-56" fill="#7b68ee"/>
+            <polygon points="-17.6,-56 17.6,-56 22,-70 -22,-70" fill="#fad4fc"/>
+            <circle cx="-4" cy="-35" r="1.6" fill="#3414fd"/>
+            <circle cx="5" cy="-33" r="1.6" fill="#3414fd"/>
+            <circle cx="-8" cy="-60" r="1.6" fill="#3414fd"/>
+            <circle cx="8" cy="-60" r="1.6" fill="#3414fd"/>
+            <path d="M-22 -70 L0 0 L22 -70" fill="none" stroke="#3414fd" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+            <ellipse cx="0" cy="-70" rx="22" ry="6" fill="#3414fd"/>
+            <path d="M0 0 Q-7 9 3 16" fill="none" stroke="#3414fd" stroke-width="2.4" stroke-linecap="round"/>
+            <circle cx="3" cy="16" r="3" fill="#ffd23f" stroke="#3414fd" stroke-width="1.8"/>
+          </g>
+        </g>
+        <polygon class="burst" fill="#ffd23f" stroke="#3414fd" stroke-width="2.5" stroke-linejoin="round" points="71.5,29.5 74.9,40.0 83.8,33.5 80.4,44.0 91.5,44.0 82.5,50.5 91.5,57.0 80.4,57.0 83.8,67.5 74.9,61.0 71.5,71.5 68.1,61.0 59.2,67.5 62.6,57.0 51.5,57.0 60.5,50.5 51.5,44.0 62.6,44.0 59.2,33.5 68.1,40.0"/>
+        <g class="c" style="--dx:44px;--dy:-30px;--r:180deg;--d:0s" fill="#ffd23f" stroke="#3414fd" stroke-width="1.4"><circle cx="71.5" cy="50.5" r="3.4"/></g>
+        <g class="c" style="--dx:24px;--dy:-54px;--r:300deg;--d:.04s" fill="#fad4fc" stroke="#3414fd" stroke-width="1.4" stroke-linejoin="round"><rect x="67.5" y="48.5" width="8" height="4" rx="1"/></g>
+        <g class="c" style="--dx:62px;--dy:-12px;--r:90deg;--d:.02s" fill="#ffffff" stroke="#3414fd" stroke-width="1.4"><circle cx="71.5" cy="50.5" r="3"/></g>
+        <g class="c" style="--dx:8px;--dy:-64px;--r:200deg;--d:.06s" fill="#7b68ee" stroke="#3414fd" stroke-width="1.2" stroke-linejoin="round"><polygon points="71.5,44.3 73.1,48.3 77.4,48.6 74.1,51.3 75.1,55.5 71.5,53.2 67.9,55.5 68.9,51.3 65.6,48.6 69.9,48.3"/></g>
+        <g class="c" style="--dx:68px;--dy:-44px;--r:-240deg;--d:.03s" fill="#ffd23f" stroke="#3414fd" stroke-width="1.4" stroke-linejoin="round"><rect x="67.5" y="48.5" width="8" height="4" rx="1"/></g>
+        <g class="c" style="--dx:46px;--dy:-58px;--r:60deg;--d:.05s" fill="#fad4fc" stroke="#3414fd" stroke-width="1"><ellipse cx="71.5" cy="53.4" rx="3.7" ry="3"/><circle cx="67.6" cy="50" r="1.7"/><circle cx="69.9" cy="46.6" r="1.7"/><circle cx="73.1" cy="46.6" r="1.7"/><circle cx="75.4" cy="50" r="1.7"/></g>
+        <g class="c" style="--dx:32px;--dy:-26px;--r:-120deg;--d:.07s" fill="#ffffff" stroke="#3414fd" stroke-width="1.4" stroke-linejoin="round"><rect x="68" y="48.5" width="7" height="4" rx="1"/></g>
+        <g class="c" style="--dx:58px;--dy:-30px;--r:260deg;--d:.01s" fill="#7b68ee" stroke="#3414fd" stroke-width="1.4"><circle cx="71.5" cy="50.5" r="2.8"/></g>
+        <g class="c" style="--dx:16px;--dy:-44px;--r:-50deg;--d:.08s" fill="#ffd23f" stroke="#3414fd" stroke-width="1"><ellipse cx="71.5" cy="53.4" rx="3.7" ry="3"/><circle cx="67.6" cy="50" r="1.7"/><circle cx="69.9" cy="46.6" r="1.7"/><circle cx="73.1" cy="46.6" r="1.7"/><circle cx="75.4" cy="50" r="1.7"/></g>
+      </svg>
+    </div>
 
-  <img src="https://iili.io/KkxkRSe.gif" class="popper-img right" alt="Right Popper" />
+    <h1 class="hero-copy">Opening soon!</h1>
+
+    <div class="popper right" aria-hidden="true">
+      <svg viewBox="0 0 120 120" focusable="false">
+        <g class="body">
+          <g transform="translate(22 100) rotate(45)">
+            <polygon points="0,0 4.4,-14 -4.4,-14" fill="#ffd23f"/>
+            <polygon points="-4.4,-14 4.4,-14 8.8,-28 -8.8,-28" fill="#7b68ee"/>
+            <polygon points="-8.8,-28 8.8,-28 13.2,-42 -13.2,-42" fill="#fad4fc"/>
+            <polygon points="-13.2,-42 13.2,-42 17.6,-56 -17.6,-56" fill="#7b68ee"/>
+            <polygon points="-17.6,-56 17.6,-56 22,-70 -22,-70" fill="#fad4fc"/>
+            <circle cx="-4" cy="-35" r="1.6" fill="#3414fd"/>
+            <circle cx="5" cy="-33" r="1.6" fill="#3414fd"/>
+            <circle cx="-8" cy="-60" r="1.6" fill="#3414fd"/>
+            <circle cx="8" cy="-60" r="1.6" fill="#3414fd"/>
+            <path d="M-22 -70 L0 0 L22 -70" fill="none" stroke="#3414fd" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+            <ellipse cx="0" cy="-70" rx="22" ry="6" fill="#3414fd"/>
+            <path d="M0 0 Q-7 9 3 16" fill="none" stroke="#3414fd" stroke-width="2.4" stroke-linecap="round"/>
+            <circle cx="3" cy="16" r="3" fill="#ffd23f" stroke="#3414fd" stroke-width="1.8"/>
+          </g>
+        </g>
+        <polygon class="burst" fill="#ffd23f" stroke="#3414fd" stroke-width="2.5" stroke-linejoin="round" points="71.5,29.5 74.9,40.0 83.8,33.5 80.4,44.0 91.5,44.0 82.5,50.5 91.5,57.0 80.4,57.0 83.8,67.5 74.9,61.0 71.5,71.5 68.1,61.0 59.2,67.5 62.6,57.0 51.5,57.0 60.5,50.5 51.5,44.0 62.6,44.0 59.2,33.5 68.1,40.0"/>
+        <g class="c" style="--dx:44px;--dy:-30px;--r:180deg;--d:0s" fill="#ffd23f" stroke="#3414fd" stroke-width="1.4"><circle cx="71.5" cy="50.5" r="3.4"/></g>
+        <g class="c" style="--dx:24px;--dy:-54px;--r:300deg;--d:.04s" fill="#fad4fc" stroke="#3414fd" stroke-width="1.4" stroke-linejoin="round"><rect x="67.5" y="48.5" width="8" height="4" rx="1"/></g>
+        <g class="c" style="--dx:62px;--dy:-12px;--r:90deg;--d:.02s" fill="#ffffff" stroke="#3414fd" stroke-width="1.4"><circle cx="71.5" cy="50.5" r="3"/></g>
+        <g class="c" style="--dx:8px;--dy:-64px;--r:200deg;--d:.06s" fill="#7b68ee" stroke="#3414fd" stroke-width="1.2" stroke-linejoin="round"><polygon points="71.5,44.3 73.1,48.3 77.4,48.6 74.1,51.3 75.1,55.5 71.5,53.2 67.9,55.5 68.9,51.3 65.6,48.6 69.9,48.3"/></g>
+        <g class="c" style="--dx:68px;--dy:-44px;--r:-240deg;--d:.03s" fill="#ffd23f" stroke="#3414fd" stroke-width="1.4" stroke-linejoin="round"><rect x="67.5" y="48.5" width="8" height="4" rx="1"/></g>
+        <g class="c" style="--dx:46px;--dy:-58px;--r:60deg;--d:.05s" fill="#fad4fc" stroke="#3414fd" stroke-width="1"><ellipse cx="71.5" cy="53.4" rx="3.7" ry="3"/><circle cx="67.6" cy="50" r="1.7"/><circle cx="69.9" cy="46.6" r="1.7"/><circle cx="73.1" cy="46.6" r="1.7"/><circle cx="75.4" cy="50" r="1.7"/></g>
+        <g class="c" style="--dx:32px;--dy:-26px;--r:-120deg;--d:.07s" fill="#ffffff" stroke="#3414fd" stroke-width="1.4" stroke-linejoin="round"><rect x="68" y="48.5" width="7" height="4" rx="1"/></g>
+        <g class="c" style="--dx:58px;--dy:-30px;--r:260deg;--d:.01s" fill="#7b68ee" stroke="#3414fd" stroke-width="1.4"><circle cx="71.5" cy="50.5" r="2.8"/></g>
+        <g class="c" style="--dx:16px;--dy:-44px;--r:-50deg;--d:.08s" fill="#ffd23f" stroke="#3414fd" stroke-width="1"><ellipse cx="71.5" cy="53.4" rx="3.7" ry="3"/><circle cx="67.6" cy="50" r="1.7"/><circle cx="69.9" cy="46.6" r="1.7"/><circle cx="73.1" cy="46.6" r="1.7"/><circle cx="75.4" cy="50" r="1.7"/></g>
+      </svg>
+    </div>
+
+  </div>
 </div>
-</div>
 
-<!-- SECTION 1 - PINK WITH CLOSER SPACING -->
+<!-- CAFÉ -->
 <section class="section pink" id="cafe">
-  <img src="https://iili.io/Kkuc8j1.md.png" alt="Dog Cafe" />
+  <img src="https://iili.io/Kkuc8j1.md.png" alt="Dog Cafe" width="275" height="275" decoding="async">
   <div class="section-content">
     <h2>Sip. Stay. Play.</h2>
     <p>Welcome to Vancouver's first — and only — registered Dog Café! At Paws n' Play, we've created a cozy, canine-friendly space where pups and their people can unwind, connect, and paws for a treat. With tail-wagging vibes, off-leash zones, and delicious drinks for humans, it's the ulti-mutt hangout. Come for the coffee, stay for the company ... because every good day starts with a wag and a woof.</p>
   </div>
 </section>
 
-<!-- PARALLAX BANNER 1 - MAIN BANNER -->
+<!-- Parallax banner: main -->
 <div class="parallax-banner">
-  <div class="parallax-banner-image main-banner" id="mainBanner"></div>
+  <div class="parallax-banner-image main-banner"></div>
 </div>
 
-<!-- Three Column Section -->
+<!-- Three columns -->
 <section class="three-column-section">
-    <!-- Column 1 -->
-    <div class="column">
-        <img src="https://iili.io/KgohlEP.md.png" alt="Dog 001">
-        <h2>Pawsitive Social Spaces</h2>
-        <p>At Paws n' Play, we've built a dog-friendly café where tails wag and conversations flow. Our open, social layout encourages pups and their people to mingle, relax, and make new friends in a cheerful, welcoming space.</p>
-    </div>
-    
-    <!-- Column 2 -->
-    <div class="column">
-        <img src="https://iili.io/KgxBdXI.md.png" alt="Dog 002">
-        <h2>Safe & Sound</h2>
-        <p>Your dog's safety and comfort come first. Our trained, dog-loving team maintains a clean, secure environment with supervised play areas designed for all sizes and temperaments.</p>
-    </div>
-    
-    <!-- Column 3 -->
-    <div class="column">
-        <img src="https://iili.io/KgxYDRS.md.png" alt="Coffee 001">
-        <h2>Crafted Comforts</h2>
-        <p>While your dog enjoys the good life, you can too. Our café serves artisanal, in-house coffee, hand-crafted desserts, and local treats made with care and quality ingredients.</p>
-    </div>
+  <div class="column">
+    <img src="https://iili.io/KgohlEP.md.png" alt="" loading="lazy" decoding="async">
+    <h2>Pawsitive Social Spaces</h2>
+    <p>At Paws n' Play, we've built a dog-friendly café where tails wag and conversations flow. Our open, social layout encourages pups and their people to mingle, relax, and make new friends in a cheerful, welcoming space.</p>
+  </div>
 
- 
-  
-  
+  <div class="column">
+    <img src="https://iili.io/KgxBdXI.md.png" alt="" loading="lazy" decoding="async">
+    <h2>Safe &amp; Sound</h2>
+    <p>Your dog's safety and comfort come first. Our trained, dog-loving team maintains a clean, secure environment with supervised play areas designed for all sizes and temperaments.</p>
+  </div>
+
+  <div class="column">
+    <img src="https://iili.io/KgxYDRS.md.png" alt="" loading="lazy" decoding="async">
+    <h2>Crafted Comforts</h2>
+    <p>While your dog enjoys the good life, you can too. Our café serves artisanal, in-house coffee, hand-crafted desserts, and local treats made with care and quality ingredients.</p>
+  </div>
+
   <div class="centered-content">
     <p>☕ And that's the heart of our mission! By combining the relaxation of our cafe with the excitement of our activity groups, we've created a unique space right here in Vancouver. It's not just a venue; it's a dedicated community hub designed to enhance the bond between you and your best friend, ensuring every visit is filled with connection, joy, and tail-wagging fun. Come be a part of the movement!</p>
-        </div>
-        
-        <!-- Centered Call Button -->
-<div class="centered-content">
-  <div class="button-row">
-    <a href="tel:+17787377529" class="call-button">Call Us Now</a>
-    <a href="#waiver" class="call-button">Complete Online Waiver</a>
   </div>
-</div>
+
+  <div class="centered-content">
+    <div class="button-row">
+      <a href="tel:+17787377529" class="call-button">Call Us Now</a>
+      <a href="#waiver" class="call-button">Complete Online Waiver</a>
+    </div>
+  </div>
 </section>
 
-<!-- SITE STORE - PINK WITH CLOSER SPACING -->
+<!-- SHOP -->
 <section class="section pink reverse" id="shop">
-  <img src="https://iili.io/KkchYaR.md.png" alt="Events" />
+  <img src="https://iili.io/KkchYaR.md.png" alt="Paws n' Play shop" width="275" height="275" loading="lazy" decoding="async">
   <div class="section-content">
     <h2>Shop with us</h2>
     <p>At Paws n' Play, we believe every pup deserves the very best gear for their adventures. We meticulously curate our selection of toys, accessories, and doggy apparel using only safe, high-quality, and ethically-sourced materials. You won't find anything made with harsh, cheap components—only items full of tail-wagging fun and style.</p>
   </div>
 </section>
 
-<!-- NEW PARALLAX SECTION 1 - SHOP -->
-<div class="parallax-section" id="shopParallaxSection">
-  <div class="parallax-section-image shop-parallax" id="shopParallax"></div>
+<div class="parallax-section">
+  <div class="parallax-section-image shop-parallax"></div>
 </div>
 
 <div class="subsection white">
-
- <!-- DOG TREATS GALLERY ROW -->
-<div class="subsection-gallery treats-row">
-  <a href="#" class="photo-box" aria-label="Dog Bone Cake">
-    <img src="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/DOG_BONE_CAKE_001.png" alt="Dog Bone Cake">
-    <div class="overlay">
-      <div class="caption-inner">Fresh Baked <br>Dog Bone Cake</div>
+  <div class="subsection-gallery">
+    <div class="photo-box" tabindex="0" role="group" aria-label="Fresh baked dog bone cake">
+      <img src="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/DOG_BONE_CAKE_001.png" alt="Dog Bone Cake" loading="lazy" decoding="async">
+      <div class="overlay"><div class="caption-inner">Fresh Baked <br>Dog Bone Cake</div></div>
     </div>
-  </a>
 
-  <a href="#" class="photo-box" aria-label="Dog Cookies">
-    <img src="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/DOG_COOKIES.png" alt="Dog Cookies">
-    <div class="overlay">
-      <div class="caption-inner">Homemade <br>Dog Cookies</div>
+    <div class="photo-box" tabindex="0" role="group" aria-label="Homemade dog cookies">
+      <img src="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/DOG_COOKIES.png" alt="Dog Cookies" loading="lazy" decoding="async">
+      <div class="overlay"><div class="caption-inner">Homemade <br>Dog Cookies</div></div>
     </div>
-  </a>
 
-  <a href="#" class="photo-box" aria-label="Baking Dog Treats">
-    <img src="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/BAKING_DOGGY_TREATS.png" alt="Baking Dog Treats">
-    <div class="overlay">
-      <div class="caption-inner">Made With Love <br>In-House Treats</div>
+    <div class="photo-box" tabindex="0" role="group" aria-label="Made with love in-house treats">
+      <img src="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/BAKING_DOGGY_TREATS.png" alt="Baking Dog Treats" loading="lazy" decoding="async">
+      <div class="overlay"><div class="caption-inner">Made With Love <br>In-House Treats</div></div>
     </div>
-  </a>
-</div>
+  </div>
 
-  
   <div class="centered-content">
     <p>🛒 Whether you're picking up a durable toy for playtime, a stylish new collar for walks, or a cozy hoodie for chilly days, we treat every item choice with the same love and care you treat your dog. It's not just about what they play with or wear—it's about enhancing their well-being, expressing their personality, and making every day something to bark about.</p>
- <!-- Centered Call Button -->
-<div class="centered-content">
-  <div class="button-row">
-    <a href="tel:+17787377529" class="call-button">Call Us Now</a>
-    <a href="#waiver" class="call-button">Complete Online Waiver</a>
-  </div>
-</div>
+    <div class="centered-content">
+      <div class="button-row">
+        <a href="tel:+17787377529" class="call-button">Call Us Now</a>
+        <a href="#waiver" class="call-button">Complete Online Waiver</a>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- SECTION 3 - PINK WITH CLOSER SPACING -->
+<!-- DOG WALKING -->
 <section class="section pink" id="walking">
-  <img src="https://iili.io/KkAZ1pa.md.png" alt="Dog Walking" />
+  <img src="https://iili.io/KkAZ1pa.md.png" alt="Dog Walking" width="275" height="275" loading="lazy" decoding="async">
   <div class="section-content">
     <h2>Dog Walking</h2>
     <p>Our <b>Paws n' Play</b> walking service offers both economical Group Walks and dedicated Solo Walks seven days a week, ensuring your dog gets the leash life they deserve. Our experienced, well-trained staff tailor every safe adventure to your pup's needs in the busy city, giving you peace of mind while they have a pawsitively great time!</p>
   </div>
 </section>
 
-<!-- NEW PARALLAX SECTION 2 - DOG WALKING -->
-<div class="parallax-section" id="walkingParallaxSection">
-  <div class="parallax-section-image walking-parallax" id="walkingParallax"></div>
+<div class="parallax-section">
+  <div class="parallax-section-image walking-parallax"></div>
 </div>
 
-<!-- DOG WALKING POLICIES SECTION -->
 <section class="section white">
   <div class="full-width-content">
     <div class="paw-header">
-      <i class="fa-solid fa-paw"></i>
-      Dog Walking Policies & Requirements
-      <i class="fa-solid fa-paw"></i>
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
+      Dog Walking Policies &amp; Requirements
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
     </div>
 
     <div class="centered-content">
@@ -1615,6 +1334,7 @@ footer small {
     <div class="table-container">
       <table class="grooming-table">
         <tbody>
+          <tr>
             <td>Group Walk Commitment</td>
             <td>A commitment to at least one walk per week is required for Group Walks.</td>
           </tr>
@@ -1623,17 +1343,17 @@ footer small {
             <td>Appointments canceled less than 24 hours before the start time will be billed the full fee.</td>
           </tr>
           <tr>
-            <td>Walkers & Safety</td>
-            <td>Our staff are licensed, insured, bonded, and trained in Pet First Aid. </br> All walkers use GPS trackers and carry waste removal supplies.</td>
+            <td>Walkers &amp; Safety</td>
+            <td>Our staff are licensed, insured, bonded, and trained in Pet First Aid. <br> All walkers use GPS trackers and carry waste removal supplies.</td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <div class="paw-header">
-      <i class="fa-solid fa-paw"></i>
-      Dog Walking Services & Pricing
-      <i class="fa-solid fa-paw"></i>
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
+      Dog Walking Services &amp; Pricing
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
     </div>
 
     <div class="table-container">
@@ -1650,21 +1370,18 @@ footer small {
             <td>N/A</td>
             <td>Special rate for a second walk for the same dog on the same day, or an additional dog from the same household.</td>
             <td>$12</td>
-                   </tr>
+          </tr>
         </tbody>
       </table>
     </div>
 
-          
-          
     <div class="paw-header">
-      <i class="fa-solid fa-paw"></i>
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
       Private One-on-One Walks
-      <i class="fa-solid fa-paw"></i>
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
     </div>
 
-
-            <div class="table-container">
+    <div class="table-container">
       <table class="grooming-table">
         <tbody>
           <tr>
@@ -1686,7 +1403,7 @@ footer small {
             <td>$55</td>
           </tr>
           <tr>
-            <td>Additional Dog / </br> Same Day Second Walk</td>
+            <td>Additional Dog / <br> Same Day Second Walk</td>
             <td>Varies</td>
             <td>Special rates available; please inquire.</td>
             <td>Contact Us</td>
@@ -1695,40 +1412,38 @@ footer small {
       </table>
     </div>
 
-      <div class="centered-content">
-      <p>All prices are subject to GST. </br> And that's the difference our walks make! Whether your dog thrives in a personalized solo excursion tailored to their pace or loves the fun of a safe, well-managed group adventure for socialization, we guarantee maximum mental and physical enrichment. Our goal is simple: to ensure every walk is a highlight of their day, bringing them back home happier, healthier, and delightfully tired from a truly joyful outing.</p>
+    <div class="centered-content">
+      <p>All prices are subject to GST. <br> And that's the difference our walks make! Whether your dog thrives in a personalized solo excursion tailored to their pace or loves the fun of a safe, well-managed group adventure for socialization, we guarantee maximum mental and physical enrichment. Our goal is simple: to ensure every walk is a highlight of their day, bringing them back home happier, healthier, and delightfully tired from a truly joyful outing.</p>
     </div>
   </div>
-  <!-- Centered Call Button -->
-<div class="centered-content">
-  <div class="button-row">
-    <a href="tel:+17787377529" class="call-button">Call Us Now</a>
-    <a href="#waiver" class="call-button">Complete Online Waiver</a>
+
+  <div class="centered-content">
+    <div class="button-row">
+      <a href="tel:+17787377529" class="call-button">Call Us Now</a>
+      <a href="#waiver" class="call-button">Complete Online Waiver</a>
+    </div>
   </div>
-</div>
 </section>
 
-<!-- GROOMING SECTION - PINK WITH CLOSER SPACING -->
+<!-- GROOMING -->
 <section class="section pink reverse" id="grooming">
-  <img class="dog-illustration" src="BLUE_DOG.png" alt="Illustration of a blue cartoon dog" />
+  <img class="dog-illustration" src="BLUE_DOG.png" alt="Illustration of a blue cartoon dog" width="275" height="275" loading="lazy" decoding="async">
   <div class="section-content">
-    <h2>Grooming & Spa</h2>
+    <h2>Grooming &amp; Spa</h2>
     <p>At Paws n' Play, we believe every pup deserves a gentle, stress-free clean. Our dog washing service uses only safe, ethical products — free from harsh chemicals and full of tail-wagging goodness. Whether it's a quick rinse or a full spa day, we treat every dog with the same love and care you do. It's not just about staying clean — it's about feeling great, building trust, and making bath time something to bark about.</p>
   </div>
 </section>
 
-<!-- NEW PARALLAX SECTION 3 - GROOMING -->
-<div class="parallax-section" id="groomingParallaxSection">
-  <div class="parallax-section-image grooming-parallax" id="groomingParallax"></div>
+<div class="parallax-section">
+  <div class="parallax-section-image grooming-parallax"></div>
 </div>
 
-<!-- GROOMING POLICIES SECTION -->
 <section class="section white">
   <div class="full-width-content">
     <div class="paw-header">
-      <i class="fa-solid fa-paw"></i>
-      Dog Grooming Policies & Guidelines
-      <i class="fa-solid fa-paw"></i>
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
+      Dog Grooming Policies &amp; Guidelines
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
     </div>
 
     <div class="centered-content">
@@ -1743,7 +1458,7 @@ footer small {
             <td>Rates vary by size, coat, and behavior. Extra charges apply for matted/dirty coats or behavioral challenges ($15 per 15 min.). 5% GST is added at checkout.</td>
           </tr>
           <tr>
-            <td>Health & Safety</td>
+            <td>Health &amp; Safety</td>
             <td>Must have up-to-date rabies vaccinations. Dogs with fleas/ticks cannot be groomed.</td>
           </tr>
           <tr>
@@ -1763,55 +1478,51 @@ footer small {
     </div>
 
     <div class="paw-header">
-      <i class="fa-solid fa-paw"></i>
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
       Dog Grooming Packages (Starting Prices)
-      <i class="fa-solid fa-paw"></i>
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
     </div>
 
     <div class="table-container">
       <table class="grooming-table">
-        <tbody></tbody>
+        <tbody>
           <tr>
-            <td>Bath & Brush</td>
-            <td>Ear cleaning, nail trim & filing, brushing (up to 15 min.), two shampoos.</td>
+            <td>Bath &amp; Brush</td>
+            <td>Ear cleaning, nail trim &amp; filing, brushing (up to 15 min.), two shampoos.</td>
             <td>Every 4–6 weeks.</td>
             <td>$45+ to $100+</td>
           </tr>
           <tr>
-            <td>Bath, Brush & Tidy</td>
-            <td>Bath & Brush PLUS sanitary, paw, and bum trims; anal gland expression (if needed).</td>
+            <td>Bath, Brush &amp; Tidy</td>
+            <td>Bath &amp; Brush PLUS sanitary, paw, and bum trims; anal gland expression (if needed).</td>
             <td>Every 3–4 weeks. (Ideal for Poodles/Doodles)</td>
             <td>$65+ to $130+</td>
           </tr>
           <tr>
             <td>Full Groom</td>
-            <td>Bath, Brush & Tidy PLUS full body haircut or outline trim.</td>
+            <td>Bath, Brush &amp; Tidy PLUS full body haircut or outline trim.</td>
             <td>Every 4–6 weeks.</td>
             <td>$75+ to $150+</td>
           </tr>
           <tr>
-            <td>Bath & De-Shedding</td>
+            <td>Bath &amp; De-Shedding</td>
             <td>De-shedding products, blow-dry, brush-out, tool use. (Charge is for labor)</td>
             <td>Essential for heavy/seasonal shedding breeds.</td>
             <td>Bath charge + $15 per 15 min.</td>
-          </tr>
           </tr>
         </tbody>
       </table>
     </div>
 
-        
-  <div class="paw-header">
-      <i class="fa-solid fa-paw"></i>
+    <div class="paw-header">
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
       À La Carte Add-Ons
-      <i class="fa-solid fa-paw"></i>
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
     </div>
 
-
-
-            <div class="table-container">
+    <div class="table-container">
       <table class="grooming-table">
-        <tbody></tbody>
+        <tbody>
           <tr>
             <td>Face Trim</td>
             <td>Tidy eyes and mouth area.</td>
@@ -1819,13 +1530,13 @@ footer small {
             <td>$20</td>
           </tr>
           <tr>
-            <td>Nail Trim & Filing</td>
+            <td>Nail Trim &amp; Filing</td>
             <td>Trim to prevent overgrowth, followed by filing.</td>
             <td>Every 3 weeks.</td>
             <td>$20</td>
           </tr>
           <tr>
-            <td>Pad Trim & Paw Shaping</td>
+            <td>Pad Trim &amp; Paw Shaping</td>
             <td>Removes hair between pads; shapes hair around paws.</td>
             <td>As needed.</td>
             <td>$20</td>
@@ -1833,14 +1544,13 @@ footer small {
         </tbody>
       </table>
     </div>
-    
+
     <div class="centered-content">
-      <p>All prices are subject to GST. </br> And that's just the start! From our exhilarating Dog Daycare and stimulating Activity Groups to a relaxing stop at our Dog Cafe, a shopping spree in our fully stocked Dog Store, and a pampering session with our expert Grooming services, <b>Paws n' Play</b> is your dog's ultimate destination for fun, care, and everything in between! Come discover the full experience and give your best friend the best life.</p>
+      <p>All prices are subject to GST. <br> And that's just the start! From our exhilarating Dog Daycare and stimulating Activity Groups to a relaxing stop at our Dog Cafe, a shopping spree in our fully stocked Dog Store, and a pampering session with our expert Grooming services, <b>Paws n' Play</b> is your dog's ultimate destination for fun, care, and everything in between! Come discover the full experience and give your best friend the best life.</p>
     </div>
   </div>
 </section>
 
-<!-- Centered Call Button -->
 <div class="centered-content">
   <div class="button-row">
     <a href="tel:+17787377529" class="call-button">Call Us Now</a>
@@ -1848,27 +1558,25 @@ footer small {
   </div>
 </div>
 
-<!-- BIRTHDAY PARTIES SECTION - PINK WITH CLOSER SPACING -->
+<!-- BIRTHDAY PARTIES -->
 <section class="section pink" id="birthdays">
-  <img src="https://iili.io/KkcO9cb.md.png" alt="Birthday Parties" />
+  <img src="https://iili.io/KkcO9cb.md.png" alt="Birthday Parties" width="275" height="275" loading="lazy" decoding="async">
   <div class="section-content">
     <h2>Birthday Parties</h2>
     <p>At Paws n' Play, we believe every pup deserves a fun, stress-free birthday celebration. Our custom party packages use only safe, ethical decorations and dog-friendly treats—free from harsh additives and full of tail-wagging goodness. Whether it's a small gathering or a full Bark-day Bash, we treat every event with the same love and care you do. It's not just about booking a space—it's about creating great memories, celebrating your bond, and making their birthday something to bark about!</p>
   </div>
 </section>
 
-<!-- NEW PARALLAX SECTION 4 - BIRTHDAY PARTIES -->
-<div class="parallax-section" id="birthdayParallaxSection">
-  <div class="parallax-section-image birthday-parallax" id="birthdayParallax"></div>
+<div class="parallax-section">
+  <div class="parallax-section-image birthday-parallax"></div>
 </div>
 
-<!-- BIRTHDAY PARTY PRICING SECTION -->
 <section class="section white">
   <div class="full-width-content">
     <div class="paw-header">
-      <i class="fa-solid fa-paw"></i>
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
       Birthday Party Pricing
-      <i class="fa-solid fa-paw"></i>
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
     </div>
 
     <div class="centered-content">
@@ -1907,7 +1615,7 @@ footer small {
           </tr>
           <tr>
             <td>Delicious Treats</td>
-            <td>Special custom doggie birthday cake and cookies, cupcakes, treats, and loot bag. For Birthday cakes, please reach out prior to arrival for availability. Please notify of alergies.</td>
+            <td>Special custom doggie birthday cake and cookies, cupcakes, treats, and loot bag. For Birthday cakes, please reach out prior to arrival for availability. Please notify of allergies.</td>
           </tr>
           <tr>
             <td>Gifts</td>
@@ -1917,12 +1625,12 @@ footer small {
       </table>
     </div>
   </div>
-   <div class="centered-content">
-      <p>Planning the ultimate dog party is easy with us! We remove the stress, providing a secure, decorated, and engaging environment where your dog and their friends can celebrate freely. Ultimately, our custom birthday packages deliver more than just a party—they create lasting, joyful memories and those perfect photo moments that truly show your dog how much they are loved. Ready to book your pup's next big bash?</p>
-    </div>
+
+  <div class="centered-content">
+    <p>Planning the ultimate dog party is easy with us! We remove the stress, providing a secure, decorated, and engaging environment where your dog and their friends can celebrate freely. Ultimately, our custom birthday packages deliver more than just a party—they create lasting, joyful memories and those perfect photo moments that truly show your dog how much they are loved. Ready to book your pup's next big bash?</p>
+  </div>
 </section>
 
-<!-- Centered Call Button -->
 <div class="centered-content">
   <div class="button-row">
     <a href="tel:+17787377529" class="call-button">Call Us Now</a>
@@ -1930,126 +1638,118 @@ footer small {
   </div>
 </div>
 
-<!-- SECTION 5 - PINK WITH CLOSER SPACING -->
+<!-- TEAM -->
 <section class="section pink reverse" id="team">
-  <img src="https://iili.io/KkcjLgf.md.png" alt="In Good Paws" />
+  <img src="https://iili.io/KkcjLgf.md.png" alt="In Good Paws" width="275" height="275" loading="lazy" decoding="async">
   <div class="section-content">
     <h2>In Good Paws</h2>
     <p>At Paws n' Play, you and your pup will be greeted by a small, knowledgeable team. Our staff members are trained in dog behavior and certified in Pet First Aid, ensuring safety and comfort during your visit. With attentive care and expertise, we're here to make your time in the café calm, happy, and stress-free.</p>
   </div>
 </section>
 
-<!-- NEW PARALLAX SECTION 5 - TEAM -->
-<div class="parallax-section" id="teamParallaxSection">
-  <div class="parallax-section-image team-parallax" id="teamParallax"></div>
+<div class="parallax-section">
+  <div class="parallax-section-image team-parallax"></div>
 </div>
 
-<!-- TEAM SECTION -->
 <div class="subsection white">
   <div class="subsection-gallery">
-    <a href="cafe.html" class="photo-box" aria-label="Solo Walks">
-      <img src="https://iili.io/Kg7BZap.th.png" alt="Christiana">
+    <div class="photo-box" tabindex="0" role="group" aria-label="Christiana Taylor, Co-owner">
+      <img src="https://iili.io/Kg7BZap.th.png" alt="Christiana Taylor" loading="lazy" decoding="async">
       <div class="overlay"><div class="caption-inner">Christiana Taylor <br>Co-owner <br> Head of the pack</div></div>
-    </a>
+    </div>
 
-    <a href="lounge.html" class="photo-box" aria-label="Group Walks">
-      <img src="https://iili.io/Kg7fmUN.th.png" alt="Tony">
+    <div class="photo-box" tabindex="0" role="group" aria-label="Tony Ali, Co-owner">
+      <img src="https://iili.io/Kg7fmUN.th.png" alt="Tony Ali" loading="lazy" decoding="async">
       <div class="overlay"><div class="caption-inner">Tony Ali <br>Co-owner <br> Chief Tail-wagger</div></div>
-    </a>
+    </div>
   </div>
-  
+
   <div class="centered-content">
     <div class="paw-header">
-      <i class="fa-solid fa-paw"></i>
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
       Our dedicated team
-      <i class="fa-solid fa-paw"></i>
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
     </div>
-    
+
     <p>🐶 For Christiana and Tony, Paws n' Play is the realization of a deep, lifelong passion for dogs and exceptional care. Driven by this dedication, we've poured our hearts into creating a warm, inviting space where safety and joy come first. From ensuring every corner is pup-approved to personally training our team in compassionate handling, our goal is to guarantee that every visit feels like home. We invite you to experience the difference that genuine, owner-driven love for canines makes!</p>
 
     <div class="paw-header">
-      <i class="fa-solid fa-paw"></i>
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
       What Our Customers Are Saying
-      <i class="fa-solid fa-paw"></i>
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
     </div>
 
     <div class="reviews-container">
-      <!-- Review 1 -->
       <div class="review-card">
-        <div class="review-stars">★★★★★</div>
+        <div class="review-stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
         <p>"Christiana has this calm, nurturing presence that instantly puts my pup at ease. I've never seen my dog so relaxed during grooming — she's an absolute gem."</p>
-        <p style="font-weight:700; color:#3414fd;">— Emily Zhang</p>
+        <p class="review-author">— Emily Zhang</p>
       </div>
 
-      <!-- Review 2 -->
       <div class="review-card">
-        <div class="review-stars">★★★★★</div>
+        <div class="review-stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
         <p>"Tony somehow manages to get my husky to behave on group walks — a miracle in itself. He's friendly, patient, and clearly loves what he does."</p>
-        <p style="font-weight:700; color:#3414fd;">— Jaspreet Singh</p>
+        <p class="review-author">— Jaspreet Singh</p>
       </div>
 
-      <!-- Review 3 -->
       <div class="review-card">
-        <div class="review-stars">★★★★★</div>
+        <div class="review-stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
         <p>"I've been to a lot of dog cafés, but none as warm and well-run as this one. Christiana greeted us by name on our second visit — that personal touch is everything."</p>
-        <p style="font-weight:700; color:#3414fd;">— Chloe Fernández</p>
+        <p class="review-author">— Chloe Fernández</p>
       </div>
 
-      <!-- Review 4 -->
       <div class="review-card">
-        <div class="review-stars">★★★★★</div>
+        <div class="review-stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
         <p>"Tony turned our routine walk into a social adventure. My golden retriever, Maple, practically dances when he sees him coming. Couldn't recommend more highly!"</p>
-        <p style="font-weight:700; color:#3414fd;">— David O'Leary</p>
+        <p class="review-author">— David O'Leary</p>
       </div>
-      
-      <!-- Review 5 -->
+
       <div class="review-card">
-        <div class="review-stars">★★★★★</div>
+        <div class="review-stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
         <p>"The entire experience is wonderful—our routine walks are now eagerly anticipated social adventures! Our dog practically dances with excitement when the caregiver arrives. We couldn't recommend them more highly and are so grateful for their dedicated care. Thank you, Paws n' Play!"</p>
-        <p style="font-weight:700; color:#3414fd;">— Sarah Ladd</p>
+        <p class="review-author">— Sarah Ladd</p>
       </div>
-      
-      <!-- Review 6 -->
+
       <div class="review-card">
-        <div class="review-stars">★★★★★</div>
+        <div class="review-stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
         <p>"Paws n' Play is the most professional and reliable pet care service we have ever used. Their consistency is outstanding—they handle everything seamlessly, and I never have a moment's worry while I'm away. It's not just a walk; it's trusted, high-quality care. The peace of mind they provide is priceless. Thank you, Paws n' Play, for your exceptional service!"</p>
-        <p style="font-weight:700; color:#3414fd;">— Kurt Stone</p>
+        <p class="review-author">— Kurt Stone</p>
       </div>
+
       <div class="centered-content">
-      <p>At Paws n' Play, we are your dog's complete lifestyle destination! From the community fun of our Dog Cafe and the curated selection in our Pet Store to enriching play in our Activity Center, expert Grooming services, and stimulating Dog Walking adventures, we offer integrated care under one roof. We look forward to seeing you and your furry one soon—it's going to be paw-some!</p>
-    </div>
+        <p>At Paws n' Play, we are your dog's complete lifestyle destination! From the community fun of our Dog Cafe and the curated selection in our Pet Store to enriching play in our Activity Center, expert Grooming services, and stimulating Dog Walking adventures, we offer integrated care under one roof. We look forward to seeing you and your furry one soon—it's going to be paw-some!</p>
+      </div>
     </div>
   </div>
-  <!-- Final Call Button -->
-<div class="centered-content">
-  <div class="button-row">
-    <a href="tel:+17787377529" class="call-button">Call Us Now</a>
-    <a href="#waiver" class="call-button">Complete Online Waiver</a>
+
+  <div class="centered-content">
+    <div class="button-row">
+      <a href="tel:+17787377529" class="call-button">Call Us Now</a>
+      <a href="#waiver" class="call-button">Complete Online Waiver</a>
+    </div>
   </div>
-</div>
 </div>
 
-<!-- BOOKING BANNER - PINK SECTION (dog on left, text on right) -->
+<!-- BOOKING -->
 <section class="section pink" id="booking-banner">
-  <img class="dog-illustration" src="GREEN_DOGS.png" alt="Illustration of a green cartoon dog" />
+  <img class="dog-illustration" src="GREEN_DOGS.png" alt="Illustration of a green cartoon dog" width="275" height="275" loading="lazy" decoding="async">
   <div class="section-content">
     <h2>Save Your Spot</h2>
     <p>Reserve a cafe visit, a play session or a grooming appointment in a few taps. Choose your time and we will have a spot ready for you and your pup.</p>
   </div>
 </section>
 
-<!-- PARALLAX SECTION - BOOKING -->
-<div class="parallax-section" id="bookingParallaxSection">
-  <div class="parallax-section-image booking-parallax" id="bookingParallax"></div>
+<div class="parallax-section">
+  <div class="parallax-section-image booking-parallax"></div>
 </div>
 
-<!-- ONLINE BOOKING: Google Calendar via Apps Script (see BOOKING-SETUP.md) -->
+<!-- Online booking: Google Calendar via Apps Script (widget in paws-n-play-booking.js, see BOOKING-SETUP.md) -->
 <section id="booking" class="section white" aria-labelledby="booking-heading">
   <div class="full-width-content">
     <div class="paw-header" id="booking-heading">
-      <i class="fa-solid fa-paw"></i>
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
       Book a Visit
-      <i class="fa-solid fa-paw"></i>
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
     </div>
     <div class="centered-content">
       <p class="waiver-intro">Pick a service, a day and a time. Your booking goes straight onto our calendar.</p>
@@ -2058,27 +1758,26 @@ footer small {
   </div>
 </section>
 
-<!-- WAIVER BANNER - PINK SECTION (dog on right, text on left) -->
+<!-- WAIVER -->
 <section class="section pink reverse" id="waiver-banner">
-  <img class="dog-illustration" src="RED_DOG.png" alt="Illustration of a red cartoon dog" />
+  <img class="dog-illustration" src="RED_DOG.png" alt="Illustration of a red cartoon dog" width="275" height="275" loading="lazy" decoding="async">
   <div class="section-content">
     <h2>Paws Before You Play</h2>
     <p>A quick bit of paperwork keeps every pup and person safe. Complete your waiver online before your visit, and your dog can head straight to the fun when you arrive.</p>
   </div>
 </section>
 
-<!-- PARALLAX SECTION - WAIVER -->
-<div class="parallax-section" id="waiverParallaxSection">
-  <div class="parallax-section-image waiver-parallax" id="waiverParallax"></div>
+<div class="parallax-section">
+  <div class="parallax-section-image waiver-parallax"></div>
 </div>
 
-<!-- ONLINE DOG OWNER WAIVER: placed near the bottom so visitors can explore services first, while the menu and service buttons provide direct access -->
+<!-- Online dog owner waiver (form built by paws-n-play-waiver.js) -->
 <section id="waiver" class="section white" aria-labelledby="waiver-heading">
   <div class="full-width-content">
     <div class="paw-header" id="waiver-heading">
-      <i class="fa-solid fa-paw"></i>
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
       Dog Owner Waiver
-      <i class="fa-solid fa-paw"></i>
+      <i class="fa-solid fa-paw" aria-hidden="true"></i>
     </div>
     <div class="centered-content">
       <p class="waiver-intro">Before your visit, please complete the Dog Owner Waiver, Release &amp; Responsibility Agreement below.<br>Current Rabies and Kennel Cough (Bordetella) vaccination records must also be provided separately and kept on file.</p>
@@ -2087,184 +1786,247 @@ footer small {
   </div>
 </section>
 
+</main>
+
 <footer id="contact">
   <div>
     <section class="contact-section">
       <div class="contact-intro">
         <div class="paw-header">
-          <i class="fa-solid fa-paw"></i>
+          <i class="fa-solid fa-paw" aria-hidden="true"></i>
           Get in Touch
-          <i class="fa-solid fa-paw"></i>
+          <i class="fa-solid fa-paw" aria-hidden="true"></i>
         </div>
-        
-        <p class="contact-description">
-          Fill out the form below and we'll get back to you as soon as possible.
-        </p>
+
+        <p class="contact-description">Fill out the form below and we'll get back to you as soon as possible.</p>
       </div>
 
+      <!-- Delivery: FormSubmit AJAX. Keep the addresses in step with paws-n-play-waiver.js (see WAIVER-EMAIL-SETUP.md). -->
       <form id="contact-form" class="contact-form" action="https://formsubmit.co/ajax/pawsnplayvancouver@gmail.com" method="POST">
-        <input type="hidden" name="_cc" value="tonysdestiny@shaw.ca,mgilbert1983@gmail.com" />
-        <input type="hidden" name="_subject" value="New Paws n' Play Website Contact Message" />
-        <input type="hidden" name="_template" value="table" />
-        <input type="hidden" name="_captcha" value="false" />
-        <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-10000px;width:1px;height:1px;opacity:0" aria-hidden="true" />
+        <input type="hidden" name="_cc" value="tonysdestiny@shaw.ca,mgilbert1983@gmail.com">
+        <input type="hidden" name="_subject" value="New Paws n' Play Website Contact Message">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-10000px;width:1px;height:1px;opacity:0" aria-hidden="true">
 
         <div class="form-group-container">
           <div class="form-group">
             <label for="name" class="form-label">Name</label>
-            <input id="name" name="name" class="form-input" placeholder="Your name" type="text" />
+            <input id="name" name="name" class="form-input" placeholder="Your name" type="text" autocomplete="name">
           </div>
           <div class="form-group">
             <label for="email" class="form-label">Email</label>
-            <input id="email" name="email" class="form-input" placeholder="Your email" type="email" required />
+            <input id="email" name="email" class="form-input" placeholder="Your email" type="email" autocomplete="email" required>
           </div>
           <div class="form-group">
             <label for="phone" class="form-label">Phone</label>
-            <input id="phone" name="phone" class="form-input" placeholder="+1 (234) 5678" type="text" />
+            <input id="phone" name="phone" class="form-input" placeholder="Your phone number" type="tel" autocomplete="tel">
           </div>
           <div class="form-group">
             <label for="message" class="form-label">Message</label>
             <textarea class="form-textarea" id="message" name="message" placeholder="Your message" required></textarea>
           </div>
         </div>
-        
+
         <div class="centered-content">
-          <button type="submit" class="call-button">
-            Send Message
-          </button>
+          <button type="submit" class="call-button">Send Message</button>
         </div>
         <p id="contact-status" class="contact-description" role="status" aria-live="polite"></p>
       </form>
     </section>
 
-    <img src="https://iili.io/KUgdDrB.md.png" 
-         alt="PAWSNPLAY_LOGO" 
-         border="0" 
-         width="200" 
-         height="auto" 
-         class="hover-enlarge">
-         
+    <img src="https://iili.io/KUgdDrB.md.png" alt="Paws n' Play" width="200" loading="lazy" decoding="async" class="hover-enlarge">
+
     <p>261 Keefer Street, Vancouver BC V6A 1X6<br>Open weekdays 9AM - 5PM</p>
-    <small>© 2025 <b>Paws n' Play</b> - All Rights Reserved.</small>
+    <small>© <span id="year">2026</span> <b>Paws n' Play</b> - All Rights Reserved.</small>
   </div>
 </footer>
 
 </div>
 
 <script>
-// Splash transition
-function hideSplash() {
-  const splash = document.getElementById('splash');
-  const main = document.getElementById('mainContent');
-  splash.style.transform = 'translateY(-100%)';
-  setTimeout(() => {
-    splash.style.display = 'none';
-    main.style.display = 'block';
-  }, 500);
-}
+(function () {
+  'use strict';
 
-// Fade-in animation on scroll
-window.addEventListener('scroll', () => {
-  document.querySelectorAll('.section').forEach(section => {
-    const rect = section.getBoundingClientRect();
-    if (rect.top < window.innerHeight - 100) {
-      section.classList.add('visible');
+  var root = document.documentElement;
+  var main = document.getElementById('main');
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* ---------- Splash ----------
+     The page is revealed straight away and the splash slides off the top,
+     so there is no blank frame. Skipped on return visits in the same
+     session and when the link already points at a section (#booking etc.). */
+  var splash = document.getElementById('splash');
+  var content = document.getElementById('mainContent');
+  var SEEN = 'pnpSplashSeen';
+
+  function jumpToHash() {
+    if (!location.hash || location.hash.length < 2) return;
+    try {
+      var target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+      if (target) target.scrollIntoView({ behavior: 'instant' });
+    } catch (e) { /* ignore malformed hashes */ }
+  }
+
+  function enter() {
+    if (!splash || splash.classList.contains('is-leaving')) return;
+    try { sessionStorage.setItem(SEEN, '1'); } catch (e) {}
+    content.hidden = false;
+    splash.classList.add('is-leaving');
+    var done = false;
+    function remove() { if (!done) { done = true; splash.remove(); } }
+    splash.addEventListener('transitionend', remove);
+    setTimeout(remove, reducedMotion.matches ? 0 : 900);
+    if (main) main.focus({ preventScroll: true });
+  }
+
+  var seen = false;
+  try { seen = sessionStorage.getItem(SEEN) === '1'; } catch (e) {}
+
+  if (splash) {
+    if (seen || location.hash.length > 1) {
+      content.hidden = false;
+      splash.remove();
+      jumpToHash();
+    } else {
+      splash.addEventListener('click', enter);
+      splash.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); enter(); }
+      });
     }
-  });
-});
+  } else {
+    content.hidden = false;
+  }
 
-// Mobile detection and adjustments
-function isMobileDevice() {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-}
-
-
-
-// Apply mobile-specific adjustments on load
-document.addEventListener('DOMContentLoaded', function() {
-  if (isMobileDevice()) {
-    // Remove fixed background attachment for better mobile performance
-    const parallaxElements = document.querySelectorAll('.parallax, .parallax-banner-image, .parallax-section-image');
-    parallaxElements.forEach(element => {
-      element.style.backgroundAttachment = 'scroll';
+  /* ---------- Header menu ---------- */
+  var toggle = document.getElementById('menuToggle');
+  var panel = document.getElementById('menuPanel');
+  if (toggle && panel) {
+    var setOpen = function (open) {
+      panel.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    toggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      setOpen(!panel.classList.contains('open'));
+    });
+    panel.addEventListener('click', function (e) {
+      if (e.target.closest('a')) setOpen(false);
+    });
+    document.addEventListener('click', function (e) {
+      if (!panel.contains(e.target) && !toggle.contains(e.target)) setOpen(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') setOpen(false);
     });
   }
-});
 
-// Header menu
-(function () {
-  const toggle = document.getElementById('menuToggle');
-  const panel = document.getElementById('menuPanel');
-  if (!toggle || !panel) return;
-
-  function setOpen(open) {
-    panel.classList.toggle('open', open);
-    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  /* ---------- Scroll reveal for the pink sections ---------- */
+  var sections = [].slice.call(document.querySelectorAll('.section'));
+  if ('IntersectionObserver' in window) {
+    var revealer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealer.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -80px 0px' });
+    sections.forEach(function (s) { revealer.observe(s); });
+  } else {
+    sections.forEach(function (s) { s.classList.add('visible'); });
   }
 
-  toggle.addEventListener('click', function (e) {
-    e.stopPropagation();
-    setOpen(!panel.classList.contains('open'));
+  /* ---------- Gentle parallax on the banner photos ----------
+     Desktop only, and off when the visitor prefers reduced motion. */
+  var layers = [].slice.call(document.querySelectorAll('.parallax-banner, .parallax-section')).map(function (box) {
+    return { box: box, img: box.firstElementChild };
   });
+  var wide = window.matchMedia('(min-width: 769px)');
+  var queued = false;
 
-  panel.addEventListener('click', function (e) {
-    if (e.target.closest('a')) setOpen(false);
+  function paint() {
+    queued = false;
+    var vh = window.innerHeight;
+    layers.forEach(function (l) {
+      var r = l.box.getBoundingClientRect();
+      if (r.bottom < -100 || r.top > vh + 100) return;
+      var max = r.height * 0.15;
+      var y = (r.top + r.height / 2 - vh / 2) * -0.1;
+      y = Math.max(-max, Math.min(max, y));
+      l.img.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0)';
+    });
+  }
+
+  function queuePaint() {
+    if (!queued) { queued = true; requestAnimationFrame(paint); }
+  }
+
+  function syncParallax() {
+    var on = wide.matches && !reducedMotion.matches;
+    root.classList.toggle('parallax-on', on);
+    if (on) {
+      paint();
+    } else {
+      layers.forEach(function (l) { l.img.style.transform = ''; });
+    }
+  }
+
+  window.addEventListener('scroll', function () { if (root.classList.contains('parallax-on')) queuePaint(); }, { passive: true });
+  window.addEventListener('resize', function () { if (root.classList.contains('parallax-on')) queuePaint(); });
+  [wide, reducedMotion].forEach(function (mq) {
+    if (mq.addEventListener) mq.addEventListener('change', syncParallax);
+    else if (mq.addListener) mq.addListener(syncParallax);
   });
+  syncParallax();
 
-  document.addEventListener('click', function (e) {
-    if (!panel.contains(e.target) && !toggle.contains(e.target)) setOpen(false);
-  });
+  /* ---------- Footer year ---------- */
+  var year = document.getElementById('year');
+  if (year) year.textContent = new Date().getFullYear();
 
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') setOpen(false);
-  });
-})();
-
-</script>
-
-  <script>
-  // Contact form delivery: FormSubmit AJAX, emailed to RECIPIENT with CC_RECIPIENTS copied.
-  // Keep these addresses in step with paws-n-play-waiver.js. See WAIVER-EMAIL-SETUP.md.
-  (function () {
-    var ENDPOINT = 'https://formsubmit.co/ajax/pawsnplayvancouver@gmail.com';
+  /* ---------- Contact form (FormSubmit AJAX; address comes from the form's action) ---------- */
+  var form = document.getElementById('contact-form');
+  if (form) {
+    var ENDPOINT = form.getAttribute('action');
     var FALLBACK_PHONE = '778-737-7529';
-    var form = document.getElementById('contact-form');
-    if (!form) return;
     var status = document.getElementById('contact-status');
     var button = form.querySelector('button[type="submit"]');
-    form.addEventListener('submit', function (e) {
+
+    form.addEventListener('submit', async function (e) {
       e.preventDefault();
       if (!form.reportValidity()) return;
       var label = button.textContent;
       button.disabled = true;
       button.textContent = 'Sending...';
       status.textContent = '';
-      fetch(ENDPOINT, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' }, signal: (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) ? AbortSignal.timeout(25000) : undefined })
-        .then(function (r) {
-          return r.json().catch(function () { return null; }).then(function (d) {
-            if (!r.ok || !d || String(d.success) !== 'true') {
-              console.error('Contact submission rejected:', r.status, d);
-              throw new Error('rejected');
-            }
-          });
-        })
-        .then(function () {
-          status.textContent = "Thank you. Your message has been sent and we'll get back to you soon.";
-          form.reset();
-        })
-        .catch(function (err) {
-          console.error('Contact submission failed:', err);
-          status.textContent = 'Your message may not have been sent. Your text is still here. Please try again, or call ' + FALLBACK_PHONE + '.';
-        })
-        .then(function () {
-          button.disabled = false;
-          button.textContent = label;
+      try {
+        var response = await fetch(ENDPOINT, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' },
+          signal: (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) ? AbortSignal.timeout(25000) : undefined
         });
+        var data = null;
+        try { data = await response.json(); } catch (err) { /* non-JSON reply */ }
+        if (!response.ok || !data || String(data.success) !== 'true') {
+          console.error('Contact submission rejected:', response.status, data);
+          throw new Error('rejected');
+        }
+        status.textContent = "Thank you. Your message has been sent and we'll get back to you soon.";
+        form.reset();
+      } catch (err) {
+        console.error('Contact submission failed:', err);
+        status.textContent = 'Your message may not have been sent. Your text is still here. Please try again, or call ' + FALLBACK_PHONE + '.';
+      } finally {
+        button.disabled = false;
+        button.textContent = label;
+      }
     });
-  })();
-  </script>
+  }
+})();
+</script>
 
-  <script src="paws-n-play-waiver.js" defer></script>
-  <script src="paws-n-play-booking.js" defer></script>
+<script src="paws-n-play-waiver.js" defer></script>
+<script src="paws-n-play-booking.js" defer></script>
 </body>
 </html>
