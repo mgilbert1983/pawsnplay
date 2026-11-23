@@ -30,6 +30,10 @@
   details{margin-top:.8rem;border-top:1px solid var(--line);padding-top:.6rem}
   summary{cursor:pointer;font-weight:700;color:var(--p)}
   a{color:var(--p)}
+  .clock{font-weight:900;font-size:clamp(2.4rem,9vw,3.6rem);line-height:1.05;font-variant-numeric:tabular-nums;color:var(--p);margin:.3rem 0}
+  .clock.warn{color:var(--warn)}.clock.over{color:var(--bad)}
+  .req{display:flex;gap:.6rem;flex-wrap:wrap;align-items:flex-end}
+  .req select{width:auto;min-width:130px}
   .top{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
 </style>
 </head>
@@ -45,6 +49,10 @@
 
   <div id="app" class="hidden">
     <div class="card" id="waiver-card"></div>
+
+    <h2>My bookings</h2>
+    <div id="timer-card" class="card hidden" aria-live="off"></div>
+    <div id="bookings"></div>
 
     <h2>My details</h2>
     <form id="me-form" class="card" novalidate>
@@ -78,7 +86,7 @@
       </form>
     </details>
 
-    <p class="muted">Bookings and your appointment timer are coming soon.</p>
+    <p class="muted">Bookings appear here when you book with the same email address you use to sign in.</p>
   </div>
 </main>
 
@@ -109,6 +117,22 @@ function vaxState(records, dogId, vaccine, todayYmd) {
   if (mine.some(function (r) { return r.status === "rejected"; })) return { s: "rejected" };
   return { s: "missing" };
 }
+function fmtDur(ms) {
+  var s = Math.floor(Math.abs(ms) / 1000), h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), sec = s % 60;
+  return (h ? h + ":" + String(m).padStart(2, "0") : String(m)) + ":" + String(sec).padStart(2, "0");
+}
+// phase of one appointment: before | active | over (ended less than 1h ago) | done
+function timerState(now, startMs, endMs) {
+  if (now < startMs) return { phase: "before", ms: startMs - now };
+  if (now < endMs) return { phase: "active", ms: endMs - now, warn: endMs - now <= 5 * 60000 };
+  if (now < endMs + 3600000) return { phase: "over", ms: now - endMs };
+  return { phase: "done", ms: 0 };
+}
+function untilText(ms) {
+  var d = Math.floor(ms / 86400000);
+  if (d >= 1) return "in " + d + " day" + (d === 1 ? "" : "s");
+  return fmtDur(ms);
+}
 //PURE-END
 
 (function () {
@@ -131,6 +155,8 @@ function vaxState(records, dogId, vaccine, todayYmd) {
     $("signout").classList.remove("hidden");
     $("gate").classList.add("hidden"); $("app").classList.remove("hidden");
     await load();
+    loadBookings();
+    setInterval(function () { if (!document.hidden) loadBookings(); }, 60000);
   }
   async function load() {
     var r = await Promise.all([
@@ -255,6 +281,81 @@ function vaxState(records, dogId, vaccine, todayYmd) {
     if (r.error || !r.data || !r.data.length) { say("d-msg", /limit/i.test(r.error && r.error.message || "") ? "You have reached the limit of 10 dogs. Please call 778-737-7529." : "Could not save. Please try again.", true); return; }
     editingId = null; openDogForm(null); $("dog-form-wrap").open = false; await load();
   });
+
+
+  /* ---------- bookings + timer ---------- */
+  var appts = [], treqs = [], tickTimer = null;
+  var fmtDay = function (iso) { return new Date(iso).toLocaleDateString("en-CA", { timeZone: TZ, weekday: "long", month: "long", day: "numeric" }); };
+  var fmtClock = function (iso) { return new Date(iso).toLocaleTimeString("en-CA", { timeZone: TZ, hour: "numeric", minute: "2-digit" }); };
+
+  async function loadBookings() {
+    var since = new Date(Date.now() - 2 * 3600000).toISOString();
+    var r = await Promise.all([
+      sb.from("appointments").select("id,service,dog_name,start_time,end_time").eq("status", "confirmed").gte("end_time", since).order("start_time").limit(20),
+      sb.from("time_requests").select("id,appointment_id,extra_minutes,status,created_at").order("created_at", { ascending: false }).limit(50)
+    ]);
+    if (!r[0].error) appts = r[0].data || [];
+    if (!r[1].error) treqs = r[1].data || [];
+    renderBookings();
+  }
+
+  function renderBookings() {
+    var now = Date.now(), list = $("bookings"), card = $("timer-card");
+    list.innerHTML = ""; card.innerHTML = ""; card.classList.add("hidden");
+    var live = appts.filter(function (a) { return timerState(now, Date.parse(a.start_time), Date.parse(a.end_time)).phase !== "done"; });
+    if (!live.length) { add(list, el("p", "muted", "No upcoming bookings found.")); return; }
+
+    var first = live[0], st = timerState(now, Date.parse(first.start_time), Date.parse(first.end_time));
+    card.classList.remove("hidden");
+    add(card, el("strong", null, (first.service || "Your booking") + (first.dog_name ? " for " + first.dog_name : "")));
+    add(card, el("div", "muted", fmtDay(first.start_time) + ", " + fmtClock(first.start_time) + " – " + fmtClock(first.end_time)));
+    var clock = el("div", "clock"), sub = el("div", "muted");
+    clock.id = "pnp-clock"; sub.id = "pnp-sub"; add(card, clock, sub);
+    paintClock(first);
+
+    if (st.phase === "active" || st.phase === "over") {
+      var pend = treqs.filter(function (t) { return t.appointment_id === first.id && t.status === "pending"; })[0];
+      var last = treqs.filter(function (t) { return t.appointment_id === first.id && t.status !== "pending"; })[0];
+      if (pend) add(card, el("p", "msg", "Your request for " + pend.extra_minutes + " more minutes has been sent. Please wait for staff to confirm."));
+      else {
+        if (last) add(card, el("p", "muted", last.status === "approved" ? "Your last request (+" + last.extra_minutes + " min) was approved. Staff will update your end time." : "Your last request (+" + last.extra_minutes + " min) was declined."));
+        var row = el("div", "req"), box = el("div"), sel = el("select"), go = el("button", null, "Request more time"), msg = el("p", "msg");
+        [15, 30, 45, 60].forEach(function (m) { var o = el("option", null, "+" + m + " minutes"); o.value = m; add(sel, o); });
+        go.type = "button"; msg.setAttribute("role", "status");
+        add(box, el("label", null, "Need longer?"), sel); add(row, box, go); add(card, row, msg);
+        go.onclick = async function () {
+          go.disabled = true; msg.textContent = ""; msg.style.color = "var(--bad)";
+          var x = await sb.from("time_requests").insert({ appointment_id: first.id, extra_minutes: Number(sel.value) }).select("id");
+          if (x.error || !x.data || !x.data.length) {
+            msg.textContent = x.error && x.error.code === "23505" ? "You already have a request waiting." : "Could not send your request. Please ask a staff member.";
+            go.disabled = false; return;
+          }
+          await loadBookings();
+        };
+      }
+    }
+
+    var rest = live.slice(1);
+    if (rest.length) {
+      add(list, el("h3", null, "Other upcoming bookings"));
+      rest.forEach(function (a) {
+        var c = el("div", "card");
+        add(c, el("strong", null, (a.service || "Booking") + (a.dog_name ? " for " + a.dog_name : "")), el("div", "muted", fmtDay(a.start_time) + ", " + fmtClock(a.start_time) + " – " + fmtClock(a.end_time)));
+        add(list, c);
+      });
+    }
+    clearInterval(tickTimer); tickTimer = setInterval(function () { paintClock(first); }, 1000);
+  }
+
+  function paintClock(a) {
+    var clock = $("pnp-clock"), sub = $("pnp-sub"); if (!clock) return;
+    var st = timerState(Date.now(), Date.parse(a.start_time), Date.parse(a.end_time));
+    clock.className = "clock" + (st.warn ? " warn" : "") + (st.phase === "over" ? " over" : "");
+    if (st.phase === "before") { clock.textContent = untilText(st.ms); sub.textContent = "until your booked time starts"; }
+    else if (st.phase === "active") { clock.textContent = fmtDur(st.ms); sub.textContent = st.warn ? "left – your time is almost up" : "left of your booked time"; }
+    else if (st.phase === "over") { clock.textContent = fmtDur(st.ms); sub.textContent = "over your booked time. Please check with staff."; }
+    else { clock.textContent = ""; sub.textContent = ""; clearInterval(tickTimer); loadBookings(); }
+  }
 
   $("signout").onclick = async function () { await sb.auth.signOut(); location.href = "account.html"; };
   start();
