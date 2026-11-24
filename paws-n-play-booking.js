@@ -9,7 +9,7 @@
   const API = "https://script.google.com/macros/s/AKfycbwQgTzkRe_H9yZrpe_JNNMoVilLrBgNQ0kalSFGYGjxU_M1GBppjwFJFFSFWuZQmsPT/exec";
   // Dog walking is booked through its own small Apps Script (see walks/WALK-SETUP.md).
   // Until the address below is filled in, choosing Dog Walking tells visitors to call instead.
-  const WALK_API = "PASTE_WALK_BOOKING_URL_HERE";
+  const WALK_API = "https://script.google.com/macros/s/AKfycbxiA1QCnQxvCxcX52oUKwqWyR7QCeuqzTxVgOubOClVQloZcRQr9dTSVxuNjQjkQ-r1/exec";
   const WALK_TYPES = {
     group: { label: "Group Walk", min: 60, price: 20, kind: "group" },
     p30: { label: "Private Walk", min: 30, price: 20, kind: "private" },
