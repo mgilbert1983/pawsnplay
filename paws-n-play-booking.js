@@ -74,6 +74,20 @@
         <p class="small" id="pnb-wprivnote" hidden>Need an additional dog or a second walk on the same day? Please contact us for private-walk rates.</p>
         <label class="chk" id="pnb-wcommit-wrap" for="pnb-wcommit"><input id="pnb-wcommit" type="checkbox"><span>I understand that Group Walks require a commitment of at least one walk per week. *</span></label>
       </div>
+      <div id="pnb-groombox" class="walkbox" hidden>
+        <div class="grid" style="margin-top:0">
+          <div class="f"><label for="pnb-gpkg">Grooming package *</label>
+            <select id="pnb-gpkg"><option value="bb">Bath &amp; Brush &ndash; $45+ to $100+</option><option value="bbt">Bath, Brush &amp; Tidy &ndash; $65+ to $130+</option><option value="full">Full Groom &ndash; $75+ to $150+</option><option value="deshed">Bath &amp; De-Shedding &ndash; bath charge + $15 per 15 min.</option></select></div>
+          <div class="f"><label for="pnb-gbreed">Your dog&rsquo;s breed and size *</label><input id="pnb-gbreed" maxlength="80" placeholder="e.g. Goldendoodle, large"></div>
+        </div>
+        <div class="f" style="margin-top:1rem"><label>&Agrave; la carte add-ons ($20 each)</label>
+          <label class="chk" for="pnb-gadd-face"><input class="gadd" id="pnb-gadd-face" type="checkbox" value="face"><span>Face Trim</span></label>
+          <label class="chk" for="pnb-gadd-nails"><input class="gadd" id="pnb-gadd-nails" type="checkbox" value="nails"><span>Nail Trim &amp; Filing</span></label>
+          <label class="chk" for="pnb-gadd-pads"><input class="gadd" id="pnb-gadd-pads" type="checkbox" value="pads"><span>Pad Trim &amp; Paw Shaping</span></label></div>
+        <p class="small price" id="pnb-gprice"></p>
+        <label class="chk" for="pnb-ghealth"><input id="pnb-ghealth" type="checkbox"><span>My dog has up-to-date rabies vaccinations and has no fleas or ticks. *</span></label>
+        <label class="chk" for="pnb-gterms"><input id="pnb-gterms" type="checkbox"><span>I understand that a non-refundable deposit is required (the team will contact me to arrange it), that cancellations under 24 hours or no-shows are charged the full fee, and that arriving more than 15 minutes late may result in rescheduling and a no-show fee. *</span></label>
+      </div>
       <div class="f" style="margin-top:1rem"><label id="pnb-tl">Time *</label><div id="pnb-slots" class="slots" role="radiogroup" aria-labelledby="pnb-tl"></div></div>
       <div class="grid">
         <div class="f"><label for="pnb-name">Your name *</label><input id="pnb-name" autocomplete="name"></div>
@@ -96,19 +110,39 @@
   const NOTE_WALK = 'Walks run between 10:00 AM and 4:00 PM. Appointments canceled less than 24 hours before the start time are billed the full fee. All prices are subject to GST. Please complete the <a href="#waiver">Dog Owner Waiver</a> before your first walk.';
   const walkConfigured = !WALK_API.startsWith("PASTE_");
   const isWalk = () => svc.value === "walk";
+  // Grooming uses the new package/add-on booking only once the booking web app says it can take it.
+  // Until then (or if it is unreachable) grooming keeps using the original booking, unchanged.
+  let groomNew = false, groomMinutes = 0;
+  const isGroom = () => svc.value === "groom" && groomNew;
+  const useNew = () => isWalk() || isGroom();
+  const groomBox = $("groombox"), gpkg = $("gpkg"), gprice = $("gprice");
+  const NOTE_GROOM = 'Grooming appointments run Monday to Friday. New clients must register, so please complete the <a href="#waiver">Dog Owner Waiver</a>. A non-refundable deposit is required and we will contact you to arrange it. All prices are starting prices and are subject to GST.';
+  const GROOM_START = { bb: "$45+", bbt: "$65+", full: "$75+", deshed: "" };
+  const addonKeys = () => [...root.querySelectorAll(".gadd")].filter(c => c.checked).map(c => c.value);
+  function groomPriceText() {
+    const n = addonKeys().length, base = gpkg.value;
+    let t = base === "deshed" ? "Bath & De-Shedding: bath charge + $15 per 15 min." : `Starting at ${GROOM_START[base]}`;
+    if (n) t += `, plus $${n * 20} in add-ons`;
+    t += ", plus GST. The final price depends on your dog's size, coat and behaviour.";
+    if (groomMinutes) t += ` Allow about ${groomMinutes} minutes.`;
+    return t;
+  }
   const walkType = () => WALK_TYPES[wtype.value] || WALK_TYPES.group;
   const WALK_OFF = "Online dog walk booking is not switched on yet. Please call 778-737-7529.";
   function syncWalkUI() {
     const w = isWalk(), t = walkType(), group = t.kind === "group";
     walkBox.hidden = !w;
+    groomBox.hidden = !isGroom();
+    if (isGroom()) gprice.textContent = groomPriceText();
     wextraWrap.hidden = !group; wcommitWrap.hidden = !group; wprivnote.hidden = group;
     if (!group) wextra.value = "0";
     const extra = Number(wextra.value || 0), total = t.price + (group ? extra * EXTRA_DOG_PRICE : 0);
     wprice.textContent = `${t.label}, ${t.min} minutes: $${t.price}` + (group && extra ? ` + ${extra} additional dog${extra > 1 ? "s" : ""} at $${EXTRA_DOG_PRICE} = $${total}` : "") + " plus GST.";
-    if (w) noteEl.innerHTML = NOTE_WALK; else noteEl.innerHTML = NOTE_DEFAULT;
+    noteEl.innerHTML = w ? NOTE_WALK : (isGroom() ? NOTE_GROOM : NOTE_DEFAULT);
   }
   function slotsUrl() {
     if (isWalk()) return `${WALK_API}?action=slots&type=${wtype.value}&date=${dateEl.value}&dogs=${1 + Number(wextra.value || 0)}`;
+    if (isGroom()) return `${WALK_API}?service=groom&pkg=${gpkg.value}&addons=${addonKeys().join(",")}&date=${dateEl.value}`;
     return `${API}?action=slots&service=${svc.value}&date=${dateEl.value}`;
   }
   let chosen = "", reqId = 0;
@@ -120,12 +154,13 @@
   async function loadSlots() {
     chosen = ""; slotsEl.innerHTML = ""; msg.textContent = "";
     if (!svc.value || !dateEl.value) return;
-    if (isWalk() ? !walkConfigured : !configured) { if (isWalk()) msg.textContent = WALK_OFF; return; }
+    if (useNew() ? !walkConfigured : !configured) { if (isWalk()) msg.textContent = WALK_OFF; return; }
     const id = ++reqId; slotsEl.textContent = "Checking times...";
     try {
       const r = await (await fetch(slotsUrl())).json();
       if (id !== reqId) return;
       if (!r.ok) throw new Error();
+      if (isGroom() && r.minutes) { groomMinutes = r.minutes; gprice.textContent = groomPriceText(); }
       slotsEl.innerHTML = "";
       if (!r.slots.length) { slotsEl.textContent = "No times left that day. Try another weekday."; return; }
       r.slots.forEach(s => {
@@ -139,29 +174,47 @@
   svc.onchange = () => { syncWalkUI(); loadSlots(); };
   dateEl.onchange = loadSlots;
   wtype.onchange = wextra.onchange = () => { syncWalkUI(); loadSlots(); };
+  const onGroomChange = () => { groomMinutes = 0; syncWalkUI(); loadSlots(); };
+  gpkg.onchange = onGroomChange;
+  root.querySelectorAll(".gadd").forEach(c => { c.onchange = onGroomChange; });
   syncWalkUI();
+  if (walkConfigured) {
+    fetch(`${WALK_API}?action=info`).then(r => r.json()).then(j => {
+      if (j && j.ok && Array.isArray(j.services) && j.services.includes("groom")) { groomNew = true; syncWalkUI(); if (svc.value === "groom") loadSlots(); }
+    }).catch(() => {});
+  }
 
   $("go").form.addEventListener("submit", async ev => {
     ev.preventDefault();
     const v = k => $(k).value.trim();
-    if (isWalk() ? !walkConfigured : !configured) { if (isWalk()) msg.textContent = WALK_OFF; return; }
+    if (useNew() ? !walkConfigured : !configured) { if (isWalk()) msg.textContent = WALK_OFF; return; }
     if (!svc.value || !dateEl.value || !chosen || !v("name") || !v("dog") || !v("phone") || !/^\S+@\S+\.\S+$/.test(v("email"))) {
       msg.textContent = "Please choose a service, date and time, and fill in your name, dog, phone and a valid email."; return;
     }
     if (isWalk() && walkType().kind === "group" && !$("wcommit").checked) { msg.textContent = "Please confirm the weekly commitment for Group Walks."; return; }
+    if (isGroom()) {
+      if (!$("gbreed").value.trim()) { msg.textContent = "Please tell us your dog's breed and size."; return; }
+      if (!$("ghealth").checked) { msg.textContent = "Please confirm your dog has up-to-date rabies vaccinations and no fleas or ticks."; return; }
+      if (!$("gterms").checked) { msg.textContent = "Please confirm the deposit, cancellation and arrival terms."; return; }
+    }
     if ((Date.now() - loaded) / 1000 < MIN_FILL_S) { msg.textContent = "Please review the form and try again."; return; }
     go.disabled = true; go.textContent = "Booking..."; msg.textContent = "";
     try {
       const body = isWalk()
         ? { type: wtype.value, date: dateEl.value, time: chosen, name: v("name"), dog: v("dog"), phone: v("phone"), email: v("email"), notes: v("notes"),
             extraDogs: walkType().kind === "group" ? Number(wextra.value || 0) : 0, commit: $("wcommit").checked, hp: v("hp") }
-        : { service: svc.value, date: dateEl.value, time: chosen, name: v("name"), dog: v("dog"), phone: v("phone"), email: v("email"), notes: v("notes"), hp: v("hp") };
-      const res = await fetch(isWalk() ? WALK_API : API, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify(body) });
+        : isGroom()
+          ? { service: "groom", pkg: gpkg.value, addons: addonKeys(), date: dateEl.value, time: chosen, name: v("name"), dog: v("dog"), breed: v("gbreed"), phone: v("phone"), email: v("email"), notes: v("notes"),
+              health: $("ghealth").checked, terms: $("gterms").checked, hp: v("hp") }
+          : { service: svc.value, date: dateEl.value, time: chosen, name: v("name"), dog: v("dog"), phone: v("phone"), email: v("email"), notes: v("notes"), hp: v("hp") };
+      const res = await fetch(useNew() ? WALK_API : API, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify(body) });
       const r = await res.json();
       if (!r.ok) { msg.textContent = r.error || "Booking failed. Please call 778-737-7529."; loadSlots(); return; }
       localStorage.setItem(KEY, JSON.stringify({ label: r.label, minutes: r.minutes, start: r.start, end: r.end, dog: v("dog") }));
       msg.textContent = "Booked. A confirmation is on its way to your email.";
-      ["name", "dog", "phone", "email", "notes"].forEach(k => $(k).value = ""); svc.value = ""; dateEl.value = ""; chosen = ""; slotsEl.innerHTML = ""; wextra.value = "0"; $("wcommit").checked = false; syncWalkUI();
+      ["name", "dog", "phone", "email", "notes"].forEach(k => $(k).value = ""); svc.value = ""; dateEl.value = ""; chosen = ""; slotsEl.innerHTML = ""; wextra.value = "0"; $("wcommit").checked = false;
+      gpkg.value = "bb"; root.querySelectorAll(".gadd").forEach(c => { c.checked = false; }); $("ghealth").checked = false; $("gterms").checked = false; $("gbreed").value = ""; groomMinutes = 0;
+      syncWalkUI();
       drawWatch();
     } catch (e) { msg.textContent = "We could not confirm your booking. Please try again or call 778-737-7529."; }
     finally { go.disabled = false; go.textContent = "Book this time"; }

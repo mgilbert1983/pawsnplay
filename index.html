@@ -1641,6 +1641,8 @@ table.grooming-table.menu-info tbody tr.menu-sub td {
 
 <div class="centered-content">
   <div class="button-row">
+    <a href="#booking" class="call-button" id="bookGroomBtn">Book a Grooming Appointment</a>
+    <a href="#" class="call-button" id="payDepositBtn" style="display:none">Pay Grooming Deposit</a>
     <a href="tel:+17787377529" class="call-button">Call Us Now</a>
     <a href="#waiver" class="call-button">Complete Online Waiver</a>
   </div>
@@ -2126,6 +2128,24 @@ table.grooming-table.menu-info tbody tr.menu-sub td {
       var sel = document.getElementById('pnb-svc');
       if (sel) { sel.value = 'walk'; sel.dispatchEvent(new Event('change')); }
     });
+  }
+
+  /* ---------- "Book a Grooming Appointment" button: open the booking form with Dog Grooming selected ---------- */
+  var bookGroom = document.getElementById('bookGroomBtn');
+  if (bookGroom) {
+    bookGroom.addEventListener('click', function () {
+      var sel = document.getElementById('pnb-svc');
+      if (sel) { sel.value = 'groom'; sel.dispatchEvent(new Event('change')); }
+    });
+  }
+
+  /* ---------- Grooming deposit: link out to the payment page hosted by Square ----------
+     Paste the Square payment link between the quotes. While it is empty, the button stays hidden. */
+  var SQUARE_DEPOSIT_URL = "";
+  var payBtn = document.getElementById('payDepositBtn');
+  if (payBtn && SQUARE_DEPOSIT_URL) {
+    payBtn.href = SQUARE_DEPOSIT_URL; payBtn.target = '_blank'; payBtn.rel = 'noopener';
+    payBtn.style.display = '';
   }
 
   /* ---------- Footer year ---------- */
