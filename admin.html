@@ -25,13 +25,19 @@
   padding: 34px 20px 70px;
   text-align: center;
   background-color: var(--banner-base);
-  background-image: url("https://iili.io/Ke63t2I.png");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-image: none;
   border-radius: 0;
-  overflow: visible;
+  overflow: hidden;
 }
+/* the picture sits on its own taller layer that glides at a different speed from the page (parallax) */
+.hero-bg {
+  position: absolute;
+  inset: -24% 0;
+  background: url("https://iili.io/Ke63t2I.png") center / cover no-repeat;
+  will-change: transform;
+  pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; }
 .hero::before, .hero::after { content: none; display: none; }
 .hero .kicker { margin: 0 0 8px; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #fff; }
 .hero h1 { font-weight: 900; font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.12; color: #fff; }
@@ -57,9 +63,12 @@
 </header>
 
 <section class="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-inner">
   <p class="kicker">Team only</p>
   <h1>Staff Area</h1>
   <p class="sub">Bookings, customers, dogs and records, all in one place.</p>
+  </div>
 </section>
 
 <main class="wrap">
@@ -603,17 +612,17 @@ function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || ""
 })();
 </script>
 <script>
-/* Banner background slides as you scroll, like the home page banner */
+/* Banner picture glides at its own speed while you scroll (same idea as the photo banners on the home page) */
 (function () {
-  var hero = document.querySelector('.hero');
-  if (!hero) return;
-  var mq = window.matchMedia('(prefers-reduced-motion: reduce)'), FROM = 25, TO = 85, queued = false;
+  var hero = document.querySelector('.hero'), bg = hero && hero.querySelector('.hero-bg');
+  if (!bg) return;
+  var mq = window.matchMedia('(prefers-reduced-motion: reduce)'), queued = false;
   function paint() {
     queued = false;
-    if (mq.matches) { hero.style.backgroundPosition = ''; return; }
-    var r = hero.getBoundingClientRect(), end = r.top + window.pageYOffset + r.height;
-    var p = end > 0 ? Math.max(0, Math.min(1, window.pageYOffset / end)) : 0;
-    hero.style.backgroundPosition = 'center ' + (FROM + (TO - FROM) * p).toFixed(1) + '%';
+    if (mq.matches) { bg.style.transform = ''; return; }
+    var max = hero.offsetHeight * 0.22;
+    var y = Math.min(max, Math.max(0, window.pageYOffset * 0.35));
+    bg.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0)';
   }
   window.addEventListener('scroll', function () { if (!queued) { queued = true; requestAnimationFrame(paint); } }, { passive: true });
   window.addEventListener('resize', paint);
