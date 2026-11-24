@@ -6,62 +6,39 @@
 <title>Staff Area | Paws n' Play</title>
 <link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/WEBSITE_FAVICON.jpg">
 <meta name="robots" content="noindex,nofollow">
-<style>
-  :root{--p:#3414fd;--soft:#7b68ee;--pink:#fad4fc;--line:#d9d3ff;--ok:#0f7a3d;--warn:#b45309;--bad:#b91c1c}
-  *{box-sizing:border-box}
-  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#1f1a4d;background:#faf9ff}
-  header{background:var(--p);color:#fff;padding:.8rem 1rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
-  header h1{font-size:1.1rem;margin:0;flex:1}
-  header a,header button{color:#fff;background:none;border:1px solid #fff;border-radius:8px;padding:.4rem .8rem;font:inherit;cursor:pointer;text-decoration:none}
-  main{max-width:1000px;margin:1rem auto;padding:0 1rem 3rem}
-  nav.tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem}
-  nav.tabs button{background:#fff;color:var(--p);border:2px solid var(--soft);border-radius:9px;padding:.55rem 1rem;font:inherit;font-weight:700;cursor:pointer}
-  nav.tabs button[aria-selected=true]{background:var(--soft);color:#fff}
-  section.panel{display:none}section.panel.on{display:block}
-  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:.9rem 1rem;margin:.6rem 0}
-  .row{display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;justify-content:space-between}
-  h2{font-size:1.2rem;margin:.2rem 0 .6rem;color:var(--p)}
-  h3{font-size:1rem;margin:1rem 0 .3rem}
-  .muted{color:#5b5690;font-size:.9rem}
-  .badge{display:inline-block;border-radius:99px;padding:.15rem .6rem;font-size:.8rem;font-weight:700;margin-right:.3rem;background:#eee;color:#333}
-  .b-ok{background:#dcfce7;color:var(--ok)}.b-warn{background:#fef3c7;color:var(--warn)}.b-bad{background:#fee2e2;color:var(--bad)}
-  button.act{background:var(--soft);color:#fff;border:0;border-radius:8px;padding:.45rem .9rem;font:inherit;font-weight:700;cursor:pointer;margin-right:.3rem}
-  button.act.no{background:#fff;color:var(--bad);border:2px solid var(--bad)}
-  button:disabled{opacity:.55;cursor:wait}
-  input[type=search],select,input[type=text]{min-height:40px;padding:.4rem .7rem;border:1px solid #c9c1ff;border-radius:8px;font:inherit}
-  input[type=search]{width:100%;max-width:380px}
-  table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{text-align:left;padding:.4rem .5rem;border-bottom:1px solid var(--line);vertical-align:top}
-  .scroll{overflow-x:auto}
-  .msg{font-weight:650;min-height:1.3em}
-  .hidden{display:none}
-  input[type=email],input[type=password]{min-height:40px;padding:.4rem .7rem;border:1px solid #c9c1ff;border-radius:8px;font:inherit}
-  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
-  .form-grid label{display:block;font-weight:650;font-size:.9rem;margin-bottom:.2rem}
-  .form-grid input,.form-grid select{width:100%}
-  @media(max-width:620px){.form-grid{grid-template-columns:1fr}}
-  .okbox{background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:.7rem .9rem;margin:.6rem 0}
-  code.pw{font-size:1.15rem;font-weight:800;letter-spacing:.04em;background:#fff;border:1px dashed var(--soft);border-radius:6px;padding:.15rem .5rem}
-  .note{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:.6rem .8rem;margin:.6rem 0;font-size:.92rem}
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;800;900&family=Josefin+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="pnp-app.css">
 </head>
 <body>
-<header>
-  <h1>Paws n' Play &ndash; Staff Area</h1>
-  <span id="who" class="muted" style="color:#fff"></span>
-  <button id="refresh" type="button">Refresh</button>
-  <button id="signout" type="button">Sign out</button>
+<header class="app-header">
+  <a class="logo" href="index.html#top" aria-label="Paws n' Play, back to the website"><img src="https://iili.io/KkTOXcP.md.png" alt="Paws n' Play"></a>
+  <nav class="app-nav" aria-label="Staff area">
+    <span id="who" class="who"></span>
+    <button id="refresh" type="button" class="pill">↻ Refresh</button>
+    <button id="signout" type="button" class="pill solid">Sign out</button>
+  </nav>
 </header>
-<main>
+
+<section class="hero">
+  <p class="kicker">Team only</p>
+  <h1><span class="paw">🐾</span>Staff Area<span class="paw">🐾</span></h1>
+  <p class="sub">Bookings, customers, dogs and records, all in one place.</p>
+</section>
+
+<main class="wrap">
   <p id="gate" class="card">Loading&hellip;</p>
   <p id="err" class="msg" style="color:var(--bad)" role="alert"></p>
 
   <div id="app" class="hidden">
-    <nav class="tabs" role="tablist">
-      <button type="button" data-tab="today" aria-selected="true">Today</button>
-      <button type="button" data-tab="customers" aria-selected="false">Customers &amp; dogs</button>
-      <button type="button" data-tab="records" aria-selected="false">Waivers &amp; vaccinations</button>
-      <button type="button" data-tab="staff" aria-selected="false" id="tab-staff">Staff accounts</button>
-      <button type="button" data-tab="help" aria-selected="false">Help</button>
+    <nav class="tabs" role="tablist" aria-label="Staff area sections">
+      <button type="button" data-tab="today" aria-selected="true">📅 Today</button>
+      <button type="button" data-tab="customers" aria-selected="false">👥 Customers &amp; dogs</button>
+      <button type="button" data-tab="gallery" aria-selected="false">🖼️ Dog gallery</button>
+      <button type="button" data-tab="records" aria-selected="false">📋 Waivers &amp; vaccinations</button>
+      <button type="button" data-tab="staff" aria-selected="false" id="tab-staff">🔑 Staff accounts</button>
+      <button type="button" data-tab="help" aria-selected="false">💡 Help</button>
     </nav>
 
     <section id="p-today" class="panel on">
@@ -79,6 +56,16 @@
       <h2>Customers &amp; dogs</h2>
       <input id="q" type="search" placeholder="Search name, email, phone or dog" aria-label="Search customers">
       <div id="cust-list"></div>
+    </section>
+
+    <section id="p-gallery" class="panel">
+      <h2>Dog gallery</h2>
+      <p class="muted">Every dog on file with their photo, so the team can recognise them at the door. Click a photo to enlarge it.</p>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+        <input id="gq" type="search" placeholder="Search by dog, breed or owner" aria-label="Search dogs" style="flex:1 1 260px">
+        <label style="display:inline-flex;gap:8px;align-items:center;margin:0"><input type="checkbox" id="g-photos"> Only dogs with photos</label>
+      </div>
+      <div id="gallery" class="gallery"></div>
     </section>
 
     <section id="p-records" class="panel">
@@ -134,6 +121,7 @@
         <p><strong>How do I add a team member?</strong> Open the <em>Staff accounts</em> tab (admins only), fill in <em>Add a team member</em>, and press <em>Add person</em>. Give them the temporary password shown on screen. They must also click the confirmation link emailed to them once.</p>
         <p><strong>Someone on the team forgot their password.</strong> In <em>Staff accounts</em>, press <em>Send password reset</em> next to their name.</p>
         <p><strong>Someone has left the team.</strong> In <em>Staff accounts</em>, change their role to <em>customer</em> and press <em>Save</em>. They lose staff access straight away.</p>
+        <p><strong>Where can I see a dog's photo?</strong> In the <em>Dog gallery</em> tab, and next to each dog in <em>Customers &amp; dogs</em> and in today's bookings. Customers add and change their dog's photo from their own account page.</p>
         <p><strong>A customer forgot their password.</strong> Ask them to open the sign-in page and click &ldquo;Forgot your password?&rdquo;.</p>
         <p><strong>A customer says their upload failed.</strong> Files must be a PDF or photo (JPG, PNG, WEBP, HEIC) of 5 MB or less. They can also bring the record to the store.</p>
         <p><strong>A booking looks wrong or missing.</strong> The calendar is the master copy. Fix it in Google Calendar and it will update here within about 5 minutes.</p>
@@ -153,6 +141,15 @@
     </section>
   </div>
 </main>
+
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Dog photo">
+  <button type="button" id="lb-close">Close ✕</button>
+  <figure><img id="lb-img" alt=""><figcaption id="lb-cap"></figcaption></figure>
+</div>
+
+<footer class="app-footer">
+  <p style="margin:0">Paws n' Play &middot; <a href="tel:+17787377529">778-737-7529</a> &middot; <a href="mailto:pawsnplayvancouver@gmail.com">pawsnplayvancouver@gmail.com</a></p>
+</footer>
 
 <script src="pnp-config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js"></script>
@@ -222,6 +219,50 @@ function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || ""
   if (!cfg.SUPABASE_URL || cfg.SUPABASE_URL.indexOf("PASTE_") === 0 || !window.supabase) { $("gate").textContent = "Staff area is not switched on yet."; return; }
   var sb = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
   var me = null, role = null, D = {};
+  var photosOn = true, photoCache = {};
+
+  /* ---------- dog photos ---------- */
+  async function loadPhotoUrls() {
+    var now = Date.now(), need = [];
+    D.photoUrls = {};
+    D.dogs.forEach(function (d) {
+      if (!d.photo_path) return;
+      var c = photoCache[d.photo_path];
+      if (c && now - c.t < 50 * 60000) D.photoUrls[d.photo_path] = c.url; else need.push(d.photo_path);
+    });
+    if (!need.length) return;
+    var r = await sb.storage.from("dog-photos").createSignedUrls(need, 3600);
+    if (r.error || !r.data) return;
+    r.data.forEach(function (x) { if (x.signedUrl && x.path) { D.photoUrls[x.path] = x.signedUrl; photoCache[x.path] = { url: x.signedUrl, t: now }; } });
+  }
+  function openLightbox(url, name) {
+    $("lb-img").src = url; $("lb-img").alt = "Photo of " + name; $("lb-cap").textContent = name;
+    $("lightbox").hidden = false; $("lb-close").focus();
+  }
+  function closeLightbox() { $("lightbox").hidden = true; $("lb-img").removeAttribute("src"); }
+  $("lb-close").onclick = closeLightbox;
+  $("lightbox").addEventListener("click", function (e) { if (e.target === this) closeLightbox(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("lightbox").hidden) closeLightbox(); });
+  function photoUrlOf(d) { return d && d.photo_path && D.photoUrls ? D.photoUrls[d.photo_path] : null; }
+  function dogAvatar(d, small) {
+    var url = photoUrlOf(d), name = (d && d.name) || "Dog";
+    var a = el("div", "dogpic" + (small ? " sm" : "") + (url ? " zoom" : ""));
+    if (url) {
+      var img = el("img"); img.src = url; img.alt = "Photo of " + name; img.loading = "lazy"; add(a, img);
+      a.setAttribute("role", "button"); a.tabIndex = 0; a.setAttribute("aria-label", "Enlarge photo of " + name);
+      a.onclick = function () { openLightbox(url, name); };
+      a.onkeydown = function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLightbox(url, name); } };
+    } else { a.textContent = "🐶"; a.setAttribute("aria-label", "No photo yet"); }
+    return a;
+  }
+  // today's bookings only know the customer's email and the dog's name, so match them up
+  function findDogForAppt(a) {
+    var email = String(a.customer_email || "").toLowerCase(), name = String(a.dog_name || "").trim().toLowerCase();
+    if (!email || !name) return null;
+    var owner = D.profiles.filter(function (p) { return String(p.email || "").toLowerCase() === email; })[0];
+    if (!owner) return null;
+    return D.dogs.filter(function (d) { return d.owner_id === owner.id && String(d.name || "").trim().toLowerCase() === name; })[0] || null;
+  }
 
   async function start() {
     var s = await sb.auth.getSession();
@@ -244,26 +285,30 @@ function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || ""
       sb.from("appointments").select("id,service,owner_name,dog_name,customer_email,start_time,end_time,rescheduled").eq("status", "confirmed").gte("start_time", b.start.toISOString()).lt("start_time", week.end.toISOString()).order("start_time"),
       sb.from("time_requests").select("id,extra_minutes,created_at,appointments(service,owner_name,dog_name,start_time,end_time)").eq("status", "pending").order("created_at"),
       sb.from("profiles").select("id,role,email,full_name,phone,emergency_name,emergency_phone,created_at").order("created_at"),
-      sb.from("dogs").select("id,owner_id,name,breed,licence_tag,vet_name,vet_phone"),
+      sb.from("dogs").select("id,owner_id,name,breed,licence_tag,vet_name,vet_phone,photo_path"),
       sb.from("waivers").select("id,owner_id,dog_id,signed_name,waiver_version,signed_at").order("signed_at", { ascending: false }),
       sb.from("vaccination_records").select("id,dog_id,owner_id,vaccine,expiry_date,file_path,status,uploaded_at").order("uploaded_at", { ascending: false })
     ]);
+    if (r[3].error && /photo_path/i.test(r[3].error.message || "")) {   // photo feature not switched on in the database yet
+      photosOn = false;
+      r[3] = await sb.from("dogs").select("id,owner_id,name,breed,licence_tag,vet_name,vet_phone");
+    }
     var errs = r.filter(function (x) { return x.error; });
     if (errs.length) { fail("Could not load some data. Please refresh. (" + errs[0].error.message + ")"); }
     D = { appts: r[0].data || [], treq: r[1].data || [], profiles: r[2].data || [], dogs: r[3].data || [], waivers: r[4].data || [], vax: r[5].data || [], bounds: b };
-    renderToday(); renderCustomers(); renderRecords(); renderStaff();
+    if (photosOn) await loadPhotoUrls(); else D.photoUrls = {};
+    renderToday(); renderCustomers(); renderGallery(); renderRecords(); renderStaff();
   }
 
   /* ---- Today ---- */
   function apptCard(a, ov) {
-    var c = el("div", "card"), row = el("div", "row");
-    var left = el("div");
-    add(left, el("strong", null, fmtTime(a.start_time) + " – " + fmtTime(a.end_time)), el("span", "muted", "  (" + Math.round((new Date(a.end_time) - new Date(a.start_time)) / 60000) + " min)"));
-    add(left, el("div", null, (a.service || "Appointment") + " • " + (a.dog_name || "dog?") + " • " + (a.owner_name || "owner?")));
+    var c = el("div", "card inline-dog"), body = el("div"), dog = findDogForAppt(a) || { name: a.dog_name };
+    add(body, el("strong", null, fmtTime(a.start_time) + " – " + fmtTime(a.end_time)), el("span", "muted", "  (" + Math.round((new Date(a.end_time) - new Date(a.start_time)) / 60000) + " min)"));
+    add(body, el("div", null, (a.service || "Appointment") + " • " + (a.dog_name || "dog?") + " • " + (a.owner_name || "owner?")));
     var tags = el("div");
     if (ov[a.id]) add(tags, badge("Overlaps another booking", "warn"));
     if (a.rescheduled) add(tags, badge("Time changed", "warn"));
-    add(left, tags); add(row, left); add(c, row); return c;
+    add(body, tags); add(c, dogAvatar(dog, true), body); return c;
   }
   function renderToday() {
     var ov = overlapIds(D.appts), todayEnd = D.bounds.end.getTime();
@@ -280,7 +325,7 @@ function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || ""
     var rl = $("treq-list"); rl.innerHTML = "";
     if (!D.treq.length) add(rl, el("p", "muted", "No requests waiting."));
     D.treq.forEach(function (t) {
-      var ap = t.appointments || {}, c = el("div", "card"), row = el("div", "row"), left = el("div");
+      var ap = t.appointments || {}, c = el("div", "card"), row = el("div", "row-flex"), left = el("div");
       add(left, el("strong", null, "+" + t.extra_minutes + " min requested"));
       add(left, el("div", null, (ap.dog_name || "") + " • " + (ap.owner_name || "") + " • " + (ap.service || "")));
       add(left, el("div", "muted", ap.start_time ? fmtDay(ap.start_time) + " " + fmtTime(ap.start_time) + " – " + fmtTime(ap.end_time) : ""));
@@ -301,16 +346,16 @@ function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || ""
   /* ---- Customers & dogs ---- */
   function dogLine(d) {
     var today = ymdIn(new Date(), TZ);
-    var line = el("div", "card"), top = el("div");
+    var line = el("div", "card inline-dog"), body = el("div"), top = el("div");
     add(top, el("strong", null, d.name), el("span", "muted", d.breed ? "  " + d.breed : ""));
-    add(line, top);
-    add(line, el("div", "muted", "Licence tag: " + (d.licence_tag || "not given") + (d.vet_name ? " • Vet: " + d.vet_name + (d.vet_phone ? " " + d.vet_phone : "") : "")));
+    add(body, top);
+    add(body, el("div", "muted", "Licence tag: " + (d.licence_tag || "not given") + (d.vet_name ? " • Vet: " + d.vet_name + (d.vet_phone ? " " + d.vet_phone : "") : "")));
     var b = el("div");
     ["rabies", "bordetella"].forEach(function (v) {
       var s = vaxStatus(D.vax, d.id, v, today), label = v === "rabies" ? "Rabies" : "Kennel cough";
       add(b, badge(label + ": " + ({ ok: "OK until " + s.d, expired: "EXPIRED " + s.d, pending: "awaiting review", missing: "missing" })[s.s], s.s === "ok" ? "ok" : s.s === "pending" ? "warn" : "bad"));
     });
-    add(line, b); return line;
+    add(body, b); add(line, dogAvatar(d, true), body); return line;
   }
   function renderCustomers() {
     var q = ($("q").value || "").trim().toLowerCase(), list = $("cust-list"); list.innerHTML = "";
@@ -334,6 +379,38 @@ function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || ""
   }
   $("q").addEventListener("input", renderCustomers);
 
+  /* ---- Dog gallery ---- */
+  function renderGallery() {
+    var q = ($("gq").value || "").trim().toLowerCase(), onlyPhotos = $("g-photos").checked, box = $("gallery"), today = ymdIn(new Date(), TZ);
+    box.innerHTML = "";
+    var dogs = D.dogs.slice().sort(function (a, b) { return String(a.name).localeCompare(String(b.name)); });
+    var shown = 0;
+    dogs.forEach(function (d) {
+      var owner = D.profiles.filter(function (p) { return p.id === d.owner_id; })[0] || {};
+      var hay = [d.name, d.breed, owner.full_name, owner.email].join(" ").toLowerCase();
+      if (q && hay.indexOf(q) < 0) return;
+      if (onlyPhotos && !photoUrlOf(d)) return;
+      shown++;
+      var card = el("div", "gcard"), url = photoUrlOf(d), ph = el("div", "ph" + (url ? " zoom" : ""));
+      if (url) {
+        var img = el("img"); img.src = url; img.alt = "Photo of " + d.name; img.loading = "lazy"; add(ph, img);
+        ph.setAttribute("role", "button"); ph.tabIndex = 0;
+        ph.onclick = function () { openLightbox(url, d.name); };
+        ph.onkeydown = function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLightbox(url, d.name); } };
+      } else { ph.textContent = "🐶"; ph.setAttribute("aria-label", "No photo yet"); }
+      var meta = el("div", "meta");
+      add(meta, el("h3", null, d.name), el("div", "owner", [d.breed, owner.full_name || owner.email].filter(Boolean).join(" · ")));
+      ["rabies", "bordetella"].forEach(function (v) {
+        var s = vaxStatus(D.vax, d.id, v, today), label = v === "rabies" ? "Rabies" : "Kennel cough";
+        add(meta, badge(label + ": " + ({ ok: "OK", expired: "Expired", pending: "Review", missing: "Missing" })[s.s], s.s === "ok" ? "ok" : s.s === "pending" ? "warn" : "bad"));
+      });
+      add(card, ph, meta); add(box, card);
+    });
+    if (!shown) add(box, el("p", "muted", dogs.length ? "No dogs match." : "No dogs on file yet."));
+  }
+  $("gq").addEventListener("input", renderGallery);
+  $("g-photos").addEventListener("change", renderGallery);
+
   /* ---- Waivers & vaccinations ---- */
   function renderRecords() {
     var today = ymdIn(new Date(), TZ), pend = $("vax-pending"); pend.innerHTML = "";
@@ -342,7 +419,7 @@ function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || ""
     pending.forEach(function (v) {
       var dog = D.dogs.filter(function (d) { return d.id === v.dog_id; })[0] || {};
       var owner = D.profiles.filter(function (p) { return p.id === v.owner_id; })[0] || {};
-      var c = el("div", "card"), row = el("div", "row"), left = el("div");
+      var c = el("div", "card"), row = el("div", "row-flex"), left = el("div");
       add(left, el("strong", null, (dog.name || "dog") + " – " + (v.vaccine === "rabies" ? "Rabies" : "Kennel cough")));
       add(left, el("div", "muted", (owner.full_name || owner.email || "") + " • expires " + v.expiry_date));
       var btns = el("div"), view = el("button", "act", "View file"), ok = el("button", "act", "Approve"), no = el("button", "act no", "Reject");
