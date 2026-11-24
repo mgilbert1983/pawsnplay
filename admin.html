@@ -225,7 +225,7 @@ details.appt[open] > summary .chev { transform: rotate(180deg); }
   <p style="margin:0">Paws n' Play &middot; <a href="tel:+17787377529">778-737-7529</a> &middot; <a href="mailto:pawsnplayvancouver@gmail.com">pawsnplayvancouver@gmail.com</a></p>
 </footer>
 
-<script src="pnp-config.js"></script>
+<script src="pnp-config.js?v=2"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js"></script>
 <script>
 "use strict";
@@ -456,22 +456,25 @@ function noteAnswers(ans) {
     return wrap;
   }
 
-  async function cancelAppt(a, panel, btns) {
-    var msg = $("appt-msg"); msg.textContent = "";
-    if (!BOOKING_API) { fail("Cancelling from here is not switched on yet. (BOOKING_API is missing from pnp-config.js.)"); return; }
+  async function cancelAppt(a, panel, btns, status) {
+    function say(t, bad) { status.textContent = t; status.style.color = bad ? "var(--bad)" : ""; }
+    if (!BOOKING_API) { say("Cancelling from here is not switched on: the page has no booking address. Hard-refresh the page (Ctrl+Shift+R) and try again; if it still says this, re-upload pnp-config.js.", true); return; }
     btns.forEach(function (b) { b.disabled = true; });
+    say("Cancelling…");
     try {
       var sess = (await sb.auth.getSession()).data.session;
+      if (!sess) throw new Error("You were signed out. Please sign in again.");
       var notify = panel.querySelector("input[type=checkbox]");
       var res = await fetch(BOOKING_API, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({
-        action: "cancel", token: sess && sess.access_token, eventId: a.calendar_event_id, start: a.start_time, dog: a.dog_name || "", notify: !!(notify && notify.checked) }) });
-      var j = await res.json();
-      if (!j.ok) throw new Error(j.error || "failed");
+        action: "cancel", token: sess.access_token, eventId: a.calendar_event_id, start: a.start_time, dog: a.dog_name || "", notify: !!(notify && notify.checked) }) });
+      var txt = await res.text(), j;
+      try { j = JSON.parse(txt); } catch (e) { throw new Error("The booking system gave an unexpected reply. It probably needs the latest version deployed or its permissions approved again (Apps Script > Deploy > Manage deployments > New version)."); }
+      if (!j.ok) throw new Error(j.error || "The booking system refused the request.");
       hiddenAppts[a.id] = true; renderToday();
       $("appt-msg").textContent = "Cancelled. It has been removed from Google Calendar" + (j.emailed ? " and the customer was emailed." : ".");
     } catch (e) {
       btns.forEach(function (b) { b.disabled = false; });
-      fail("Could not cancel: " + (e && e.message ? e.message : "please try again or delete it in Google Calendar."));
+      say("Could not cancel: " + (e && e.message ? e.message : "please try again, or delete it in Google Calendar."), true);
     }
   }
   function cancelBlock(a) {
@@ -483,10 +486,11 @@ function noteAnswers(ans) {
       add(lab, cb, el("span", null, "Email the customer to tell them (" + a.customer_email + ")")); add(panel, lab);
     }
     var yes = el("button", "act no", "Yes, cancel it"), keep = el("button", "act", "Keep it"); yes.type = keep.type = "button";
-    yes.onclick = function () { cancelAppt(a, panel, [yes, keep, go]); };
+    var status = el("p", "msg"); status.setAttribute("role", "status");
+    yes.onclick = function () { cancelAppt(a, panel, [yes, keep, go], status); };
     keep.onclick = function () { panel.classList.add("hidden"); go.classList.remove("hidden"); };
     go.onclick = function () { panel.classList.remove("hidden"); go.classList.add("hidden"); };
-    add(panel, yes, keep); add(box, go, panel); return box;
+    add(panel, yes, keep, status); add(box, go, panel); return box;
   }
 
   function apptCard(a, ov) {
