@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;800;900&family=Josefin+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="pnp-app.css?v=4">
+<link rel="stylesheet" href="pnp-app.css?v=5">
 <style id="hero-style">
 /* Home-page style banner (also in pnp-app.css; repeated here so it always shows) */
 :root{--blue:#3414fd}
@@ -57,6 +57,22 @@
   .tabs { display: grid !important; grid-template-columns: 1fr 1fr; border-radius: 24px !important; }
   .tabs button { white-space: normal !important; text-align: center; padding: 8px 8px !important; font-size: 0.9rem !important; line-height: 1.2; }
 }
+/* expandable booking / dog cards, signed-waiver window */
+details.appt { padding: 0; }
+details.appt > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 14px; padding: 16px 20px; }
+details.appt > summary::-webkit-details-marker { display: none; }
+details.appt > summary .chev { margin-left: auto; font-size: 1.1rem; color: var(--deep); transition: transform .2s; }
+details.appt[open] > summary .chev { transform: rotate(180deg); }
+.appt-body { padding: 0 20px 18px; border-top: 1px solid var(--line); }
+.kv { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 12px 0; }
+.kv dt { font-weight: 700; color: var(--deep); } .kv dd { margin: 0; overflow-wrap: anywhere; }
+.notebox { margin: 12px 0; padding: 10px 14px; border-left: 4px solid #7b6ee6; background: #f3f0ff; border-radius: 8px; }
+.notebox h4 { margin: 0 0 4px; font-size: .95rem; }
+.cancel-panel { margin-top: 12px; padding: 12px 14px; border: 2px solid var(--bad); border-radius: 12px; background: #fff5f5; }
+.wv { position: fixed; inset: 0; z-index: 1001; display: grid; place-items: center; padding: 16px; background: rgba(46,28,110,.82); }
+.wv-box { background: #fff; border-radius: 18px; width: min(720px, 100%); max-height: 90vh; overflow: auto; padding: 22px 24px; }
+.wv-box h3 { margin-top: 0; }
+@media print { body.printing-waiver > *:not(#wv-modal) { display: none !important; } body.printing-waiver .wv { position: static; background: none; padding: 0; } body.printing-waiver .wv-box { max-height: none; box-shadow: none; } .noprint { display: none !important; } }
 </style>
 
 </head>
@@ -96,6 +112,7 @@
     <section id="p-today" class="panel on">
       <h2>Today's bookings</h2>
       <p class="muted" id="today-sub"></p>
+      <p class="msg" id="appt-msg" role="status"></p>
       <div id="today-list"></div>
       <h3>Extra-time requests waiting</h3>
       <p class="note">When you approve a request, also extend that appointment in Google Calendar so the calendar stays correct.</p>
@@ -199,6 +216,11 @@
   <figure><img id="lb-img" alt=""><figcaption id="lb-cap"></figcaption></figure>
 </div>
 
+<div class="wv" id="wv-modal" hidden role="dialog" aria-modal="true" aria-label="Signed waiver">
+  <div class="wv-box"><div id="wv-body"></div>
+    <p class="noprint" style="margin:16px 0 0"><button type="button" class="act" id="wv-print">Print</button><button type="button" class="act no" id="wv-close">Close</button></p></div>
+</div>
+
 <footer class="app-footer">
   <p style="margin:0">Paws n' Play &middot; <a href="tel:+17787377529">778-737-7529</a> &middot; <a href="mailto:pawsnplayvancouver@gmail.com">pawsnplayvancouver@gmail.com</a></p>
 </footer>
@@ -255,6 +277,25 @@ function genPassword() {
   return out;
 }
 function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || "").trim()); }
+// order a signed waiver's answers so the useful bits come first; drops empty ones
+function orderAnswers(ans) {
+  var out = [];
+  Object.keys(ans || {}).forEach(function (k) {
+    var v = ans[k];
+    if (Array.isArray(v)) v = v.join(", ");
+    else if (typeof v === "boolean") v = v ? "Yes" : "No";
+    v = v == null ? "" : String(v).trim();
+    if (!v) return;
+    var g = /signature|signed|date/i.test(k) ? 3 : /owner|emergency|phone|email/i.test(k) ? 0 : /dog|breed|vet|licen|vaccin|spay|neuter|age|sex|weight/i.test(k) ? 1 : 2;
+    out.push({ g: g, k: k, v: v, i: out.length });
+  });
+  out.sort(function (a, b) { return a.g - b.g || a.i - b.i; });
+  return out.map(function (x) { return [x.k, x.v]; });
+}
+// the answers that read like notes (health, behaviour, allergies...) so staff see them first
+function noteAnswers(ans) {
+  return orderAnswers(ans).filter(function (kv) { return /note|medical|health|behav|allerg|aggress|bite|special|comment|condition|medic|anxi|fear|trigger|injur|reactiv/i.test(kv[0]); });
+}
 //PURE-END
 
 /* ===== app ===== */
@@ -271,7 +312,8 @@ function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || ""
   if (!cfg.SUPABASE_URL || cfg.SUPABASE_URL.indexOf("PASTE_") === 0 || !window.supabase) { $("gate").textContent = "Staff area is not switched on yet."; return; }
   var sb = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
   var me = null, role = null, D = {};
-  var photosOn = true, photoCache = {};
+  var photosOn = true, photoCache = {}, notesOn = true, hiddenAppts = {};
+  var BOOKING_API = cfg.BOOKING_API || "";
 
   /* ---------- dog photos ---------- */
   async function loadPhotoUrls() {
@@ -302,9 +344,9 @@ function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || ""
     if (url) {
       var img = el("img"); img.src = url; img.alt = "Photo of " + name; img.loading = "lazy"; add(a, img);
       a.setAttribute("role", "button"); a.tabIndex = 0; a.setAttribute("aria-label", "Enlarge photo of " + name);
-      a.onclick = function () { openLightbox(url, name); };
-      a.onkeydown = function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLightbox(url, name); } };
-    } else { a.textContent = "🐶"; a.setAttribute("aria-label", "No photo yet"); }
+      a.onclick = function (e) { e.preventDefault(); e.stopPropagation(); openLightbox(url, name); };
+      a.onkeydown = function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); openLightbox(url, name); } };
+    } else { a.classList.add("nophoto"); a.setAttribute("role", "img"); a.setAttribute("aria-label", "No photo yet"); }
     return a;
   }
   // today's bookings only know the customer's email and the dog's name, so match them up
@@ -334,16 +376,20 @@ function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || ""
     fail("");
     var b = dayBounds(new Date(), TZ, 1), week = dayBounds(new Date(), TZ, 8);
     var r = await Promise.all([
-      sb.from("appointments").select("id,service,owner_name,dog_name,customer_email,start_time,end_time,rescheduled").eq("status", "confirmed").gte("start_time", b.start.toISOString()).lt("start_time", week.end.toISOString()).order("start_time"),
+      sb.from("appointments").select("id,calendar_event_id,service,owner_name,dog_name,customer_email,start_time,end_time,rescheduled,notes").eq("status", "confirmed").gte("start_time", b.start.toISOString()).lt("start_time", week.end.toISOString()).order("start_time"),
       sb.from("time_requests").select("id,extra_minutes,created_at,appointments(service,owner_name,dog_name,start_time,end_time)").eq("status", "pending").order("created_at"),
       sb.from("profiles").select("id,role,email,full_name,phone,emergency_name,emergency_phone,created_at").order("created_at"),
       sb.from("dogs").select("id,owner_id,name,breed,licence_tag,vet_name,vet_phone,photo_path"),
-      sb.from("waivers").select("id,owner_id,dog_id,signed_name,waiver_version,signed_at").order("signed_at", { ascending: false }),
+      sb.from("waivers").select("id,owner_id,dog_id,signed_name,waiver_version,signed_at,answers").order("signed_at", { ascending: false }),
       sb.from("vaccination_records").select("id,dog_id,owner_id,vaccine,expiry_date,file_path,status,uploaded_at").order("uploaded_at", { ascending: false })
     ]);
     if (r[3].error && /photo_path/i.test(r[3].error.message || "")) {   // photo feature not switched on in the database yet
       photosOn = false;
       r[3] = await sb.from("dogs").select("id,owner_id,name,breed,licence_tag,vet_name,vet_phone");
+    }
+    if (r[0].error && /notes/i.test(r[0].error.message || "")) {   // booking-notes column not added to the database yet
+      notesOn = false;
+      r[0] = await sb.from("appointments").select("id,calendar_event_id,service,owner_name,dog_name,customer_email,start_time,end_time,rescheduled").eq("status", "confirmed").gte("start_time", b.start.toISOString()).lt("start_time", week.end.toISOString()).order("start_time");
     }
     var errs = r.filter(function (x) { return x.error; });
     if (errs.length) { fail("Could not load some data. Please refresh. (" + errs[0].error.message + ")"); }
@@ -353,19 +399,123 @@ function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || ""
   }
 
   /* ---- Today ---- */
+  /* ---- shared: dog details, signed waiver, cancel ---- */
+  function ownerOfAppt(a) {
+    var email = String(a.customer_email || "").toLowerCase();
+    return email ? D.profiles.filter(function (p) { return String(p.email || "").toLowerCase() === email; })[0] || null : null;
+  }
+  function waiverFor(d, ownerId) {
+    var list = D.waivers.filter(function (w) { return w.owner_id === ownerId; });   // newest first
+    return (d && list.filter(function (w) { return w.dog_id === d.id; })[0]) || list[0] || null;
+  }
+  function kv(rows) {
+    var dl = el("dl", "kv");
+    rows.forEach(function (r) { if (r[1]) add(dl, el("dt", null, r[0]), el("dd", null, r[1])); });
+    return dl;
+  }
+  function openWaiver(w, owner, dogName) {
+    var box = $("wv-body"); box.innerHTML = "";
+    add(box, el("h3", null, "Signed waiver" + (dogName ? " – " + dogName : "")));
+    add(box, kv([["Signed by", w.signed_name], ["Signed on", new Date(w.signed_at).toLocaleString("en-CA", { timeZone: TZ, dateStyle: "long", timeStyle: "short" })],
+      ["Waiver version", w.waiver_version], ["Account", owner ? [owner.full_name, owner.email].filter(Boolean).join(" • ") : ""]]));
+    var rows = orderAnswers(w.answers);
+    if (rows.length) { add(box, el("h4", null, "Answers on the waiver")); add(box, kv(rows)); }
+    else add(box, el("p", "muted", "No answers were saved with this waiver."));
+    $("wv-modal").hidden = false; $("wv-close").focus();
+  }
+  function closeWaiver() { $("wv-modal").hidden = true; document.body.classList.remove("printing-waiver"); }
+  $("wv-close").onclick = closeWaiver;
+  $("wv-print").onclick = function () { document.body.classList.add("printing-waiver"); window.print(); setTimeout(function () { document.body.classList.remove("printing-waiver"); }, 500); };
+  $("wv-modal").addEventListener("click", function (e) { if (e.target === this) closeWaiver(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("wv-modal").hidden) closeWaiver(); });
+
+  function waiverRow(d, owner) {
+    var row = el("div"); if (!owner) return row;
+    var w = waiverFor(d, owner.id);
+    if (!w) { add(row, badge("No waiver on file", "bad")); return row; }
+    var btn = el("button", "act", "View signed waiver"); btn.type = "button";
+    btn.onclick = function () { openWaiver(w, owner, d && d.name); };
+    add(row, badge("Waiver signed " + fmtDay(w.signed_at), "ok"), btn);
+    return row;
+  }
+  // everything staff want to know about a dog, in one block
+  function dogInfo(d, owner) {
+    var wrap = el("div"), today = ymdIn(new Date(), TZ);
+    add(wrap, kv([["Dog", d.name + (d.breed ? " (" + d.breed + ")" : "")], ["Licence tag", d.licence_tag || "not given"],
+      ["Vet", d.vet_name ? d.vet_name + (d.vet_phone ? " " + d.vet_phone : "") : "not given"]]));
+    if (owner) add(wrap, kv([["Owner", owner.full_name || "(no name yet)"], ["Email", owner.email], ["Phone", owner.phone],
+      ["Emergency", [owner.emergency_name, owner.emergency_phone].filter(Boolean).join(" ")]]));
+    var vb = el("div");
+    ["rabies", "bordetella"].forEach(function (v) {
+      var st = vaxStatus(D.vax, d.id, v, today), label = v === "rabies" ? "Rabies" : "Kennel cough";
+      add(vb, badge(label + ": " + ({ ok: "OK until " + st.d, expired: "EXPIRED " + st.d, pending: "awaiting review", missing: "missing" })[st.s], st.s === "ok" ? "ok" : st.s === "pending" ? "warn" : "bad"));
+    });
+    add(wrap, vb, waiverRow(d, owner));
+    var w = owner && waiverFor(d, owner.id), notes = w ? noteAnswers(w.answers) : [];
+    if (notes.length) { var nb = el("div", "notebox"); add(nb, el("h4", null, "Notes on file (from the waiver)")); add(nb, kv(notes)); add(wrap, nb); }
+    return wrap;
+  }
+
+  async function cancelAppt(a, panel, btns) {
+    var msg = $("appt-msg"); msg.textContent = "";
+    if (!BOOKING_API) { fail("Cancelling from here is not switched on yet. (BOOKING_API is missing from pnp-config.js.)"); return; }
+    btns.forEach(function (b) { b.disabled = true; });
+    try {
+      var sess = (await sb.auth.getSession()).data.session;
+      var notify = panel.querySelector("input[type=checkbox]");
+      var res = await fetch(BOOKING_API, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({
+        action: "cancel", token: sess && sess.access_token, eventId: a.calendar_event_id, start: a.start_time, dog: a.dog_name || "", notify: !!(notify && notify.checked) }) });
+      var j = await res.json();
+      if (!j.ok) throw new Error(j.error || "failed");
+      hiddenAppts[a.id] = true; renderToday();
+      $("appt-msg").textContent = "Cancelled. It has been removed from Google Calendar" + (j.emailed ? " and the customer was emailed." : ".");
+    } catch (e) {
+      btns.forEach(function (b) { b.disabled = false; });
+      fail("Could not cancel: " + (e && e.message ? e.message : "please try again or delete it in Google Calendar."));
+    }
+  }
+  function cancelBlock(a) {
+    var box = el("div"), go = el("button", "act no", "Cancel this appointment"); go.type = "button";
+    var panel = el("div", "cancel-panel hidden");
+    add(panel, el("strong", null, "Cancel this appointment?"), el("p", "muted", "This deletes it from Google Calendar so the time opens up again."));
+    if (a.customer_email) {
+      var lab = el("label"), cb = el("input"); cb.type = "checkbox"; cb.checked = true; lab.style.cssText = "display:flex;gap:8px;align-items:center";
+      add(lab, cb, el("span", null, "Email the customer to tell them (" + a.customer_email + ")")); add(panel, lab);
+    }
+    var yes = el("button", "act no", "Yes, cancel it"), keep = el("button", "act", "Keep it"); yes.type = keep.type = "button";
+    yes.onclick = function () { cancelAppt(a, panel, [yes, keep, go]); };
+    keep.onclick = function () { panel.classList.add("hidden"); go.classList.remove("hidden"); };
+    go.onclick = function () { panel.classList.remove("hidden"); go.classList.add("hidden"); };
+    add(panel, yes, keep); add(box, go, panel); return box;
+  }
+
   function apptCard(a, ov) {
-    var c = el("div", "card inline-dog"), body = el("div"), dog = findDogForAppt(a) || { name: a.dog_name };
+    var d = findDogForAppt(a), dog = d || { name: a.dog_name }, owner = ownerOfAppt(a);
+    var c = el("details", "card appt"), sum = el("summary"), body = el("div");
     add(body, el("strong", null, fmtTime(a.start_time) + " – " + fmtTime(a.end_time)), el("span", "muted", "  (" + Math.round((new Date(a.end_time) - new Date(a.start_time)) / 60000) + " min)"));
     add(body, el("div", null, (a.service || "Appointment") + " • " + (a.dog_name || "dog?") + " • " + (a.owner_name || "owner?")));
     var tags = el("div");
     if (ov[a.id]) add(tags, badge("Overlaps another booking", "warn"));
     if (a.rescheduled) add(tags, badge("Time changed", "warn"));
-    add(body, tags); add(c, dogAvatar(dog, true), body); return c;
+    if (a.notes) add(tags, badge("Has notes", ""));
+    add(body, tags); add(sum, dogAvatar(dog, true), body, el("span", "chev", "▾")); add(c, sum);
+    var panel = el("div", "appt-body");
+    if (d) add(panel, dogInfo(d, owner));
+    else {
+      add(panel, el("p", "muted", "No dog profile on file for " + (a.dog_name || "this dog") + " yet" + (owner ? "." : " (and no account matches this booking's email, so no waiver or vaccination details are available).")));
+      if (owner) add(panel, kv([["Owner", owner.full_name], ["Email", owner.email], ["Phone", owner.phone]]), waiverRow(null, owner));
+      else add(panel, kv([["Owner", a.owner_name], ["Email", a.customer_email]]));
+    }
+    if (a.notes) { var nb = el("div", "notebox"); add(nb, el("h4", null, "Notes the customer left with this booking"), el("div", null, a.notes)); add(panel, nb); }
+    else if (!notesOn) add(panel, el("p", "muted", "Booking notes are not switched on yet (see 06_booking_notes.sql)."));
+    add(panel, cancelBlock(a)); add(c, panel);
+    return c;
   }
   function renderToday() {
-    var ov = overlapIds(D.appts), todayEnd = D.bounds.end.getTime();
-    var today = D.appts.filter(function (a) { return new Date(a.start_time).getTime() < todayEnd; });
-    var soon = D.appts.filter(function (a) { return new Date(a.start_time).getTime() >= todayEnd; });
+    var visible = D.appts.filter(function (a) { return !hiddenAppts[a.id]; });
+    var ov = overlapIds(visible), todayEnd = D.bounds.end.getTime();
+    var today = visible.filter(function (a) { return new Date(a.start_time).getTime() < todayEnd; });
+    var soon = visible.filter(function (a) { return new Date(a.start_time).getTime() >= todayEnd; });
     $("today-sub").textContent = new Date().toLocaleDateString("en-CA", { timeZone: TZ, weekday: "long", month: "long", day: "numeric" }) + " – " + today.length + " booking" + (today.length === 1 ? "" : "s");
     var tl = $("today-list"); tl.innerHTML = "";
     if (!today.length) add(tl, el("p", "muted", "No bookings today."));
@@ -396,18 +546,12 @@ function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || ""
   }
 
   /* ---- Customers & dogs ---- */
-  function dogLine(d) {
-    var today = ymdIn(new Date(), TZ);
-    var line = el("div", "card inline-dog"), body = el("div"), top = el("div");
-    add(top, el("strong", null, d.name), el("span", "muted", d.breed ? "  " + d.breed : ""));
-    add(body, top);
-    add(body, el("div", "muted", "Licence tag: " + (d.licence_tag || "not given") + (d.vet_name ? " • Vet: " + d.vet_name + (d.vet_phone ? " " + d.vet_phone : "") : "")));
-    var b = el("div");
-    ["rabies", "bordetella"].forEach(function (v) {
-      var s = vaxStatus(D.vax, d.id, v, today), label = v === "rabies" ? "Rabies" : "Kennel cough";
-      add(b, badge(label + ": " + ({ ok: "OK until " + s.d, expired: "EXPIRED " + s.d, pending: "awaiting review", missing: "missing" })[s.s], s.s === "ok" ? "ok" : s.s === "pending" ? "warn" : "bad"));
-    });
-    add(body, b); add(line, dogAvatar(d, true), body); return line;
+  function dogLine(d, owner) {
+    var line = el("details", "card appt"), sum = el("summary"), body = el("div");
+    add(body, el("strong", null, d.name), el("span", "muted", d.breed ? "  " + d.breed : ""));
+    add(sum, dogAvatar(d, true), body, el("span", "chev", "▾")); add(line, sum);
+    add(line, add(el("div", "appt-body"), dogInfo(d, owner)));
+    return line;
   }
   function renderCustomers() {
     var q = ($("q").value || "").trim().toLowerCase(), list = $("cust-list"); list.innerHTML = "";
@@ -423,7 +567,7 @@ function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || ""
       if (p.emergency_name || p.emergency_phone) add(c, el("div", "muted", "Emergency: " + [p.emergency_name, p.emergency_phone].filter(Boolean).join(" ")));
       var w = D.waivers.filter(function (x) { return x.owner_id === p.id; })[0];
       add(c, w ? badge("Waiver on file " + fmtDay(w.signed_at), "ok") : badge("No waiver on file", "bad"));
-      dogs.forEach(function (d) { add(c, dogLine(d)); });
+      dogs.forEach(function (d) { add(c, dogLine(d, p)); });
       if (!dogs.length) add(c, el("div", "muted", "No dogs added yet."));
       add(list, c);
     });
@@ -449,7 +593,7 @@ function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || ""
         ph.setAttribute("role", "button"); ph.tabIndex = 0;
         ph.onclick = function () { openLightbox(url, d.name); };
         ph.onkeydown = function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLightbox(url, d.name); } };
-      } else { ph.textContent = "🐶"; ph.setAttribute("aria-label", "No photo yet"); }
+      } else { ph.classList.add("nophoto"); ph.setAttribute("role", "img"); ph.setAttribute("aria-label", "No photo yet"); }
       var meta = el("div", "meta");
       add(meta, el("h3", null, d.name), el("div", "owner", [d.breed, owner.full_name || owner.email].filter(Boolean).join(" · ")));
       ["rabies", "bordetella"].forEach(function (v) {
