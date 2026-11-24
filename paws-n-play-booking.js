@@ -55,7 +55,6 @@
 
   root.innerHTML = `
   <div class="pnb">
-    <div id="pnb-watch"></div>
     <form id="pnb-form" novalidate>
       <div class="trap" aria-hidden="true"><input id="pnb-hp" tabindex="-1" autocomplete="off"></div>
       <div class="grid">
@@ -210,50 +209,16 @@
       const res = await fetch(useNew() ? WALK_API : API, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify(body) });
       const r = await res.json();
       if (!r.ok) { msg.textContent = r.error || "Booking failed. Please call 778-737-7529."; loadSlots(); return; }
-      localStorage.setItem(KEY, JSON.stringify({ label: r.label, minutes: r.minutes, start: r.start, end: r.end, dog: v("dog") }));
-      msg.textContent = "Booked. A confirmation is on its way to your email.";
+      msg.textContent = "Booked. A confirmation is on its way to your email. To see your booking and its countdown timer, sign in to ";
+      const acct = document.createElement("a"); acct.href = "account.html"; acct.textContent = "My Account"; msg.appendChild(acct); msg.appendChild(document.createTextNode("."));
       ["name", "dog", "phone", "email", "notes"].forEach(k => $(k).value = ""); svc.value = ""; dateEl.value = ""; chosen = ""; slotsEl.innerHTML = ""; wextra.value = "0"; $("wcommit").checked = false;
       gpkg.value = "bb"; root.querySelectorAll(".gadd").forEach(c => { c.checked = false; }); $("ghealth").checked = false; $("gterms").checked = false; $("gbreed").value = ""; groomMinutes = 0;
       syncWalkUI();
-      drawWatch();
     } catch (e) { msg.textContent = "We could not confirm your booking. Please try again or call 778-737-7529."; }
     finally { go.disabled = false; go.textContent = "Book this time"; }
   });
 
-  /* ---------- Session stopwatch ---------- */
-  const watch = $("watch"); let timer = null;
-  const get = () => { try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) { return null; } };
-  const put = b => localStorage.setItem(KEY, JSON.stringify(b));
-  const fmt = ms => { const s = Math.floor(Math.abs(ms) / 1000), h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60); return (h ? h + ":" + String(m).padStart(2, "0") : m) + ":" + String(s % 60).padStart(2, "0"); };
-
-  function drawWatch() {
-    clearInterval(timer);
-    const b = get();
-    if (!b || Date.now() > Date.parse(b.end) + 12 * 36e5) { localStorage.removeItem(KEY); watch.innerHTML = ""; return; }
-    const when = new Date(b.start).toLocaleString([], { weekday: "long", month: "long", day: "numeric", hour: "numeric", minute: "2-digit" });
-    watch.innerHTML = `<div class="watch"><h3>${b.label} for ${b.dog.replace(/[<>&"]/g, "")}</h3><p class="small" style="margin:0">${when}</p>
-      <div id="pnb-clock" class="clock" aria-live="off">0:00</div><p id="pnb-sub" class="small" style="margin:0"></p>
-      <div class="row"><button id="pnb-start" class="btn" type="button"></button><button id="pnb-clear" class="btn alt" type="button">Remove</button></div></div>`;
-    const clock = $("clock"), sub = $("sub"), start = $("start");
-    $("clear").onclick = () => { localStorage.removeItem(KEY); drawWatch(); };
-    start.onclick = () => { const x = get(); if (x.startedAt && !x.stoppedAt) x.stoppedAt = Date.now(); else if (!x.startedAt) x.startedAt = Date.now(); put(x); tick(); };
-    const tick = () => {
-      const x = get(); if (!x) return; const now = Date.now(), s0 = Date.parse(x.start), len = x.minutes * 6e4;
-      clock.className = "clock";
-      if (!x.startedAt) {
-        const wait = s0 - 15 * 6e4 - now;
-        clock.textContent = fmt(Math.max(s0 - now, 0)); sub.textContent = now < s0 ? "until your booked time" : "Your time has arrived.";
-        start.textContent = "Start stopwatch"; start.disabled = wait > 0;
-      } else {
-        const el = (x.stoppedAt || now) - x.startedAt, left = len - el;
-        clock.textContent = fmt(el);
-        if (x.stoppedAt) { sub.textContent = "Stopped. Total visit time."; start.style.display = "none"; clearInterval(timer); return; }
-        start.textContent = "Stop"; start.disabled = false;
-        if (left < 0) { clock.classList.add("over"); sub.textContent = "Over your booked time by " + fmt(left) + "."; }
-        else { if (left <= 5 * 6e4) clock.classList.add("warn"); sub.textContent = fmt(left) + " left of your " + x.minutes + " minute booking."; }
-      }
-    };
-    tick(); timer = setInterval(tick, 1000);
-  }
-  drawWatch();
+  /* The booking countdown/stopwatch no longer shows on this public page (it could reveal someone's booking to the next person
+     using the same device). Customers see it after signing in to My Account. Clear anything an earlier version saved here. */
+  try { localStorage.removeItem(KEY); } catch (e) { /* storage blocked: nothing to clear */ }
 })();
