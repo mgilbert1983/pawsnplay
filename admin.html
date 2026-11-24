@@ -34,6 +34,13 @@
   .scroll{overflow-x:auto}
   .msg{font-weight:650;min-height:1.3em}
   .hidden{display:none}
+  input[type=email],input[type=password]{min-height:40px;padding:.4rem .7rem;border:1px solid #c9c1ff;border-radius:8px;font:inherit}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+  .form-grid label{display:block;font-weight:650;font-size:.9rem;margin-bottom:.2rem}
+  .form-grid input,.form-grid select{width:100%}
+  @media(max-width:620px){.form-grid{grid-template-columns:1fr}}
+  .okbox{background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:.7rem .9rem;margin:.6rem 0}
+  code.pw{font-size:1.15rem;font-weight:800;letter-spacing:.04em;background:#fff;border:1px dashed var(--soft);border-radius:6px;padding:.15rem .5rem}
   .note{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:.6rem .8rem;margin:.6rem 0;font-size:.92rem}
 </style>
 </head>
@@ -84,9 +91,27 @@
 
     <section id="p-staff" class="panel">
       <h2>Staff accounts</h2>
-      <div class="note">
-        <strong>To add a new staff member:</strong> in Supabase go to Authentication &rarr; Users &rarr; Add user &rarr; Create new user (tick auto-confirm). Then refresh this page and set their role below to <em>staff</em>. The TV computer gets its own user with the <em>display</em> role.
-      </div>
+      <h3>Add a team member</h3>
+      <form id="add-form" class="card" novalidate>
+        <div class="form-grid">
+          <div><label for="a-name">Full name</label><input id="a-name" type="text" maxlength="120" autocomplete="off"></div>
+          <div><label for="a-email">Email address</label><input id="a-email" type="email" maxlength="200" autocomplete="off"></div>
+          <div><label for="a-role">Role</label>
+            <select id="a-role">
+              <option value="staff">Staff (daily use: bookings, records, reviews)</option>
+              <option value="admin">Admin (also adds people and changes roles)</option>
+              <option value="display">Store display (the TV computer)</option>
+              <option value="customer">Customer (no staff access)</option>
+            </select></div>
+          <div><label for="a-pw">Temporary password</label>
+            <div style="display:flex;gap:.4rem"><input id="a-pw" type="text" readonly style="flex:1"><button type="button" class="act" id="a-newpw" style="margin:0">New</button></div></div>
+        </div>
+        <p class="muted">The person gets a confirmation email and must click its link once. Then they sign in with the temporary password (they can choose their own any time using &ldquo;Forgot your password?&rdquo; on the sign-in page).</p>
+        <button class="act" type="submit" id="a-go">Add person</button>
+        <p class="msg" id="a-msg" role="status"></p>
+        <div id="a-result"></div>
+      </form>
+      <h3>Everyone with an account</h3>
       <div class="scroll"><table id="role-table"></table></div>
       <h3>Backup</h3>
       <p class="muted">The free database has no automatic backups. Download this file regularly (for example every Friday) and keep it somewhere private.</p>
@@ -106,6 +131,9 @@
       </div>
       <h3>Common questions</h3>
       <div class="card">
+        <p><strong>How do I add a team member?</strong> Open the <em>Staff accounts</em> tab (admins only), fill in <em>Add a team member</em>, and press <em>Add person</em>. Give them the temporary password shown on screen. They must also click the confirmation link emailed to them once.</p>
+        <p><strong>Someone on the team forgot their password.</strong> In <em>Staff accounts</em>, press <em>Send password reset</em> next to their name.</p>
+        <p><strong>Someone has left the team.</strong> In <em>Staff accounts</em>, change their role to <em>customer</em> and press <em>Save</em>. They lose staff access straight away.</p>
         <p><strong>A customer forgot their password.</strong> Ask them to open the sign-in page and click &ldquo;Forgot your password?&rdquo;.</p>
         <p><strong>A customer says their upload failed.</strong> Files must be a PDF or photo (JPG, PNG, WEBP, HEIC) of 5 MB or less. They can also bring the record to the store.</p>
         <p><strong>A booking looks wrong or missing.</strong> The calendar is the master copy. Fix it in Google Calendar and it will update here within about 5 minutes.</p>
@@ -171,6 +199,13 @@ function overlapIds(appts) {
   }
   return ids;
 }
+function genPassword() {
+  var A = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789", out = "", buf = new Uint32Array(14);
+  crypto.getRandomValues(buf);
+  for (var i = 0; i < buf.length; i++) out += A[buf[i] % A.length];
+  return out;
+}
+function validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || "").trim()); }
 //PURE-END
 
 /* ===== app ===== */
@@ -349,7 +384,7 @@ function overlapIds(appts) {
   function renderStaff() {
     if (role !== "admin") return;
     var t = $("role-table"); t.innerHTML = "";
-    var head = el("tr"); ["Name", "Email", "Role", ""].forEach(function (h) { add(head, el("th", null, h)); }); add(t, head);
+    var head = el("tr"); ["Name", "Email", "Role", "", ""].forEach(function (h) { add(head, el("th", null, h)); }); add(t, head);
     D.profiles.forEach(function (p) {
       var tr = el("tr"), sel = el("select"), save = el("button", "act", "Save");
       ["customer", "staff", "admin", "display"].forEach(function (r) { var o = el("option", null, r); o.value = r; if (r === p.role) o.selected = true; add(sel, o); });
@@ -362,11 +397,71 @@ function overlapIds(appts) {
         if (r.error || !r.data || !r.data.length) { fail("Could not change that role."); save.disabled = false; return; }
         await load();
       };
+      var reset = el("button", "act", "Send password reset"); reset.type = "button";
+      if (!p.email) reset.disabled = true;
+      reset.onclick = async function () {
+        reset.disabled = true;
+        var r = await sb.auth.resetPasswordForEmail(p.email, { redirectTo: accountUrl() });
+        if (r.error) { fail("Could not send the reset email. Please try again in a few minutes."); reset.disabled = false; return; }
+        reset.textContent = "Email sent";
+      };
       var td = function (n) { var x = el("td"); add(x, n); return x; };
-      add(tr, td(el("span", null, p.full_name || "")), td(el("span", null, (p.email || "") + (self ? " (you)" : ""))), td(sel), td(save));
+      add(tr, td(el("span", null, p.full_name || "")), td(el("span", null, (p.email || "") + (self ? " (you)" : ""))), td(sel), td(save), td(reset));
       add(t, tr);
     });
   }
+  function accountUrl() { return new URL("account.html", location.href).href; }
+  var sleep = function (ms) { return new Promise(function (r) { setTimeout(r, ms); }); };
+  function newTempPassword() { $("a-pw").value = genPassword(); }
+  $("a-newpw").onclick = newTempPassword;
+
+  $("add-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    var msg = $("a-msg"), res = $("a-result"); res.innerHTML = ""; msg.style.color = "var(--bad)"; msg.textContent = "";
+    if (role !== "admin") { msg.textContent = "Only admins can add people."; return; }
+    var name = $("a-name").value.trim(), email = $("a-email").value.trim().toLowerCase(), r = $("a-role").value, pw = $("a-pw").value;
+    if (!name) { msg.textContent = "Please enter their full name."; return; }
+    if (!validEmail(email)) { msg.textContent = "Please enter a valid email address."; return; }
+    if (r === "admin" && !confirm("Admins can add people and change roles. Make " + name + " an admin?")) return;
+    var go = $("a-go"); go.disabled = true; msg.style.color = "var(--ok)"; msg.textContent = "Adding\u2026";
+    try {
+      // A separate, temporary connection so the admin's own sign-in is never touched.
+      var tmp = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false, storageKey: "pnp-add-person" } });
+      var su = await tmp.auth.signUp({ email: email, password: pw, options: { emailRedirectTo: accountUrl(), data: { full_name: name } } });
+      if (su.error) throw su.error;
+      var existed = !!(su.data && su.data.user && Array.isArray(su.data.user.identities) && su.data.user.identities.length === 0);
+      var prof = null;
+      for (var i = 0; i < 6 && !prof; i++) {
+        var q = await sb.from("profiles").select("id,full_name,email").eq("email", email).maybeSingle();
+        if (q.data) prof = q.data; else await sleep(600);
+      }
+      if (!prof) { msg.style.color = "var(--bad)"; msg.textContent = "The account was created, but its role could not be set yet. Press Refresh, find them in the list below, and set their role there."; await load(); return; }
+      var patch = { role: r }; if (name && !existed) patch.full_name = name; else if (name && !prof.full_name) patch.full_name = name;
+      var up = await sb.from("profiles").update(patch).eq("id", prof.id).select("id");
+      if (up.error || !up.data || !up.data.length) { msg.style.color = "var(--bad)"; msg.textContent = "The account exists but the role could not be set. Please set it in the list below."; await load(); return; }
+      msg.textContent = "Done.";
+      var box = el("div", "okbox");
+      if (existed) {
+        add(box, el("strong", null, name + " already had an account."), el("div", null, "Their role is now " + r + ". Their existing password still works. No new password or email was created."));
+      } else {
+        add(box, el("strong", null, name + " has been added as " + r + "."));
+        add(box, el("div", null, "A confirmation email is on its way to " + email + ". They must click the link in it once."));
+        var line = el("div"); add(line, document.createTextNode("Temporary password (shown only now): "));
+        var code = el("code", "pw", pw); add(line, code); add(box, line);
+        var cp = el("button", "act", "Copy password"); cp.type = "button"; cp.style.marginTop = ".5rem";
+        cp.onclick = function () { if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(pw).then(function () { cp.textContent = "Copied"; }); else window.prompt("Copy this password:", pw); };
+        add(box, cp);
+      }
+      add(res, box);
+      $("a-name").value = ""; $("a-email").value = ""; newTempPassword();
+      await load();
+    } catch (err) {
+      msg.style.color = "var(--bad)";
+      msg.textContent = /rate|too many|seconds/i.test((err && err.message) || "") ? "Too many sign-up emails were sent just now. Please wait a few minutes and try again." : "Could not add that person. Please check the email address and try again.";
+    } finally { go.disabled = false; }
+  });
+  newTempPassword();
+
   $("backup").onclick = function () {
     var rows = [["Owner name", "Owner email", "Owner phone", "Emergency contact", "Emergency phone", "Dog", "Breed", "Licence tag", "Vet", "Vet phone", "Waiver signed"]];
     D.profiles.filter(function (p) { return p.role === "customer"; }).forEach(function (p) {
