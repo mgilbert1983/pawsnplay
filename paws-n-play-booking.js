@@ -7,6 +7,16 @@
 (() => {
   "use strict";
   const API = "https://script.google.com/macros/s/AKfycbwQgTzkRe_H9yZrpe_JNNMoVilLrBgNQ0kalSFGYGjxU_M1GBppjwFJFFSFWuZQmsPT/exec";
+  // Dog walking is booked through its own small Apps Script (see walks/WALK-SETUP.md).
+  // Until the address below is filled in, choosing Dog Walking tells visitors to call instead.
+  const WALK_API = "PASTE_WALK_BOOKING_URL_HERE";
+  const WALK_TYPES = {
+    group: { label: "Group Walk", min: 60, price: 20, kind: "group" },
+    p30: { label: "Private Walk", min: 30, price: 20, kind: "private" },
+    p60: { label: "Private Walk", min: 60, price: 40, kind: "private" },
+    p90: { label: "Private Walk", min: 90, price: 55, kind: "private" }
+  };
+  const EXTRA_DOG_PRICE = 12;
   const ROOT_ID = "paws-n-play-booking", KEY = "pnpBooking", MIN_FILL_S = 6;
   const root = document.getElementById(ROOT_ID);
   if (!root) return;
@@ -35,6 +45,11 @@
   #${ROOT_ID} .clock.warn{color:#b45309}#${ROOT_ID} .clock.over{color:#b91c1c}
   #${ROOT_ID} .row{display:flex;gap:.6rem;flex-wrap:wrap}#${ROOT_ID} .row .btn{margin-top:.6rem}
   #${ROOT_ID} .btn.alt{background:#fff;color:var(--p);border:2px solid var(--p)}
+  #${ROOT_ID} [hidden]{display:none!important}
+  #${ROOT_ID} .chk{display:flex;gap:.6rem;align-items:flex-start;font-weight:600;margin-top:.8rem;cursor:pointer}
+  #${ROOT_ID} .chk input{width:auto;min-height:0;margin-top:.25rem;flex:0 0 auto}
+  #${ROOT_ID} .walkbox{margin-top:1rem;padding:1rem;border:2px dashed #c9c1ff;border-radius:12px;background:#fff}
+  #${ROOT_ID} .price{font-weight:700;color:var(--d)}
   @media(max-width:620px){#${ROOT_ID} .grid{grid-template-columns:1fr}}`;
   document.head.appendChild(Object.assign(document.createElement("style"), { textContent: css }));
 
@@ -45,8 +60,19 @@
       <div class="trap" aria-hidden="true"><input id="pnb-hp" tabindex="-1" autocomplete="off"></div>
       <div class="grid">
         <div class="f"><label for="pnb-svc">What are you booking? *</label>
-          <select id="pnb-svc"><option value="">Select a service</option><option value="cafe">Dog Cafe</option><option value="play">Dog Play Center</option><option value="groom">Dog Grooming</option></select></div>
+          <select id="pnb-svc"><option value="">Select a service</option><option value="cafe">Dog Cafe</option><option value="play">Dog Play Center</option><option value="groom">Dog Grooming</option><option value="walk">Dog Walking</option></select></div>
         <div class="f"><label for="pnb-date">Date *</label><input id="pnb-date" type="date"></div>
+      </div>
+      <div id="pnb-walkbox" class="walkbox" hidden>
+        <div class="grid" style="margin-top:0">
+          <div class="f"><label for="pnb-wtype">Type of walk *</label>
+            <select id="pnb-wtype"><option value="group">Group Walk &ndash; 60 minutes &ndash; $20</option><option value="p30">Private Walk &ndash; 30 minutes &ndash; $20</option><option value="p60">Private Walk &ndash; 60 minutes &ndash; $40</option><option value="p90">Private Walk &ndash; 90 minutes &ndash; $55</option></select></div>
+          <div class="f" id="pnb-wextra-wrap"><label for="pnb-wextra">Additional dogs from the same household ($12 each)</label>
+            <select id="pnb-wextra"><option value="0">None</option><option value="1">1 additional dog</option><option value="2">2 additional dogs</option><option value="3">3 additional dogs</option></select></div>
+        </div>
+        <p class="small price" id="pnb-wprice"></p>
+        <p class="small" id="pnb-wprivnote" hidden>Need an additional dog or a second walk on the same day? Please contact us for private-walk rates.</p>
+        <label class="chk" id="pnb-wcommit-wrap" for="pnb-wcommit"><input id="pnb-wcommit" type="checkbox"><span>I understand that Group Walks require a commitment of at least one walk per week. *</span></label>
       </div>
       <div class="f" style="margin-top:1rem"><label id="pnb-tl">Time *</label><div id="pnb-slots" class="slots" role="radiogroup" aria-labelledby="pnb-tl"></div></div>
       <div class="grid">
@@ -56,7 +82,7 @@
         <div class="f"><label for="pnb-email">Email *</label><input id="pnb-email" type="email" autocomplete="email"></div>
       </div>
       <div class="f" style="margin-top:1rem"><label for="pnb-notes">Notes (allergies, coat, anything we should know)</label><textarea id="pnb-notes" maxlength="500"></textarea></div>
-      <p class="small">Open weekdays 9AM to 5PM. Please complete the <a href="#waiver">Dog Owner Waiver</a> before your visit. Grooming needs a non-refundable deposit, and we will contact you to arrange it.</p>
+      <p class="small" id="pnb-note">Open weekdays 9AM to 5PM. Please complete the <a href="#waiver">Dog Owner Waiver</a> before your visit. Grooming needs a non-refundable deposit, and we will contact you to arrange it.</p>
       <button id="pnb-go" class="btn" type="submit">Book this time</button>
       <p id="pnb-msg" class="msg" role="status" aria-live="polite"></p>
     </form>
@@ -64,6 +90,27 @@
 
   const $ = id => root.querySelector("#pnb-" + id);
   const svc = $("svc"), dateEl = $("date"), slotsEl = $("slots"), msg = $("msg"), go = $("go"), loaded = Date.now();
+  const walkBox = $("walkbox"), wtype = $("wtype"), wextra = $("wextra"), wextraWrap = $("wextra-wrap"),
+    wcommitWrap = $("wcommit-wrap"), wprice = $("wprice"), wprivnote = $("wprivnote"), noteEl = $("note");
+  const NOTE_DEFAULT = noteEl.innerHTML;
+  const NOTE_WALK = 'Walks run between 10:00 AM and 4:00 PM. Appointments canceled less than 24 hours before the start time are billed the full fee. All prices are subject to GST. Please complete the <a href="#waiver">Dog Owner Waiver</a> before your first walk.';
+  const walkConfigured = !WALK_API.startsWith("PASTE_");
+  const isWalk = () => svc.value === "walk";
+  const walkType = () => WALK_TYPES[wtype.value] || WALK_TYPES.group;
+  const WALK_OFF = "Online dog walk booking is not switched on yet. Please call 778-737-7529.";
+  function syncWalkUI() {
+    const w = isWalk(), t = walkType(), group = t.kind === "group";
+    walkBox.hidden = !w;
+    wextraWrap.hidden = !group; wcommitWrap.hidden = !group; wprivnote.hidden = group;
+    if (!group) wextra.value = "0";
+    const extra = Number(wextra.value || 0), total = t.price + (group ? extra * EXTRA_DOG_PRICE : 0);
+    wprice.textContent = `${t.label}, ${t.min} minutes: $${t.price}` + (group && extra ? ` + ${extra} additional dog${extra > 1 ? "s" : ""} at $${EXTRA_DOG_PRICE} = $${total}` : "") + " plus GST.";
+    if (w) noteEl.innerHTML = NOTE_WALK; else noteEl.innerHTML = NOTE_DEFAULT;
+  }
+  function slotsUrl() {
+    if (isWalk()) return `${WALK_API}?action=slots&type=${wtype.value}&date=${dateEl.value}&dogs=${1 + Number(wextra.value || 0)}`;
+    return `${API}?action=slots&service=${svc.value}&date=${dateEl.value}`;
+  }
   let chosen = "", reqId = 0;
   const iso = d => new Date(d.getTime() - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
   dateEl.min = iso(new Date()); dateEl.max = iso(new Date(Date.now() + 60 * 864e5));
@@ -72,10 +119,11 @@
 
   async function loadSlots() {
     chosen = ""; slotsEl.innerHTML = ""; msg.textContent = "";
-    if (!configured || !svc.value || !dateEl.value) return;
+    if (!svc.value || !dateEl.value) return;
+    if (isWalk() ? !walkConfigured : !configured) { if (isWalk()) msg.textContent = WALK_OFF; return; }
     const id = ++reqId; slotsEl.textContent = "Checking times...";
     try {
-      const r = await (await fetch(`${API}?action=slots&service=${svc.value}&date=${dateEl.value}`)).json();
+      const r = await (await fetch(slotsUrl())).json();
       if (id !== reqId) return;
       if (!r.ok) throw new Error();
       slotsEl.innerHTML = "";
@@ -88,25 +136,32 @@
       });
     } catch (e) { if (id === reqId) slotsEl.textContent = "Could not load times. Please try again or call 778-737-7529."; }
   }
-  svc.onchange = dateEl.onchange = loadSlots;
+  svc.onchange = () => { syncWalkUI(); loadSlots(); };
+  dateEl.onchange = loadSlots;
+  wtype.onchange = wextra.onchange = () => { syncWalkUI(); loadSlots(); };
+  syncWalkUI();
 
   $("go").form.addEventListener("submit", async ev => {
     ev.preventDefault();
     const v = k => $(k).value.trim();
-    if (!configured) return;
+    if (isWalk() ? !walkConfigured : !configured) { if (isWalk()) msg.textContent = WALK_OFF; return; }
     if (!svc.value || !dateEl.value || !chosen || !v("name") || !v("dog") || !v("phone") || !/^\S+@\S+\.\S+$/.test(v("email"))) {
       msg.textContent = "Please choose a service, date and time, and fill in your name, dog, phone and a valid email."; return;
     }
+    if (isWalk() && walkType().kind === "group" && !$("wcommit").checked) { msg.textContent = "Please confirm the weekly commitment for Group Walks."; return; }
     if ((Date.now() - loaded) / 1000 < MIN_FILL_S) { msg.textContent = "Please review the form and try again."; return; }
     go.disabled = true; go.textContent = "Booking..."; msg.textContent = "";
     try {
-      const res = await fetch(API, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({
-        service: svc.value, date: dateEl.value, time: chosen, name: v("name"), dog: v("dog"), phone: v("phone"), email: v("email"), notes: v("notes"), hp: v("hp") }) });
+      const body = isWalk()
+        ? { type: wtype.value, date: dateEl.value, time: chosen, name: v("name"), dog: v("dog"), phone: v("phone"), email: v("email"), notes: v("notes"),
+            extraDogs: walkType().kind === "group" ? Number(wextra.value || 0) : 0, commit: $("wcommit").checked, hp: v("hp") }
+        : { service: svc.value, date: dateEl.value, time: chosen, name: v("name"), dog: v("dog"), phone: v("phone"), email: v("email"), notes: v("notes"), hp: v("hp") };
+      const res = await fetch(isWalk() ? WALK_API : API, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify(body) });
       const r = await res.json();
       if (!r.ok) { msg.textContent = r.error || "Booking failed. Please call 778-737-7529."; loadSlots(); return; }
       localStorage.setItem(KEY, JSON.stringify({ label: r.label, minutes: r.minutes, start: r.start, end: r.end, dog: v("dog") }));
       msg.textContent = "Booked. A confirmation is on its way to your email.";
-      ["name", "dog", "phone", "email", "notes"].forEach(k => $(k).value = ""); svc.value = ""; dateEl.value = ""; chosen = ""; slotsEl.innerHTML = "";
+      ["name", "dog", "phone", "email", "notes"].forEach(k => $(k).value = ""); svc.value = ""; dateEl.value = ""; chosen = ""; slotsEl.innerHTML = ""; wextra.value = "0"; $("wcommit").checked = false; syncWalkUI();
       drawWatch();
     } catch (e) { msg.textContent = "We could not confirm your booking. Please try again or call 778-737-7529."; }
     finally { go.disabled = false; go.textContent = "Book this time"; }
