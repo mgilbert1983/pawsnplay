@@ -12,8 +12,9 @@
 <link rel="stylesheet" href="pnp-app.css?v=3">
 <style id="hero-style">
 /* Home-page style banner (also in pnp-app.css; repeated here so it always shows) */
-:root{--blue:#3414fd;--white:#fff}
+:root{--blue:#3414fd}
 /* ---------- hero band: the same banner as the website's home page ---------- */
+:root { --banner-base: #3f30f2; }
 .hero {
   position: relative;
   display: flex;
@@ -23,36 +24,25 @@
   min-height: clamp(240px, 36vh, 380px);
   padding: 34px 20px 70px;
   text-align: center;
-  background-color: var(--blue);
+  background-color: var(--banner-base);
   background-image: url("https://iili.io/Ke63t2I.png");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  border-radius: 0;
+  overflow: visible;
 }
-.hero .kicker {
-  margin: 0 0 8px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--white);
-  text-shadow: 0 2px 8px rgba(20, 10, 120, 0.75);
-}
-.hero h1 {
-  font-weight: 900;
-  font-size: clamp(2rem, 5vw, 3.4rem);
-  line-height: 1.08;
-  color: var(--white);
-  text-shadow: -3px -3px 0 var(--blue), 3px -3px 0 var(--blue), -3px 3px 0 var(--blue), 3px 3px 0 var(--blue);
-}
-.hero .sub { margin: 12px auto 0; max-width: 60ch; color: var(--white); font-weight: 600; text-shadow: 0 2px 8px rgba(20, 10, 120, 0.75); }
+.hero::before, .hero::after { content: none; display: none; }
+.hero .kicker { margin: 0 0 8px; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #fff; }
+.hero h1 { font-weight: 900; font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.12; color: #fff; }
+.hero h1.long { font-size: clamp(1.6rem, 4vw, 2.7rem); }
+.hero .sub { margin: 12px auto 0; max-width: 60ch; font-size: 1.05rem; font-weight: 600; color: #fff; }
 .hero .sub:empty { display: none; }
+/* every line of banner text gets a 2px buffer in the banner's own purple for readability */
+.hero .kicker, .hero h1, .hero .sub { text-shadow: 2px 0px 0 var(--banner-base), -2px 0px 0 var(--banner-base), 0px 2px 0 var(--banner-base), 0px -2px 0 var(--banner-base), 2px 1px 0 var(--banner-base), 2px -1px 0 var(--banner-base), -2px 1px 0 var(--banner-base), -2px -1px 0 var(--banner-base), 1px 2px 0 var(--banner-base), -1px 2px 0 var(--banner-base), 1px -2px 0 var(--banner-base), -1px -2px 0 var(--banner-base), 1px 1px 0 var(--banner-base), 1px -1px 0 var(--banner-base), -1px 1px 0 var(--banner-base), -1px -1px 0 var(--banner-base), 2px 2px 0 var(--banner-base), 2px -2px 0 var(--banner-base), -2px 2px 0 var(--banner-base), -2px -2px 0 var(--banner-base); }
 @media (max-width: 700px) {
   .hero { padding: 26px 16px 62px; min-height: 220px; }
-  .hero h1 { text-shadow: -2px -2px 0 var(--blue), 2px -2px 0 var(--blue), -2px 2px 0 var(--blue), 2px 2px 0 var(--blue); }
 }
-.hero { border-radius: 0; overflow: visible; }
-.hero::before, .hero::after { content: none; display: none; }
 </style>
 
 </head>
@@ -68,7 +58,7 @@
 
 <section class="hero">
   <p class="kicker">My account</p>
-  <h1>My dogs &amp; records</h1>
+  <h1 id="hero-title">My Dogs</h1>
   <p class="sub" id="signed-as"></p>
 </section>
 
@@ -178,6 +168,12 @@ function fitSize(w, h, max) {
   return { w: Math.max(1, Math.round(w * k)), h: Math.max(1, Math.round(h * k)) };
 }
 function isPhotoFile(name, type) { return /^image\//.test(type || "") || /\.(jpe?g|png|webp|heic)$/i.test(name || ""); }
+// "Biscuit", "Biscuit & Pixel", "Biscuit, Pixel & Rex"
+function joinNames(names) {
+  names = (names || []).map(function (n) { return String(n || "").trim(); }).filter(Boolean);
+  if (names.length < 2) return names[0] || "";
+  return names.slice(0, -1).join(", ") + " & " + names[names.length - 1];
+}
 //PURE-END
 
 (function () {
@@ -268,6 +264,8 @@ function isPhotoFile(name, type) { return /^image\//.test(type || "") || /\.(jpe
     if (r.some(function (x) { return x.error; })) $("err").textContent = "Could not load everything. Please refresh the page.";
     P = r[0].data || {}; dogs = r[1].data || []; vax = r[2].data || []; waivers = r[3].data || [];
     if (photosOn) await loadPhotoUrls();
+    var title = joinNames(dogs.map(function (d) { return d.name; })) || "My Dogs";
+    $("hero-title").textContent = title; $("hero-title").className = title.length > 26 ? "long" : "";
     renderWaiver(); renderMe(); renderDogs();
   }
 
