@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>My Dogs &amp; Records | Paws N Play</title>
+<title>My Dogs &amp; Records | Paws n' Play</title>
+<link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/WEBSITE_FAVICON.jpg">
 <meta name="robots" content="noindex,nofollow">
 <style>
   :root{--p:#3414fd;--soft:#7b68ee;--pink:#fad4fc;--line:#d9d3ff;--ok:#0f7a3d;--warn:#b45309;--bad:#b91c1c}
@@ -40,10 +41,11 @@
 <body>
 <main>
   <div class="top">
-    <a href="index.html">&larr; Back to the Paws N Play website</a>
+    <a href="index.html">&larr; Back to the Paws n' Play website</a>
     <span><a href="account.html">Sign-in page</a> &nbsp; <button id="signout" type="button" class="alt sm hidden">Sign out</button></span>
   </div>
   <h1>My dogs &amp; records</h1>
+  <p class="muted" id="signed-as"></p>
   <p id="gate" class="card">Loading&hellip;</p>
   <p id="err" class="msg" style="color:var(--bad)" role="alert"></p>
 
@@ -153,6 +155,7 @@ function untilText(ms) {
     if (!s.data.session) { $("gate").innerHTML = ""; add($("gate"), el("span", null, "Please "), Object.assign(el("a", null, "sign in"), { href: "account.html" }), el("span", null, " to see your dogs and records.")); return; }
     me = s.data.session.user;
     $("signout").classList.remove("hidden");
+    $("signed-as").textContent = "Signed in as " + me.email;
     $("gate").classList.add("hidden"); $("app").classList.remove("hidden");
     await load();
     loadBookings();
@@ -161,9 +164,9 @@ function untilText(ms) {
   async function load() {
     var r = await Promise.all([
       sb.from("profiles").select("full_name,phone,emergency_name,emergency_phone,email").eq("id", me.id).maybeSingle(),
-      sb.from("dogs").select("id,name,breed,licence_tag,vet_name,vet_phone").order("created_at"),
-      sb.from("vaccination_records").select("id,dog_id,vaccine,expiry_date,file_path,status,uploaded_at").order("uploaded_at", { ascending: false }),
-      sb.from("waivers").select("id,signed_at").order("signed_at", { ascending: false })
+      sb.from("dogs").select("id,name,breed,licence_tag,vet_name,vet_phone").eq("owner_id", me.id).order("created_at"),
+      sb.from("vaccination_records").select("id,dog_id,vaccine,expiry_date,file_path,status,uploaded_at").eq("owner_id", me.id).order("uploaded_at", { ascending: false }),
+      sb.from("waivers").select("id,signed_at").eq("owner_id", me.id).order("signed_at", { ascending: false })
     ]);
     if (r.some(function (x) { return x.error; })) $("err").textContent = "Could not load everything. Please refresh the page.";
     P = r[0].data || {}; dogs = r[1].data || []; vax = r[2].data || []; waivers = r[3].data || [];
@@ -291,8 +294,8 @@ function untilText(ms) {
   async function loadBookings() {
     var since = new Date(Date.now() - 2 * 3600000).toISOString();
     var r = await Promise.all([
-      sb.from("appointments").select("id,service,dog_name,start_time,end_time").eq("status", "confirmed").gte("end_time", since).order("start_time").limit(20),
-      sb.from("time_requests").select("id,appointment_id,extra_minutes,status,created_at").order("created_at", { ascending: false }).limit(50)
+      sb.from("appointments").select("id,service,dog_name,start_time,end_time").eq("status", "confirmed").eq("customer_email", String(me.email || "").toLowerCase()).gte("end_time", since).order("start_time").limit(20),
+      sb.from("time_requests").select("id,appointment_id,extra_minutes,status,created_at").eq("requested_by", me.id).order("created_at", { ascending: false }).limit(50)
     ]);
     if (!r[0].error) appts = r[0].data || [];
     if (!r[1].error) treqs = r[1].data || [];
@@ -303,7 +306,7 @@ function untilText(ms) {
     var now = Date.now(), list = $("bookings"), card = $("timer-card");
     list.innerHTML = ""; card.innerHTML = ""; card.classList.add("hidden");
     var live = appts.filter(function (a) { return timerState(now, Date.parse(a.start_time), Date.parse(a.end_time)).phase !== "done"; });
-    if (!live.length) { add(list, el("p", "muted", "No upcoming bookings found.")); return; }
+    if (!live.length) { add(list, el("p", "muted", "No upcoming bookings found for " + me.email + ". Bookings appear when the email on the booking matches this sign-in email.")); return; }
 
     var first = live[0], st = timerState(now, Date.parse(first.start_time), Date.parse(first.end_time));
     card.classList.remove("hidden");

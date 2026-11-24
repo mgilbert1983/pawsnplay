@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Staff Area | Paws N Play</title>
+<title>Staff Area | Paws n' Play</title>
+<link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/WEBSITE_FAVICON.jpg">
 <meta name="robots" content="noindex,nofollow">
 <style>
   :root{--p:#3414fd;--soft:#7b68ee;--pink:#fad4fc;--line:#d9d3ff;--ok:#0f7a3d;--warn:#b45309;--bad:#b91c1c}
@@ -38,7 +39,7 @@
 </head>
 <body>
 <header>
-  <h1>Paws N Play &ndash; Staff Area</h1>
+  <h1>Paws n' Play &ndash; Staff Area</h1>
   <span id="who" class="muted" style="color:#fff"></span>
   <button id="refresh" type="button">Refresh</button>
   <button id="signout" type="button">Sign out</button>
@@ -193,7 +194,7 @@ function overlapIds(appts) {
     me = s.data.session.user;
     var p = await sb.from("profiles").select("role").eq("id", me.id).maybeSingle();
     role = p.data && p.data.role;
-    if (role !== "staff" && role !== "admin") { $("gate").textContent = "This area is for Paws N Play staff only."; return; }
+    if (role !== "staff" && role !== "admin") { $("gate").textContent = "This area is for Paws n' Play staff only."; return; }
     $("who").textContent = me.email + " (" + role + ")";
     $("gate").classList.add("hidden"); $("app").classList.remove("hidden");
     if (role !== "admin") $("tab-staff").classList.add("hidden");

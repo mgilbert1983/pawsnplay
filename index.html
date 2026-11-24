@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Paws n' Play | Dog Café in Vancouver</title>
+<link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/WEBSITE_FAVICON.jpg">
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/WEBSITE_FAVICON.jpg">
 <meta name="description" content="Vancouver's first registered dog café. Coffee for you, play for your pup, plus dog walking, grooming, birthday parties and a shop. 261 Keefer Street.">
 <meta name="theme-color" content="#fad4fc">
 
@@ -196,6 +198,40 @@ footer[id] { scroll-margin-top: var(--header-h); }
   outline: none;
 }
 
+/* Account button in the header (sits beside the hamburger menu) */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.account-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background-color: var(--white);
+  color: var(--purple);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.account-link:hover,
+.account-link:focus-visible {
+  background-color: var(--purple);
+  color: var(--white);
+  outline: none;
+}
+
+@media (max-width: 600px) {
+  .header-right { gap: 8px; }
+  .account-link { padding: 9px 11px; }
+  .account-link span { display: none; }
+}
+
 /* =========================================================
    TICKER
 ========================================================= */
@@ -285,8 +321,8 @@ footer[id] { scroll-margin-top: var(--header-h); }
 .popper {
   --o: 0s;
   flex: 0 0 auto;
-  width: 170px;
-  height: 170px;
+  width: 200px;
+  height: 200px;
   animation: popper-float 3s ease-in-out infinite;
 }
 
@@ -302,7 +338,7 @@ footer[id] { scroll-margin-top: var(--header-h); }
 .popper.right svg { transform: scaleX(-1); }
 
 .popper .body {
-  transform-origin: 22px 100px;
+  transform-origin: 20px 102px;
   animation: popper-recoil 3.6s ease-out infinite;
   animation-delay: var(--o);
 }
@@ -351,6 +387,11 @@ footer[id] { scroll-margin-top: var(--header-h); }
     opacity: 0;
     transform: translate(calc(var(--dx) * 1.12), calc(var(--dy) + 22px)) rotate(calc(var(--r) * 1.5)) scale(1.3);
   }
+}
+
+/* Medium screens: slightly smaller poppers so the longer headline never gets squeezed */
+@media (min-width: 769px) and (max-width: 1000px) {
+  .popper { width: 120px; height: 120px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1113,6 +1154,8 @@ footer small {
     <a href="https://www.youtube.com/@pawsnplayyvr" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
   </div>
 
+  <div class="header-right">
+  <a href="account.html" class="account-link" aria-label="Sign in or open my account"><i class="fas fa-user" aria-hidden="true"></i><span>Account</span></a>
   <div class="menu">
     <button type="button" class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false" aria-controls="menuPanel">
       <span></span>
@@ -1129,7 +1172,9 @@ footer small {
       <a href="#booking">Book a Visit</a>
       <a href="#waiver">Dog Owner Waiver</a>
       <a href="#contact">Get in Touch</a>
+      <a href="account.html">My Account</a>
     </nav>
+  </div>
   </div>
 </header>
 
@@ -1137,8 +1182,8 @@ footer small {
 <div class="ticker-tape-container">
   <div class="ticker-tape">
     <div class="ticker-content">
-      <span class="ticker-text">We proudly practice force-free, positive reinforcement training with all dogs in our care. This means we use rewards, encouragement, and clear communication to build trust, confidence, and positive behaviors—never fear, punishment, or intimidation. Our goal is to create a safe, supportive environment where every dog can learn, play, and thrive. For more info, please email: <a href="mailto:pawsnplay@shaw.ca" class="ticker-email">pawsnplay@shaw.ca</a></span>
-      <span class="ticker-text" aria-hidden="true">We proudly practice force-free, positive reinforcement training with all dogs in our care. This means we use rewards, encouragement, and clear communication to build trust, confidence, and positive behaviors—never fear, punishment, or intimidation. Our goal is to create a safe, supportive environment where every dog can learn, play, and thrive. For more info, please email: <a href="mailto:pawsnplay@shaw.ca" class="ticker-email" tabindex="-1">pawsnplay@shaw.ca</a></span>
+      <span class="ticker-text">We proudly practice force-free, positive reinforcement training with all dogs in our care. This means we use rewards, encouragement, and clear communication to build trust, confidence, and positive behaviors—never fear, punishment, or intimidation. Our goal is to create a safe, supportive environment where every dog can learn, play, and thrive. For more info, please email: <a href="mailto:pawsnplayvancouver@gmail.com" class="ticker-email">pawsnplayvancouver@gmail.com</a></span>
+      <span class="ticker-text" aria-hidden="true">We proudly practice force-free, positive reinforcement training with all dogs in our care. This means we use rewards, encouragement, and clear communication to build trust, confidence, and positive behaviors—never fear, punishment, or intimidation. Our goal is to create a safe, supportive environment where every dog can learn, play, and thrive. For more info, please email: <a href="mailto:pawsnplayvancouver@gmail.com" class="ticker-email" tabindex="-1">pawsnplayvancouver@gmail.com</a></span>
     </div>
   </div>
 </div>
@@ -1146,73 +1191,53 @@ footer small {
 <main id="main" tabindex="-1">
 
 <!-- HERO -->
+<!-- Shared gradients for the party poppers (3D shading) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="pp-g-orange" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbb15c"/><stop offset=".55" stop-color="#f6993a"/><stop offset="1" stop-color="#c9731c"/></linearGradient><radialGradient id="pp-r-orange" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#fbb15c"/><stop offset=".5" stop-color="#f6993a"/><stop offset="1" stop-color="#c9731c"/></radialGradient><linearGradient id="pp-g-pink" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f27bc0"/><stop offset=".55" stop-color="#d94c9b"/><stop offset="1" stop-color="#ae2e6e"/></linearGradient><radialGradient id="pp-r-pink" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#f27bc0"/><stop offset=".5" stop-color="#d94c9b"/><stop offset="1" stop-color="#ae2e6e"/></radialGradient><linearGradient id="pp-g-salmon" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4a1a8"/><stop offset=".55" stop-color="#d6717a"/><stop offset="1" stop-color="#b4485a"/></linearGradient><radialGradient id="pp-r-salmon" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#f4a1a8"/><stop offset=".5" stop-color="#d6717a"/><stop offset="1" stop-color="#b4485a"/></radialGradient><linearGradient id="pp-g-red" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0705c"/><stop offset=".55" stop-color="#d9422f"/><stop offset="1" stop-color="#a82b2b"/></linearGradient><radialGradient id="pp-r-red" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#f0705c"/><stop offset=".5" stop-color="#d9422f"/><stop offset="1" stop-color="#a82b2b"/></radialGradient><linearGradient id="pp-g-blue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6cc0fa"/><stop offset=".55" stop-color="#3a82e6"/><stop offset="1" stop-color="#2b5fb0"/></linearGradient><radialGradient id="pp-r-blue" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#6cc0fa"/><stop offset=".5" stop-color="#3a82e6"/><stop offset="1" stop-color="#2b5fb0"/></radialGradient><linearGradient id="pp-g-navy" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5f86e0"/><stop offset=".55" stop-color="#3a5fc4"/><stop offset="1" stop-color="#26408f"/></linearGradient><radialGradient id="pp-r-navy" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#5f86e0"/><stop offset=".5" stop-color="#3a5fc4"/><stop offset="1" stop-color="#26408f"/></radialGradient><linearGradient id="pp-g-yellow" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe88a"/><stop offset=".55" stop-color="#f3d65a"/><stop offset="1" stop-color="#cba639"/></linearGradient><radialGradient id="pp-r-yellow" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#fbe88a"/><stop offset=".5" stop-color="#f3d65a"/><stop offset="1" stop-color="#cba639"/></radialGradient><linearGradient id="pp-g-purple" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b277f5"/><stop offset=".55" stop-color="#8e4ad5"/><stop offset="1" stop-color="#6f2a93"/></linearGradient><radialGradient id="pp-r-purple" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#b277f5"/><stop offset=".5" stop-color="#8e4ad5"/><stop offset="1" stop-color="#6f2a93"/></radialGradient><linearGradient id="pp-cone" gradientUnits="userSpaceOnUse" x1="-28" y1="0" x2="28" y2="0"><stop offset="0" stop-color="#ddab39"/><stop offset=".2" stop-color="#f3d65a"/><stop offset=".45" stop-color="#e7c859"/><stop offset=".72" stop-color="#ddab39"/><stop offset="1" stop-color="#b78722"/></linearGradient><linearGradient id="pp-stripe" gradientUnits="userSpaceOnUse" x1="-28" y1="0" x2="28" y2="0"><stop offset="0" stop-color="#8e4ad5"/><stop offset=".2" stop-color="#a862f0"/><stop offset=".48" stop-color="#8e4ad5"/><stop offset=".75" stop-color="#8e3db4"/><stop offset="1" stop-color="#62227f"/></linearGradient><linearGradient id="pp-tipshade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="-66"><stop offset="0" stop-color="#3a1850" stop-opacity=".45"/><stop offset=".5" stop-color="#3a1850" stop-opacity=".08"/><stop offset="1" stop-color="#3a1850" stop-opacity="0"/></linearGradient><linearGradient id="pp-inside" gradientUnits="userSpaceOnUse" x1="0" y1="-76" x2="0" y2="-57"><stop offset="0" stop-color="#6e1648"/><stop offset=".6" stop-color="#ae2e6e"/><stop offset="1" stop-color="#d66fac"/></linearGradient><linearGradient id="pp-rim" gradientUnits="userSpaceOnUse" x1="-28" y1="0" x2="28" y2="0"><stop offset="0" stop-color="#f3d65a"/><stop offset=".4" stop-color="#fbe88a"/><stop offset="1" stop-color="#c99a2e"/></linearGradient><radialGradient id="pp-glow"><stop offset="0" stop-color="#fffbe0" stop-opacity="1"/><stop offset=".35" stop-color="#f6d65a" stop-opacity=".85"/><stop offset=".7" stop-color="#f69736" stop-opacity=".35"/><stop offset="1" stop-color="#f69736" stop-opacity="0"/></radialGradient><clipPath id="pp-clip"><path d="M0 0 L-28 -66 A28 9 0 0 0 28 -66 Z"/></clipPath></defs></svg>
 <div class="parallax">
   <div class="parallax-text">
 
     <div class="popper left" aria-hidden="true">
-      <svg viewBox="0 0 120 120" focusable="false">
-        <g class="body">
-          <g transform="translate(22 100) rotate(45)">
-            <polygon points="0,0 4.4,-14 -4.4,-14" fill="#ffd23f"/>
-            <polygon points="-4.4,-14 4.4,-14 8.8,-28 -8.8,-28" fill="#7b68ee"/>
-            <polygon points="-8.8,-28 8.8,-28 13.2,-42 -13.2,-42" fill="#fad4fc"/>
-            <polygon points="-13.2,-42 13.2,-42 17.6,-56 -17.6,-56" fill="#7b68ee"/>
-            <polygon points="-17.6,-56 17.6,-56 22,-70 -22,-70" fill="#fad4fc"/>
-            <circle cx="-4" cy="-35" r="1.6" fill="#3414fd"/>
-            <circle cx="5" cy="-33" r="1.6" fill="#3414fd"/>
-            <circle cx="-8" cy="-60" r="1.6" fill="#3414fd"/>
-            <circle cx="8" cy="-60" r="1.6" fill="#3414fd"/>
-            <path d="M-22 -70 L0 0 L22 -70" fill="none" stroke="#3414fd" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
-            <ellipse cx="0" cy="-70" rx="22" ry="6" fill="#3414fd"/>
-            <path d="M0 0 Q-7 9 3 16" fill="none" stroke="#3414fd" stroke-width="2.4" stroke-linecap="round"/>
-            <circle cx="3" cy="16" r="3" fill="#ffd23f" stroke="#3414fd" stroke-width="1.8"/>
-          </g>
-        </g>
-        <polygon class="burst" fill="#ffd23f" stroke="#3414fd" stroke-width="2.5" stroke-linejoin="round" points="71.5,29.5 74.9,40.0 83.8,33.5 80.4,44.0 91.5,44.0 82.5,50.5 91.5,57.0 80.4,57.0 83.8,67.5 74.9,61.0 71.5,71.5 68.1,61.0 59.2,67.5 62.6,57.0 51.5,57.0 60.5,50.5 51.5,44.0 62.6,44.0 59.2,33.5 68.1,40.0"/>
-        <g class="c" style="--dx:44px;--dy:-30px;--r:180deg;--d:0s" fill="#ffd23f" stroke="#3414fd" stroke-width="1.4"><circle cx="71.5" cy="50.5" r="3.4"/></g>
-        <g class="c" style="--dx:24px;--dy:-54px;--r:300deg;--d:.04s" fill="#fad4fc" stroke="#3414fd" stroke-width="1.4" stroke-linejoin="round"><rect x="67.5" y="48.5" width="8" height="4" rx="1"/></g>
-        <g class="c" style="--dx:62px;--dy:-12px;--r:90deg;--d:.02s" fill="#ffffff" stroke="#3414fd" stroke-width="1.4"><circle cx="71.5" cy="50.5" r="3"/></g>
-        <g class="c" style="--dx:8px;--dy:-64px;--r:200deg;--d:.06s" fill="#7b68ee" stroke="#3414fd" stroke-width="1.2" stroke-linejoin="round"><polygon points="71.5,44.3 73.1,48.3 77.4,48.6 74.1,51.3 75.1,55.5 71.5,53.2 67.9,55.5 68.9,51.3 65.6,48.6 69.9,48.3"/></g>
-        <g class="c" style="--dx:68px;--dy:-44px;--r:-240deg;--d:.03s" fill="#ffd23f" stroke="#3414fd" stroke-width="1.4" stroke-linejoin="round"><rect x="67.5" y="48.5" width="8" height="4" rx="1"/></g>
-        <g class="c" style="--dx:46px;--dy:-58px;--r:60deg;--d:.05s" fill="#fad4fc" stroke="#3414fd" stroke-width="1"><ellipse cx="71.5" cy="53.4" rx="3.7" ry="3"/><circle cx="67.6" cy="50" r="1.7"/><circle cx="69.9" cy="46.6" r="1.7"/><circle cx="73.1" cy="46.6" r="1.7"/><circle cx="75.4" cy="50" r="1.7"/></g>
-        <g class="c" style="--dx:32px;--dy:-26px;--r:-120deg;--d:.07s" fill="#ffffff" stroke="#3414fd" stroke-width="1.4" stroke-linejoin="round"><rect x="68" y="48.5" width="7" height="4" rx="1"/></g>
-        <g class="c" style="--dx:58px;--dy:-30px;--r:260deg;--d:.01s" fill="#7b68ee" stroke="#3414fd" stroke-width="1.4"><circle cx="71.5" cy="50.5" r="2.8"/></g>
-        <g class="c" style="--dx:16px;--dy:-44px;--r:-50deg;--d:.08s" fill="#ffd23f" stroke="#3414fd" stroke-width="1"><ellipse cx="71.5" cy="53.4" rx="3.7" ry="3"/><circle cx="67.6" cy="50" r="1.7"/><circle cx="69.9" cy="46.6" r="1.7"/><circle cx="73.1" cy="46.6" r="1.7"/><circle cx="75.4" cy="50" r="1.7"/></g>
-      </svg>
+      <svg viewBox="0 0 120 120" focusable="false"><g class="body">
+<g transform="translate(20 102) rotate(45)">
+<path d="M0 0 L-28 -66 A28 9 0 0 0 28 -66 Z" fill="url(#pp-cone)"/>
+<g clip-path="url(#pp-clip)">
+<path d="M-10.10 -23.80 A10.10 3.25 0 0 0 10.10 -23.80 L6.15 -14.50 A6.15 1.98 0 0 1 -6.15 -14.50 Z" fill="url(#pp-stripe)"/><path d="M-17.39 -41.00 A17.39 5.59 0 0 0 17.39 -41.00 L13.45 -31.70 A13.45 4.32 0 0 1 -13.45 -31.70 Z" fill="url(#pp-stripe)"/><path d="M-24.61 -58.00 A24.61 7.91 0 0 0 24.61 -58.00 L20.70 -48.80 A20.70 6.65 0 0 1 -20.70 -48.80 Z" fill="url(#pp-stripe)"/>
+<path d="M-10.10 -23.80 A10.10 3.25 0 0 0 10.10 -23.80 L6.15 -14.50 A6.15 1.98 0 0 1 -6.15 -14.50 Z" fill="none" stroke="#4d1a66" stroke-opacity=".35" stroke-width=".6"/><path d="M-17.39 -41.00 A17.39 5.59 0 0 0 17.39 -41.00 L13.45 -31.70 A13.45 4.32 0 0 1 -13.45 -31.70 Z" fill="none" stroke="#4d1a66" stroke-opacity=".35" stroke-width=".6"/><path d="M-24.61 -58.00 A24.61 7.91 0 0 0 24.61 -58.00 L20.70 -48.80 A20.70 6.65 0 0 1 -20.70 -48.80 Z" fill="none" stroke="#4d1a66" stroke-opacity=".35" stroke-width=".6"/>
+<path d="M0 0 L-28 -66 L28 -66 Z" fill="url(#pp-tipshade)"/>
+<polygon points="-9,-9 -15,-56 -10.5,-56 -5.5,-9" fill="#fff" opacity=".26"/>
+<polygon points="-3,-14 -5.2,-40 -3.6,-40 -1.6,-14" fill="#fff" opacity=".18"/>
+</g>
+<path d="M0 0 L-28 -66 A28 9 0 0 0 28 -66 Z" fill="none" stroke="#a3741c" stroke-opacity=".55" stroke-width=".8" stroke-linejoin="round"/>
+<ellipse cx="0" cy="-66" rx="28" ry="9" fill="url(#pp-inside)"/>
+<path d="M-22 -68 A22 6 0 0 1 22 -68" fill="none" stroke="#3d0b2a" stroke-opacity=".35" stroke-width="2.2" stroke-linecap="round"/>
+<ellipse cx="0" cy="-66" rx="28" ry="9" fill="none" stroke="url(#pp-rim)" stroke-width="2.4"/>
+<path d="M-25 -65 A25 7.4 0 0 0 -4 -58.6" fill="none" stroke="#fffbe0" stroke-opacity=".7" stroke-width="1" stroke-linecap="round"/>
+<circle cx="0" cy="-.6" r="2" fill="#5b2a74" opacity=".55"/>
+</g>
+</g><circle class="burst" cx="66.7" cy="55.3" r="21" fill="url(#pp-glow)"/><g class="c" style="--dx:44px;--dy:-30px;--r:180deg;--d:0s"><rect x="62.7" y="53.1" width="8" height="4.4" rx="1" fill="url(#pp-g-orange)" stroke="#c9731c" stroke-width=".5"/><rect x="63.3" y="53.6" width="6.8" height=".8" rx=".4" fill="#fff" opacity=".45"/></g><g class="c" style="--dx:24px;--dy:-54px;--r:300deg;--d:0.04s"><rect x="62.7" y="53.1" width="8" height="4.4" rx="1" fill="url(#pp-g-pink)" stroke="#ae2e6e" stroke-width=".5"/><rect x="63.3" y="53.6" width="6.8" height=".8" rx=".4" fill="#fff" opacity=".45"/></g><g class="c" style="--dx:62px;--dy:-12px;--r:90deg;--d:0.02s"><circle cx="66.7" cy="55.3" r="3" fill="url(#pp-r-blue)" stroke="#2b5fb0" stroke-width=".4"/><circle cx="65.7" cy="54.1" r="0.8" fill="#fff" opacity=".55"/></g><g class="c" style="--dx:8px;--dy:-64px;--r:200deg;--d:0.06s"><path d="M61.74 55.30 C63.60 52.20 65.46 58.40 67.32 55.30 S71.04 52.20 72.28 55.30 L72.28 56.91 C71.04 53.81 69.18 60.01 67.32 56.91 S63.60 53.81 61.74 56.91 Z" fill="url(#pp-g-pink)" stroke="#ae2e6e" stroke-width=".35" stroke-linejoin="round"/></g><g class="c" style="--dx:68px;--dy:-44px;--r:-240deg;--d:0.03s"><rect x="62.7" y="53.1" width="8" height="4.4" rx="1" fill="url(#pp-g-yellow)" stroke="#cba639" stroke-width=".5"/><rect x="63.3" y="53.6" width="6.8" height=".8" rx=".4" fill="#fff" opacity=".45"/></g><g class="c" style="--dx:46px;--dy:-58px;--r:60deg;--d:0.05s"><path d="M61.74 55.30 C63.60 52.20 65.46 58.40 67.32 55.30 S71.04 52.20 72.28 55.30 L72.28 56.91 C71.04 53.81 69.18 60.01 67.32 56.91 S63.60 53.81 61.74 56.91 Z" fill="url(#pp-g-blue)" stroke="#2b5fb0" stroke-width=".35" stroke-linejoin="round"/></g><g class="c" style="--dx:32px;--dy:-26px;--r:-120deg;--d:0.07s"><rect x="63.2" y="53.3" width="7" height="4" rx="1" fill="url(#pp-g-navy)" stroke="#26408f" stroke-width=".5"/><rect x="63.8" y="53.8" width="5.8" height=".8" rx=".4" fill="#fff" opacity=".45"/></g><g class="c" style="--dx:58px;--dy:-30px;--r:260deg;--d:0.01s"><circle cx="66.7" cy="55.3" r="2.8" fill="url(#pp-r-red)" stroke="#a82b2b" stroke-width=".4"/><circle cx="65.7" cy="54.2" r="0.8" fill="#fff" opacity=".55"/></g><g class="c" style="--dx:16px;--dy:-44px;--r:-50deg;--d:0.08s" fill="none" stroke-linecap="round"><path d="M60.7 55.3 q3 -6 6 0 t6 0" stroke="#2b5fb0" stroke-width="2.2"/><path d="M60.7 55.3 q3 -6 6 0 t6 0" stroke="#3a82e6" stroke-width="1.6"/><path d="M60.7 55.3 q3 -6 6 0 t6 0" stroke="#6cc0fa" stroke-width=".55" opacity=".85" transform="translate(-.2 -.35)"/></g><g class="c" style="--dx:52px;--dy:-46px;--r:140deg;--d:0.09s"><rect x="63.0" y="53.2" width="7.5" height="4.2" rx="1" fill="url(#pp-g-salmon)" stroke="#b4485a" stroke-width=".5"/><rect x="63.6" y="53.7" width="6.3" height=".8" rx=".4" fill="#fff" opacity=".45"/></g><g class="c" style="--dx:36px;--dy:-62px;--r:-200deg;--d:0.1s"><circle cx="66.7" cy="55.3" r="2.8" fill="url(#pp-r-orange)" stroke="#c9731c" stroke-width=".4"/><circle cx="65.7" cy="54.2" r="0.8" fill="#fff" opacity=".55"/></g><g class="c" style="--dx:70px;--dy:-26px;--r:120deg;--d:0.11s" fill="none" stroke-linecap="round"><path d="M60.7 55.3 q3 -6 6 0 t6 0" stroke="#ae2e6e" stroke-width="2.2"/><path d="M60.7 55.3 q3 -6 6 0 t6 0" stroke="#d94c9b" stroke-width="1.6"/><path d="M60.7 55.3 q3 -6 6 0 t6 0" stroke="#f27bc0" stroke-width=".55" opacity=".85" transform="translate(-.2 -.35)"/></g><g class="c" style="--dx:20px;--dy:-30px;--r:-300deg;--d:0.12s"><rect x="63.2" y="53.3" width="7" height="4" rx="1" fill="url(#pp-g-purple)" stroke="#6f2a93" stroke-width=".5"/><rect x="63.8" y="53.8" width="5.8" height=".8" rx=".4" fill="#fff" opacity=".45"/></g><g class="c" style="--dx:60px;--dy:-56px;--r:210deg;--d:0.13s"><rect x="63.0" y="53.2" width="7.5" height="4.2" rx="1" fill="url(#pp-g-red)" stroke="#a82b2b" stroke-width=".5"/><rect x="63.6" y="53.7" width="6.3" height=".8" rx=".4" fill="#fff" opacity=".45"/></g><g class="c" style="--dx:40px;--dy:-14px;--r:90deg;--d:0.14s"><circle cx="66.7" cy="55.3" r="2.6" fill="url(#pp-r-yellow)" stroke="#cba639" stroke-width=".4"/><circle cx="65.8" cy="54.3" r="0.7" fill="#fff" opacity=".55"/></g></svg>
     </div>
 
-    <h1 class="hero-copy">Opening soon!</h1>
+    <h1 class="hero-copy">Opening December 1st!</h1>
 
     <div class="popper right" aria-hidden="true">
-      <svg viewBox="0 0 120 120" focusable="false">
-        <g class="body">
-          <g transform="translate(22 100) rotate(45)">
-            <polygon points="0,0 4.4,-14 -4.4,-14" fill="#ffd23f"/>
-            <polygon points="-4.4,-14 4.4,-14 8.8,-28 -8.8,-28" fill="#7b68ee"/>
-            <polygon points="-8.8,-28 8.8,-28 13.2,-42 -13.2,-42" fill="#fad4fc"/>
-            <polygon points="-13.2,-42 13.2,-42 17.6,-56 -17.6,-56" fill="#7b68ee"/>
-            <polygon points="-17.6,-56 17.6,-56 22,-70 -22,-70" fill="#fad4fc"/>
-            <circle cx="-4" cy="-35" r="1.6" fill="#3414fd"/>
-            <circle cx="5" cy="-33" r="1.6" fill="#3414fd"/>
-            <circle cx="-8" cy="-60" r="1.6" fill="#3414fd"/>
-            <circle cx="8" cy="-60" r="1.6" fill="#3414fd"/>
-            <path d="M-22 -70 L0 0 L22 -70" fill="none" stroke="#3414fd" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
-            <ellipse cx="0" cy="-70" rx="22" ry="6" fill="#3414fd"/>
-            <path d="M0 0 Q-7 9 3 16" fill="none" stroke="#3414fd" stroke-width="2.4" stroke-linecap="round"/>
-            <circle cx="3" cy="16" r="3" fill="#ffd23f" stroke="#3414fd" stroke-width="1.8"/>
-          </g>
-        </g>
-        <polygon class="burst" fill="#ffd23f" stroke="#3414fd" stroke-width="2.5" stroke-linejoin="round" points="71.5,29.5 74.9,40.0 83.8,33.5 80.4,44.0 91.5,44.0 82.5,50.5 91.5,57.0 80.4,57.0 83.8,67.5 74.9,61.0 71.5,71.5 68.1,61.0 59.2,67.5 62.6,57.0 51.5,57.0 60.5,50.5 51.5,44.0 62.6,44.0 59.2,33.5 68.1,40.0"/>
-        <g class="c" style="--dx:44px;--dy:-30px;--r:180deg;--d:0s" fill="#ffd23f" stroke="#3414fd" stroke-width="1.4"><circle cx="71.5" cy="50.5" r="3.4"/></g>
-        <g class="c" style="--dx:24px;--dy:-54px;--r:300deg;--d:.04s" fill="#fad4fc" stroke="#3414fd" stroke-width="1.4" stroke-linejoin="round"><rect x="67.5" y="48.5" width="8" height="4" rx="1"/></g>
-        <g class="c" style="--dx:62px;--dy:-12px;--r:90deg;--d:.02s" fill="#ffffff" stroke="#3414fd" stroke-width="1.4"><circle cx="71.5" cy="50.5" r="3"/></g>
-        <g class="c" style="--dx:8px;--dy:-64px;--r:200deg;--d:.06s" fill="#7b68ee" stroke="#3414fd" stroke-width="1.2" stroke-linejoin="round"><polygon points="71.5,44.3 73.1,48.3 77.4,48.6 74.1,51.3 75.1,55.5 71.5,53.2 67.9,55.5 68.9,51.3 65.6,48.6 69.9,48.3"/></g>
-        <g class="c" style="--dx:68px;--dy:-44px;--r:-240deg;--d:.03s" fill="#ffd23f" stroke="#3414fd" stroke-width="1.4" stroke-linejoin="round"><rect x="67.5" y="48.5" width="8" height="4" rx="1"/></g>
-        <g class="c" style="--dx:46px;--dy:-58px;--r:60deg;--d:.05s" fill="#fad4fc" stroke="#3414fd" stroke-width="1"><ellipse cx="71.5" cy="53.4" rx="3.7" ry="3"/><circle cx="67.6" cy="50" r="1.7"/><circle cx="69.9" cy="46.6" r="1.7"/><circle cx="73.1" cy="46.6" r="1.7"/><circle cx="75.4" cy="50" r="1.7"/></g>
-        <g class="c" style="--dx:32px;--dy:-26px;--r:-120deg;--d:.07s" fill="#ffffff" stroke="#3414fd" stroke-width="1.4" stroke-linejoin="round"><rect x="68" y="48.5" width="7" height="4" rx="1"/></g>
-        <g class="c" style="--dx:58px;--dy:-30px;--r:260deg;--d:.01s" fill="#7b68ee" stroke="#3414fd" stroke-width="1.4"><circle cx="71.5" cy="50.5" r="2.8"/></g>
-        <g class="c" style="--dx:16px;--dy:-44px;--r:-50deg;--d:.08s" fill="#ffd23f" stroke="#3414fd" stroke-width="1"><ellipse cx="71.5" cy="53.4" rx="3.7" ry="3"/><circle cx="67.6" cy="50" r="1.7"/><circle cx="69.9" cy="46.6" r="1.7"/><circle cx="73.1" cy="46.6" r="1.7"/><circle cx="75.4" cy="50" r="1.7"/></g>
-      </svg>
+      <svg viewBox="0 0 120 120" focusable="false"><g class="body">
+<g transform="translate(20 102) rotate(45)">
+<path d="M0 0 L-28 -66 A28 9 0 0 0 28 -66 Z" fill="url(#pp-cone)"/>
+<g clip-path="url(#pp-clip)">
+<path d="M-10.10 -23.80 A10.10 3.25 0 0 0 10.10 -23.80 L6.15 -14.50 A6.15 1.98 0 0 1 -6.15 -14.50 Z" fill="url(#pp-stripe)"/><path d="M-17.39 -41.00 A17.39 5.59 0 0 0 17.39 -41.00 L13.45 -31.70 A13.45 4.32 0 0 1 -13.45 -31.70 Z" fill="url(#pp-stripe)"/><path d="M-24.61 -58.00 A24.61 7.91 0 0 0 24.61 -58.00 L20.70 -48.80 A20.70 6.65 0 0 1 -20.70 -48.80 Z" fill="url(#pp-stripe)"/>
+<path d="M-10.10 -23.80 A10.10 3.25 0 0 0 10.10 -23.80 L6.15 -14.50 A6.15 1.98 0 0 1 -6.15 -14.50 Z" fill="none" stroke="#4d1a66" stroke-opacity=".35" stroke-width=".6"/><path d="M-17.39 -41.00 A17.39 5.59 0 0 0 17.39 -41.00 L13.45 -31.70 A13.45 4.32 0 0 1 -13.45 -31.70 Z" fill="none" stroke="#4d1a66" stroke-opacity=".35" stroke-width=".6"/><path d="M-24.61 -58.00 A24.61 7.91 0 0 0 24.61 -58.00 L20.70 -48.80 A20.70 6.65 0 0 1 -20.70 -48.80 Z" fill="none" stroke="#4d1a66" stroke-opacity=".35" stroke-width=".6"/>
+<path d="M0 0 L-28 -66 L28 -66 Z" fill="url(#pp-tipshade)"/>
+<polygon points="-9,-9 -15,-56 -10.5,-56 -5.5,-9" fill="#fff" opacity=".26"/>
+<polygon points="-3,-14 -5.2,-40 -3.6,-40 -1.6,-14" fill="#fff" opacity=".18"/>
+</g>
+<path d="M0 0 L-28 -66 A28 9 0 0 0 28 -66 Z" fill="none" stroke="#a3741c" stroke-opacity=".55" stroke-width=".8" stroke-linejoin="round"/>
+<ellipse cx="0" cy="-66" rx="28" ry="9" fill="url(#pp-inside)"/>
+<path d="M-22 -68 A22 6 0 0 1 22 -68" fill="none" stroke="#3d0b2a" stroke-opacity=".35" stroke-width="2.2" stroke-linecap="round"/>
+<ellipse cx="0" cy="-66" rx="28" ry="9" fill="none" stroke="url(#pp-rim)" stroke-width="2.4"/>
+<path d="M-25 -65 A25 7.4 0 0 0 -4 -58.6" fill="none" stroke="#fffbe0" stroke-opacity=".7" stroke-width="1" stroke-linecap="round"/>
+<circle cx="0" cy="-.6" r="2" fill="#5b2a74" opacity=".55"/>
+</g>
+</g><circle class="burst" cx="66.7" cy="55.3" r="21" fill="url(#pp-glow)"/><g class="c" style="--dx:44px;--dy:-30px;--r:180deg;--d:0s"><rect x="62.7" y="53.1" width="8" height="4.4" rx="1" fill="url(#pp-g-orange)" stroke="#c9731c" stroke-width=".5"/><rect x="63.3" y="53.6" width="6.8" height=".8" rx=".4" fill="#fff" opacity=".45"/></g><g class="c" style="--dx:24px;--dy:-54px;--r:300deg;--d:0.04s"><rect x="62.7" y="53.1" width="8" height="4.4" rx="1" fill="url(#pp-g-pink)" stroke="#ae2e6e" stroke-width=".5"/><rect x="63.3" y="53.6" width="6.8" height=".8" rx=".4" fill="#fff" opacity=".45"/></g><g class="c" style="--dx:62px;--dy:-12px;--r:90deg;--d:0.02s"><circle cx="66.7" cy="55.3" r="3" fill="url(#pp-r-blue)" stroke="#2b5fb0" stroke-width=".4"/><circle cx="65.7" cy="54.1" r="0.8" fill="#fff" opacity=".55"/></g><g class="c" style="--dx:8px;--dy:-64px;--r:200deg;--d:0.06s"><path d="M61.74 55.30 C63.60 52.20 65.46 58.40 67.32 55.30 S71.04 52.20 72.28 55.30 L72.28 56.91 C71.04 53.81 69.18 60.01 67.32 56.91 S63.60 53.81 61.74 56.91 Z" fill="url(#pp-g-pink)" stroke="#ae2e6e" stroke-width=".35" stroke-linejoin="round"/></g><g class="c" style="--dx:68px;--dy:-44px;--r:-240deg;--d:0.03s"><rect x="62.7" y="53.1" width="8" height="4.4" rx="1" fill="url(#pp-g-yellow)" stroke="#cba639" stroke-width=".5"/><rect x="63.3" y="53.6" width="6.8" height=".8" rx=".4" fill="#fff" opacity=".45"/></g><g class="c" style="--dx:46px;--dy:-58px;--r:60deg;--d:0.05s"><path d="M61.74 55.30 C63.60 52.20 65.46 58.40 67.32 55.30 S71.04 52.20 72.28 55.30 L72.28 56.91 C71.04 53.81 69.18 60.01 67.32 56.91 S63.60 53.81 61.74 56.91 Z" fill="url(#pp-g-blue)" stroke="#2b5fb0" stroke-width=".35" stroke-linejoin="round"/></g><g class="c" style="--dx:32px;--dy:-26px;--r:-120deg;--d:0.07s"><rect x="63.2" y="53.3" width="7" height="4" rx="1" fill="url(#pp-g-navy)" stroke="#26408f" stroke-width=".5"/><rect x="63.8" y="53.8" width="5.8" height=".8" rx=".4" fill="#fff" opacity=".45"/></g><g class="c" style="--dx:58px;--dy:-30px;--r:260deg;--d:0.01s"><circle cx="66.7" cy="55.3" r="2.8" fill="url(#pp-r-red)" stroke="#a82b2b" stroke-width=".4"/><circle cx="65.7" cy="54.2" r="0.8" fill="#fff" opacity=".55"/></g><g class="c" style="--dx:16px;--dy:-44px;--r:-50deg;--d:0.08s" fill="none" stroke-linecap="round"><path d="M60.7 55.3 q3 -6 6 0 t6 0" stroke="#2b5fb0" stroke-width="2.2"/><path d="M60.7 55.3 q3 -6 6 0 t6 0" stroke="#3a82e6" stroke-width="1.6"/><path d="M60.7 55.3 q3 -6 6 0 t6 0" stroke="#6cc0fa" stroke-width=".55" opacity=".85" transform="translate(-.2 -.35)"/></g><g class="c" style="--dx:52px;--dy:-46px;--r:140deg;--d:0.09s"><rect x="63.0" y="53.2" width="7.5" height="4.2" rx="1" fill="url(#pp-g-salmon)" stroke="#b4485a" stroke-width=".5"/><rect x="63.6" y="53.7" width="6.3" height=".8" rx=".4" fill="#fff" opacity=".45"/></g><g class="c" style="--dx:36px;--dy:-62px;--r:-200deg;--d:0.1s"><circle cx="66.7" cy="55.3" r="2.8" fill="url(#pp-r-orange)" stroke="#c9731c" stroke-width=".4"/><circle cx="65.7" cy="54.2" r="0.8" fill="#fff" opacity=".55"/></g><g class="c" style="--dx:70px;--dy:-26px;--r:120deg;--d:0.11s" fill="none" stroke-linecap="round"><path d="M60.7 55.3 q3 -6 6 0 t6 0" stroke="#ae2e6e" stroke-width="2.2"/><path d="M60.7 55.3 q3 -6 6 0 t6 0" stroke="#d94c9b" stroke-width="1.6"/><path d="M60.7 55.3 q3 -6 6 0 t6 0" stroke="#f27bc0" stroke-width=".55" opacity=".85" transform="translate(-.2 -.35)"/></g><g class="c" style="--dx:20px;--dy:-30px;--r:-300deg;--d:0.12s"><rect x="63.2" y="53.3" width="7" height="4" rx="1" fill="url(#pp-g-purple)" stroke="#6f2a93" stroke-width=".5"/><rect x="63.8" y="53.8" width="5.8" height=".8" rx=".4" fill="#fff" opacity=".45"/></g><g class="c" style="--dx:60px;--dy:-56px;--r:210deg;--d:0.13s"><rect x="63.0" y="53.2" width="7.5" height="4.2" rx="1" fill="url(#pp-g-red)" stroke="#a82b2b" stroke-width=".5"/><rect x="63.6" y="53.7" width="6.3" height=".8" rx=".4" fill="#fff" opacity=".45"/></g><g class="c" style="--dx:40px;--dy:-14px;--r:90deg;--d:0.14s"><circle cx="66.7" cy="55.3" r="2.6" fill="url(#pp-r-yellow)" stroke="#cba639" stroke-width=".4"/><circle cx="65.8" cy="54.3" r="0.7" fill="#fff" opacity=".55"/></g></svg>
     </div>
 
   </div>
@@ -1979,6 +2004,33 @@ footer small {
     else if (mq.addListener) mq.addListener(syncParallax);
   });
   syncParallax();
+
+  /* ---------- Hero background: slides down the tall image as you scroll ----------
+     HERO_FROM / HERO_TO are how far down the image (0-100%) the view sits at the top of the page
+     and once the banner has scrolled away. Change them to favour a different part of the picture. */
+  var hero = document.querySelector('.parallax');
+  var HERO_FROM = 25, HERO_TO = 85;
+  var heroQueued = false;
+
+  function heroPaint() {
+    heroQueued = false;
+    if (!hero) return;
+    if (reducedMotion.matches) { hero.style.backgroundPosition = ''; return; }
+    var rect = hero.getBoundingClientRect();
+    var end = rect.top + window.pageYOffset + rect.height;
+    var p = end > 0 ? Math.max(0, Math.min(1, window.pageYOffset / end)) : 0;
+    hero.style.backgroundPosition = 'center ' + (HERO_FROM + (HERO_TO - HERO_FROM) * p).toFixed(1) + '%';
+  }
+
+  function queueHero() {
+    if (!heroQueued) { heroQueued = true; requestAnimationFrame(heroPaint); }
+  }
+
+  window.addEventListener('scroll', queueHero, { passive: true });
+  window.addEventListener('resize', queueHero);
+  if (reducedMotion.addEventListener) reducedMotion.addEventListener('change', heroPaint);
+  else if (reducedMotion.addListener) reducedMotion.addListener(heroPaint);
+  heroPaint();
 
   /* ---------- Footer year ---------- */
   var year = document.getElementById('year');
