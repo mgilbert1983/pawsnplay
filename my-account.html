@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;800;900&family=Josefin+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="pnp-app.css?v=3">
+<link rel="stylesheet" href="pnp-app.css?v=4">
 <style id="hero-style">
 /* Home-page style banner (also in pnp-app.css; repeated here so it always shows) */
 :root{--blue:#3414fd}
@@ -48,6 +48,14 @@
 .hero .kicker, .hero h1, .hero .sub { text-shadow: 2px 0px 0 var(--banner-base), -2px 0px 0 var(--banner-base), 0px 2px 0 var(--banner-base), 0px -2px 0 var(--banner-base), 2px 1px 0 var(--banner-base), 2px -1px 0 var(--banner-base), -2px 1px 0 var(--banner-base), -2px -1px 0 var(--banner-base), 1px 2px 0 var(--banner-base), -1px 2px 0 var(--banner-base), 1px -2px 0 var(--banner-base), -1px -2px 0 var(--banner-base), 1px 1px 0 var(--banner-base), 1px -1px 0 var(--banner-base), -1px 1px 0 var(--banner-base), -1px -1px 0 var(--banner-base), 2px 2px 0 var(--banner-base), 2px -2px 0 var(--banner-base), -2px 2px 0 var(--banner-base), -2px -2px 0 var(--banner-base); }
 @media (max-width: 700px) {
   .hero { padding: 26px 16px 62px; min-height: 220px; }
+}
+/* fixes also kept here so they always apply */
+.wrap > h2::before, .wrap > div > h2::before, .panel > h2::before { content: none !important; }
+.tabs { display: flex; flex-wrap: wrap !important; justify-content: center; gap: 4px; overflow: visible !important; border-radius: 32px !important; }
+.tabs button { flex: 0 1 auto !important; padding: 8px 14px !important; font-size: 0.95rem; }
+@media (max-width: 600px) {
+  .tabs { display: grid !important; grid-template-columns: 1fr 1fr; border-radius: 24px !important; }
+  .tabs button { white-space: normal !important; text-align: center; padding: 8px 8px !important; font-size: 0.9rem !important; line-height: 1.2; }
 }
 </style>
 

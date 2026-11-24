@@ -130,7 +130,6 @@ h1, h2, h3 { font-family: var(--font-display); color: var(--deep); margin: 0; li
   box-shadow: var(--shadow);
 }
 .wrap > h2, .wrap > div > h2, .panel > h2 { margin: 30px 0 10px; font-weight: 800; font-size: 1.7rem; }
-.wrap > h2::before, .wrap > div > h2::before, .panel > h2::before { content: "🐾"; margin-right: 0.45em; font-size: 0.75em; }
 h3 { margin: 22px 0 8px; font-weight: 800; font-size: 1.25rem; }
 .muted { color: var(--muted); font-size: 0.95rem; }
 .small { font-size: 0.92rem; }
@@ -196,23 +195,26 @@ details.card[open] > summary { margin-bottom: 8px; }
 .b-warn { background: #fff1d6; color: var(--warn); }
 .b-bad { background: #fde2e2; color: var(--bad); }
 
-/* ---------- admin tabs: a rounded segmented bar ---------- */
+/* ---------- admin tabs: a rounded segmented bar (wraps onto a second row instead of cutting buttons off) ---------- */
 .tabs {
   display: flex;
-  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 4px;
   margin: 0 0 18px;
   padding: 8px;
-  overflow-x: auto;
   background: var(--white);
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 32px;
   box-shadow: var(--shadow);
-  scrollbar-width: none;
 }
-.tabs::-webkit-scrollbar { display: none; }
-.tabs button { flex: 0 0 auto; margin: 0; min-height: 42px; padding: 8px 18px; border-radius: 999px; background: transparent; color: var(--deep); white-space: nowrap; }
+.tabs button { flex: 0 1 auto; margin: 0; min-height: 42px; padding: 8px 14px; border-radius: 999px; background: transparent; color: var(--deep); font-size: 0.95rem; white-space: nowrap; }
 .tabs button:hover { background: var(--pink); transform: none; }
 .tabs button[aria-selected="true"] { background: var(--purple); color: var(--white); box-shadow: 0 4px 10px rgba(123, 104, 238, 0.35); }
+@media (max-width: 600px) {
+  .tabs { display: grid !important; grid-template-columns: 1fr 1fr; border-radius: 24px !important; }
+  .tabs button { white-space: normal !important; text-align: center; padding: 8px 8px !important; font-size: 0.9rem !important; line-height: 1.2; }
+}
 section.panel { display: none; }
 section.panel.on { display: block; }
 
