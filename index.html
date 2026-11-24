@@ -1924,8 +1924,8 @@ footer small {
 
   /* ---------- Splash ----------
      The page is revealed straight away and the splash slides off the top,
-     so there is no blank frame. Skipped on return visits in the same
-     session and when the link already points at a section (#booking etc.). */
+     so there is no blank frame. Skipped only when the link already
+     points at a section (#booking etc.). */
   var splash = document.getElementById('splash');
   var content = document.getElementById('mainContent');
   var SEEN = 'pnpSplashSeen';
@@ -1950,11 +1950,11 @@ footer small {
     if (main) main.focus({ preventScroll: true });
   }
 
-  var seen = false;
-  try { seen = sessionStorage.getItem(SEEN) === '1'; } catch (e) {}
-
+  /* The splash shows on every visit to the home page. It is skipped only when the link
+     points at a section (#booking, #waiver, #top ...), e.g. the "Back to the website"
+     links on the account pages. */
   if (splash) {
-    if (seen || location.hash.length > 1) {
+    if (location.hash.length > 1) {
       content.hidden = false;
       splash.remove();
       jumpToHash();
