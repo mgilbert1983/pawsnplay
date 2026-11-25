@@ -90,7 +90,7 @@
 </section>
 
 <main class="shop-wrap" id="main">
-  <p class="thanks hidden" id="thanks" role="status">Thank you! Your payment is being processed and Square will email your receipt. We'll have your order ready for pickup.</p>
+  <p class="thanks hidden" id="thanks" role="status">Thank you! Your payment is being processed and Stripe will email your receipt. We'll have your order ready for pickup.</p>
   <p class="note preview-note hidden" id="preview">Preview only: these are sample items, nothing here can be bought.</p>
   <p class="note hidden" id="state" role="status"></p>
 
@@ -100,8 +100,8 @@
   </div>
   <div class="grid" id="grid" aria-live="polite"></div>
   <p class="empty hidden" id="none">Nothing matches that search. Try another word or category.</p>
-  <p class="trust" id="trust">Payments are handled securely by Square. Paws n' Play never sees or stores your card number.</p>
-  <a class="more-link hidden" id="more" target="_blank" rel="noopener">See everything on Square</a>
+  <p class="trust" id="trust">Payments are handled securely by Stripe. Paws n' Play never sees or stores your card number.</p>
+  <a class="more-link hidden" id="more" target="_blank" rel="noopener">See more</a>
 </main>
 
 <button type="button" class="cart-fab hidden" id="cartFab" aria-haspopup="dialog">Cart <span class="count" id="cartCount">0</span></button>
@@ -111,9 +111,9 @@
   <div class="drawer-body" id="cartBody"></div>
   <div class="drawer-foot">
     <p class="subtotal"><span>Subtotal</span><span id="subtotal">$0.00</span></p>
-    <p class="muted small" style="margin:0">Taxes are added at checkout by Square.</p>
+    <p class="muted small" style="margin:0">Taxes are shown at checkout.</p>
     <input type="text" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
-    <button type="button" id="checkout">Checkout with Square</button>
+    <button type="button" id="checkout">Checkout securely</button>
     <p class="cart-msg" id="cartMsg" role="status" aria-live="polite"></p>
   </div>
 </aside>
@@ -125,9 +125,9 @@
 <script>
 /* ============ SETTINGS (the only part you ever need to edit) ============ */
 var SHOP_API = "";          // address of the Shop web app (Apps Script), ends in /exec. This switches the automatic shop on.
-var SQUARE_STORE_URL = "";  // optional: link to the full Square online store, shown as "See everything on Square"
+var MORE_ITEMS_URL = "";  // optional: link to a fuller store page, if there is one, shown as "See more"
 var MANUAL_ITEMS = [];      // optional, used only when SHOP_API is empty. Each: { name, price: "12.00", category, description, image, url }
-                            //   url = the Square link for that item (opens in a new tab). Only https links are used.
+                            //   url = the Stripe payment link for that item (opens in a new tab). Only https links are used.
 /* ========================================================================= */
 (function () {
   "use strict";
@@ -187,14 +187,14 @@ var MANUAL_ITEMS = [];      // optional, used only when SHOP_API is empty. Each:
     var btn = this, msg = $("cartMsg"); msg.textContent = "";
     if (DEMO) { msg.textContent = "This is a preview, so checkout is switched off."; return; }
     if (!cart.length) return;
-    btn.disabled = true; btn.textContent = "Taking you to Square…";
+    btn.disabled = true; btn.textContent = "Taking you to secure checkout…";
     try {
       var res = await fetch(SHOP_API, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ action: "checkout", hp: $("hp").value, lines: cart.map(function (l) { return { id: l.id, qty: l.qty }; }) }) });
       var j = await res.json();
       if (!j.ok || !/^https:\/\//i.test(j.url || "")) throw new Error(j.error || "Could not start checkout.");
       window.location.href = j.url;
     } catch (e) {
-      btn.disabled = false; btn.textContent = "Checkout with Square";
+      btn.disabled = false; btn.textContent = "Checkout securely";
       msg.textContent = (e && e.message && !/fetch|network|json/i.test(e.message)) ? e.message : "Could not reach checkout. Please try again, or call 778-737-7529.";
     }
   };
@@ -211,8 +211,8 @@ var MANUAL_ITEMS = [];      // optional, used only when SHOP_API is empty. Each:
     var b = el("div", "pbody"); b.appendChild(el("p", "pcat", item.category)); b.appendChild(el("h3", "pname", item.name));
     if (item.description) b.appendChild(el("p", "pdesc", item.description));
     var buy = el("div", "pbuy"), price = el("p", "price", priceLabel(item)); buy.appendChild(price);
-    if (item.url) {                                   // manual mode: straight to the Square page for this item
-      var a = el("a", "pill solid", "Buy on Square"); a.href = item.url; a.target = "_blank"; a.rel = "noopener"; a.setAttribute("aria-label", "Buy " + item.name + " on Square"); buy.appendChild(a);
+    if (item.url) {                                   // manual mode: straight to the Stripe page for this item
+      var a = el("a", "pill solid", "Buy now"); a.href = item.url; a.target = "_blank"; a.rel = "noopener"; a.setAttribute("aria-label", "Buy " + item.name + " now"); buy.appendChild(a);
     } else {
       var sel = null;
       if (item.variations.length > 1) {
@@ -251,7 +251,7 @@ var MANUAL_ITEMS = [];      // optional, used only when SHOP_API is empty. Each:
     money = new Intl.NumberFormat("en-CA", { style: "currency", currency: state.currency });
     if (qs.get("thanks")) { $("thanks").classList.remove("hidden"); cart = []; saveCart(); }
     else loadCart();
-    if (SQUARE_STORE_URL && /^https:\/\//i.test(SQUARE_STORE_URL)) { var m = $("more"); m.href = SQUARE_STORE_URL; m.classList.remove("hidden"); }
+    if (MORE_ITEMS_URL && /^https:\/\//i.test(MORE_ITEMS_URL)) { var m = $("more"); m.href = MORE_ITEMS_URL; m.classList.remove("hidden"); }
     if (DEMO) { $("preview").classList.remove("hidden"); show(SAMPLE, "auto"); return; }
     if (SHOP_API) {
       setState("Loading the shop…");
