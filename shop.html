@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shop | Paws n' Play</title>
+<link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/mgilbert1983/pawsnplay/main/WEBSITE_FAVICON.jpg">
+<meta name="description" content="Treats, toys and gear for your pup from Paws n' Play in Vancouver.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;800;900&family=Josefin+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="pnp-app.css?v=5">
+<style>
+:root { --banner-base: #3f30f2; }
+.hero { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: clamp(220px, 32vh, 340px); padding: 34px 20px 64px; text-align: center; background-color: var(--banner-base); background-image: none; border-radius: 0; overflow: hidden; }
+.hero-bg { position: absolute; inset: -24% 0; background: url("https://iili.io/Ke63t2I.png") center / cover no-repeat; will-change: transform; pointer-events: none; }
+.hero-inner { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; }
+.hero::before, .hero::after { content: none; display: none; }
+.hero .kicker, .hero h1, .hero .sub { color: #fff; text-shadow: 2px 0 0 var(--banner-base), -2px 0 0 var(--banner-base), 0 2px 0 var(--banner-base), 0 -2px 0 var(--banner-base), 2px 2px 0 var(--banner-base), -2px -2px 0 var(--banner-base), 2px -2px 0 var(--banner-base), -2px 2px 0 var(--banner-base); }
+.hero .kicker { margin: 0 0 8px; font-size: .9rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; }
+.hero h1 { font-weight: 900; font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.12; }
+.hero .sub { margin: 12px auto 0; max-width: 60ch; font-size: 1.05rem; font-weight: 600; }
+
+.shop-wrap { width: min(1120px, 100% - 32px); margin: 0 auto; padding: 22px 0 90px; }
+.thanks { margin: 0 0 18px; padding: 14px 18px; border-radius: 16px; background: #e8f7ee; border: 1px solid #b8e6c9; color: var(--ok); font-weight: 700; }
+.preview-note { margin: 0 0 18px; }
+.toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 4px 0 20px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; flex: 1 1 320px; }
+.chip { min-height: 40px; margin: 0; padding: 6px 16px; border: 2px solid var(--purple); border-radius: 999px; background: var(--white); color: var(--deep); font: inherit; font-size: .95rem; font-weight: 700; cursor: pointer; }
+.chip:hover:not(:disabled) { background: #f3f0ff; transform: none; }
+.chip[aria-pressed="true"] { background: var(--purple); color: var(--white); }
+.search { flex: 0 1 260px; margin: 0; }
+.search input { width: 100%; margin: 0; padding: 10px 16px; border: 2px solid var(--line); border-radius: 999px; font: inherit; color: var(--deep); background: var(--white); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; }
+.prod { display: flex; flex-direction: column; overflow: hidden; background: var(--white); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); }
+.pimg { position: relative; aspect-ratio: 1 / 1; background: #f6c9f1; overflow: hidden; }
+.pimg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pimg .dogpic { width: 100%; height: 100%; margin: 0; border: 0; border-radius: 0; box-shadow: none; }
+.pbody { display: flex; flex-direction: column; flex: 1; padding: 14px 16px 16px; }
+.pcat { margin: 0 0 4px; font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.pname { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; line-height: 1.2; color: var(--deep); }
+.pdesc { margin: 6px 0 0; font-size: .92rem; line-height: 1.4; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.pbuy { margin-top: auto; padding-top: 12px; }
+.price { margin: 0 0 8px; font-family: var(--font-display); font-weight: 800; font-size: 1.25rem; color: var(--deep); }
+.price small { font-family: var(--font-body); font-weight: 600; font-size: .8rem; color: var(--muted); }
+.pbuy select { width: 100%; margin: 0 0 8px; padding: 8px 12px; border: 2px solid var(--line); border-radius: 12px; font: inherit; color: var(--deep); background: var(--white); }
+.pbuy button, .pbuy a.pill { width: 100%; margin: 0; min-height: 44px; text-align: center; }
+.empty { padding: 40px 10px; text-align: center; color: var(--muted); }
+.trust { margin: 28px 0 0; text-align: center; font-size: .92rem; color: var(--muted); }
+.more-link { display: block; margin-top: 14px; text-align: center; }
+
+/* cart button + drawer */
+.cart-fab { position: fixed; right: 18px; bottom: 18px; z-index: 300; display: flex; align-items: center; gap: 10px; margin: 0; min-height: 52px; padding: 10px 20px; box-shadow: 0 10px 26px rgba(91, 71, 207, .4); }
+.cart-fab .count { display: inline-grid; place-items: center; min-width: 24px; height: 24px; padding: 0 6px; border-radius: 999px; background: #fff; color: var(--deep); font-size: .85rem; font-weight: 800; }
+.shade { position: fixed; inset: 0; z-index: 400; background: rgba(46, 28, 110, .55); }
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; z-index: 401; display: flex; flex-direction: column; width: min(420px, 100%); background: var(--white); box-shadow: -10px 0 32px rgba(46, 28, 110, .3); }
+.drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+.drawer-head h2 { margin: 0; font-size: 1.4rem; }
+.drawer-body { flex: 1; overflow: auto; padding: 8px 20px; }
+.line { display: grid; grid-template-columns: 56px 1fr auto; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.line .lt { width: 56px; height: 56px; border-radius: 12px; overflow: hidden; background: #f6c9f1; }
+.line .lt img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.line .ln { font-weight: 700; color: var(--deep); line-height: 1.2; }
+.line .lv { font-size: .85rem; color: var(--muted); }
+.qty { display: inline-flex; align-items: center; gap: 4px; margin-top: 6px; }
+.qty button { min-height: 32px; width: 32px; margin: 0; padding: 0; border-radius: 50%; font-size: 1.1rem; line-height: 1; }
+.qty span { min-width: 24px; text-align: center; font-weight: 700; color: var(--deep); }
+.line .lp { font-weight: 800; color: var(--deep); text-align: right; }
+.line .rm { display: block; margin-top: 6px; padding: 0; min-height: 0; background: none; border: 0; color: var(--bad); font-size: .82rem; font-weight: 700; text-decoration: underline; text-align: right; }
+.drawer-foot { padding: 16px 20px 20px; border-top: 1px solid var(--line); }
+.subtotal { display: flex; justify-content: space-between; margin: 0 0 4px; font-weight: 800; font-size: 1.1rem; color: var(--deep); }
+.drawer-foot button { width: 100%; margin: 12px 0 0; }
+.cart-msg { min-height: 1.3em; margin: 8px 0 0; font-weight: 700; font-size: .92rem; color: var(--bad); }
+@media (max-width: 520px) { .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } .pbody { padding: 10px 12px 12px; } .pname { font-size: 1rem; } .pdesc { -webkit-line-clamp: 2; } }
+</style>
+</head>
+<body>
+<header class="app-header">
+  <a class="logo" href="index.html#top" aria-label="Paws n' Play, back to the website"><img src="https://iili.io/KkTOXcP.md.png" alt="Paws n' Play"></a>
+  <nav class="app-nav" aria-label="Main"><a class="pill" href="index.html#top">Back to the website</a></nav>
+</header>
+
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <p class="kicker">Shop</p>
+    <h1>Paws n' Play Shop</h1>
+    <p class="sub">Treats, toys and gear for your pup</p>
+  </div>
+</section>
+
+<main class="shop-wrap" id="main">
+  <p class="thanks hidden" id="thanks" role="status">Thank you! Your payment is being processed and Square will email your receipt. We'll have your order ready for pickup.</p>
+  <p class="note preview-note hidden" id="preview">Preview only: these are sample items, nothing here can be bought.</p>
+  <p class="note hidden" id="state" role="status"></p>
+
+  <div class="toolbar hidden" id="toolbar">
+    <div class="chips" id="chips" role="group" aria-label="Categories"></div>
+    <label class="search"><span class="hidden">Search the shop</span><input id="q" type="search" placeholder="Search the shop" autocomplete="off" maxlength="60"></label>
+  </div>
+  <div class="grid" id="grid" aria-live="polite"></div>
+  <p class="empty hidden" id="none">Nothing matches that search. Try another word or category.</p>
+  <p class="trust" id="trust">Payments are handled securely by Square. Paws n' Play never sees or stores your card number.</p>
+  <a class="more-link hidden" id="more" target="_blank" rel="noopener">See everything on Square</a>
+</main>
+
+<button type="button" class="cart-fab hidden" id="cartFab" aria-haspopup="dialog">Cart <span class="count" id="cartCount">0</span></button>
+<div class="shade hidden" id="shade"></div>
+<aside class="drawer hidden" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+  <div class="drawer-head"><h2 id="drawerTitle">Your cart</h2><button type="button" class="alt sm" id="cartClose" style="margin:0">Close</button></div>
+  <div class="drawer-body" id="cartBody"></div>
+  <div class="drawer-foot">
+    <p class="subtotal"><span>Subtotal</span><span id="subtotal">$0.00</span></p>
+    <p class="muted small" style="margin:0">Taxes are added at checkout by Square.</p>
+    <input type="text" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
+    <button type="button" id="checkout">Checkout with Square</button>
+    <p class="cart-msg" id="cartMsg" role="status" aria-live="polite"></p>
+  </div>
+</aside>
+
+<footer class="app-footer">
+  <p style="margin:0">Paws n' Play &middot; <a href="tel:+17787377529">778-737-7529</a> &middot; <a href="mailto:pawsnplayvancouver@gmail.com">pawsnplayvancouver@gmail.com</a></p>
+</footer>
+
+<script>
+/* ============ SETTINGS (the only part you ever need to edit) ============ */
+var SHOP_API = "";          // address of the Shop web app (Apps Script), ends in /exec. This switches the automatic shop on.
+var SQUARE_STORE_URL = "";  // optional: link to the full Square online store, shown as "See everything on Square"
+var MANUAL_ITEMS = [];      // optional, used only when SHOP_API is empty. Each: { name, price: "12.00", category, description, image, url }
+                            //   url = the Square link for that item (opens in a new tab). Only https links are used.
+/* ========================================================================= */
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var qs = new URLSearchParams(location.search), DEMO = qs.get("demo") === "1";
+  var CART_KEY = "pnpCart", state = { items: [], cat: "All", q: "", currency: "CAD", mode: "none" }, cart = [], money;
+
+  function fmt(cents) { try { return money.format(cents / 100); } catch (e) { return "$" + (cents / 100).toFixed(2); } }
+  function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
+  function safeImg(u) { return typeof u === "string" && /^https:\/\//i.test(u) ? u : ""; }
+  function setState(msg) { var s = $("state"); s.textContent = msg || ""; s.classList.toggle("hidden", !msg); }
+
+  /* ---------- sample items for ?demo=1 only ---------- */
+  var SAMPLE = [
+    ["Peanut Butter Cookies", "Treats", "Homemade in-house, baked fresh.", [["6 pack", 900], ["12 pack", 1600]]], ["Dog Bone Cake", "Treats", "A birthday cake your pup can actually eat.", [["Regular", 2800]]],
+    ["Squeaky Ball", "Toys", "Bouncy, loud and built to last.", [["Regular", 1200]]], ["Rope Tug", "Toys", "Tough cotton rope for tug-of-war.", [["Small", 1000], ["Large", 1600]]],
+    ["Rainbow Bandana", "Accessories", "Soft cotton in the Paws n' Play colours.", [["Small", 1100], ["Large", 1300]]], ["Cozy Hoodie", "Accessories", "For chilly Vancouver walks.", [["Small", 3400], ["Medium", 3800], ["Large", 4200]]]
+  ].map(function (s, i) { return { id: "demo" + i, name: s[0], category: s[1], description: s[2], image: "", variations: s[3].map(function (v, j) { return { id: "demo" + i + "-" + j, name: v[0], cents: v[1] }; }) }; });
+
+  /* ---------- cart ---------- */
+  function loadCart() { try { cart = JSON.parse(localStorage.getItem(CART_KEY) || "[]").filter(function (l) { return l && l.id && l.qty > 0; }); } catch (e) { cart = []; } }
+  function saveCart() { try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch (e) { /* storage blocked: the cart just lasts for this visit */ } }
+  function addToCart(item, v) {
+    var l = cart.filter(function (x) { return x.id === v.id; })[0];
+    if (l) l.qty = Math.min(20, l.qty + 1); else cart.push({ id: v.id, qty: 1, name: item.name, vname: v.name, cents: v.cents, image: item.image });
+    saveCart(); drawCart(); bump();
+  }
+  function bump() { var f = $("cartFab"); f.animate && f.animate([{ transform: "scale(1)" }, { transform: "scale(1.12)" }, { transform: "scale(1)" }], { duration: 260 }); }
+  function total() { return cart.reduce(function (s, l) { return s + l.cents * l.qty; }, 0); }
+  function drawCart() {
+    var n = cart.reduce(function (s, l) { return s + l.qty; }, 0);
+    $("cartCount").textContent = n; $("cartFab").classList.toggle("hidden", state.mode !== "auto");
+    $("subtotal").textContent = fmt(total());
+    var body = $("cartBody"); body.textContent = "";
+    if (!cart.length) { body.appendChild(el("p", "empty", "Your cart is empty.")); $("checkout").disabled = true; return; }
+    $("checkout").disabled = false;
+    cart.forEach(function (l) {
+      var row = el("div", "line"), t = el("div", "lt"), mid = el("div"), right = el("div");
+      var im = safeImg(l.image); if (im) { var i = el("img"); i.src = im; i.alt = ""; t.appendChild(i); }
+      mid.appendChild(el("div", "ln", l.name)); if (l.vname && l.vname !== "Regular") mid.appendChild(el("div", "lv", l.vname));
+      var q = el("div", "qty"), minus = el("button", "alt", "−"), plus = el("button", "alt", "+"), num = el("span", null, String(l.qty));
+      minus.type = plus.type = "button"; minus.setAttribute("aria-label", "One less " + l.name); plus.setAttribute("aria-label", "One more " + l.name);
+      minus.onclick = function () { l.qty -= 1; if (l.qty < 1) cart = cart.filter(function (x) { return x !== l; }); saveCart(); drawCart(); };
+      plus.onclick = function () { l.qty = Math.min(20, l.qty + 1); saveCart(); drawCart(); };
+      q.append(minus, num, plus); mid.appendChild(q);
+      var rm = el("button", "rm", "Remove"); rm.type = "button"; rm.onclick = function () { cart = cart.filter(function (x) { return x !== l; }); saveCart(); drawCart(); };
+      right.append(el("div", "lp", fmt(l.cents * l.qty)), rm); row.append(t, mid, right); body.appendChild(row);
+    });
+  }
+  var lastFocus = null;
+  function openCart() { lastFocus = document.activeElement; $("shade").classList.remove("hidden"); $("drawer").classList.remove("hidden"); $("cartMsg").textContent = ""; $("cartClose").focus(); }
+  function closeCart() { $("shade").classList.add("hidden"); $("drawer").classList.add("hidden"); if (lastFocus && lastFocus.focus) lastFocus.focus(); }
+  $("cartFab").onclick = openCart; $("cartClose").onclick = closeCart; $("shade").onclick = closeCart;
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("drawer").classList.contains("hidden")) closeCart(); });
+
+  $("checkout").onclick = async function () {
+    var btn = this, msg = $("cartMsg"); msg.textContent = "";
+    if (DEMO) { msg.textContent = "This is a preview, so checkout is switched off."; return; }
+    if (!cart.length) return;
+    btn.disabled = true; btn.textContent = "Taking you to Square…";
+    try {
+      var res = await fetch(SHOP_API, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ action: "checkout", hp: $("hp").value, lines: cart.map(function (l) { return { id: l.id, qty: l.qty }; }) }) });
+      var j = await res.json();
+      if (!j.ok || !/^https:\/\//i.test(j.url || "")) throw new Error(j.error || "Could not start checkout.");
+      window.location.href = j.url;
+    } catch (e) {
+      btn.disabled = false; btn.textContent = "Checkout with Square";
+      msg.textContent = (e && e.message && !/fetch|network|json/i.test(e.message)) ? e.message : "Could not reach checkout. Please try again, or call 778-737-7529.";
+    }
+  };
+
+  /* ---------- products ---------- */
+  function priceLabel(item) {
+    var cents = item.variations.map(function (v) { return v.cents; }), lo = Math.min.apply(null, cents), hi = Math.max.apply(null, cents);
+    return lo === hi ? fmt(lo) : fmt(lo) + " – " + fmt(hi);
+  }
+  function card(item) {
+    var c = el("article", "prod"), pi = el("div", "pimg"), im = safeImg(item.image);
+    if (im) { var i = el("img"); i.src = im; i.alt = item.name; i.loading = "lazy"; i.decoding = "async"; i.onerror = function () { i.remove(); pi.appendChild(ph()); }; pi.appendChild(i); } else pi.appendChild(ph());
+    function ph() { var d = el("div", "dogpic nophoto"); d.setAttribute("role", "img"); d.setAttribute("aria-label", "No photo yet"); return d; }
+    var b = el("div", "pbody"); b.appendChild(el("p", "pcat", item.category)); b.appendChild(el("h3", "pname", item.name));
+    if (item.description) b.appendChild(el("p", "pdesc", item.description));
+    var buy = el("div", "pbuy"), price = el("p", "price", priceLabel(item)); buy.appendChild(price);
+    if (item.url) {                                   // manual mode: straight to the Square page for this item
+      var a = el("a", "pill solid", "Buy on Square"); a.href = item.url; a.target = "_blank"; a.rel = "noopener"; a.setAttribute("aria-label", "Buy " + item.name + " on Square"); buy.appendChild(a);
+    } else {
+      var sel = null;
+      if (item.variations.length > 1) {
+        sel = el("select"); sel.setAttribute("aria-label", "Option for " + item.name);
+        item.variations.forEach(function (v, k) { var o = el("option", null, v.name + " – " + fmt(v.cents)); o.value = String(k); sel.appendChild(o); });
+        sel.onchange = function () { price.textContent = fmt(item.variations[+sel.value].cents); }; price.textContent = fmt(item.variations[0].cents); buy.appendChild(sel);
+      }
+      var add = el("button", null, "Add to cart"); add.type = "button"; add.setAttribute("aria-label", "Add " + item.name + " to cart");
+      add.onclick = function () { addToCart(item, item.variations[sel ? +sel.value : 0]); add.textContent = "Added ✓"; setTimeout(function () { add.textContent = "Add to cart"; }, 1200); };
+      buy.appendChild(add);
+    }
+    b.appendChild(buy); c.append(pi, b); return c;
+  }
+  function render() {
+    var q = state.q.trim().toLowerCase(), g = $("grid"); g.textContent = "";
+    var list = state.items.filter(function (i) { return (state.cat === "All" || i.category === state.cat) && (!q || (i.name + " " + i.description + " " + i.category).toLowerCase().indexOf(q) >= 0); });
+    list.forEach(function (i) { g.appendChild(card(i)); });
+    $("none").classList.toggle("hidden", list.length > 0 || !state.items.length);
+  }
+  function chips() {
+    var cats = ["All"].concat(state.items.map(function (i) { return i.category; }).filter(function (c, k, a) { return a.indexOf(c) === k; }).sort());
+    var box = $("chips"); box.textContent = "";
+    cats.forEach(function (name) {
+      var b = el("button", "chip", name); b.type = "button"; b.setAttribute("aria-pressed", String(name === state.cat));
+      b.onclick = function () { state.cat = name; chips(); render(); }; box.appendChild(b);
+    });
+    $("toolbar").classList.toggle("hidden", cats.length < 3 && !state.items.length);
+    if (cats.length < 3) box.classList.add("hidden"); else box.classList.remove("hidden");
+  }
+  $("q").addEventListener("input", function () { state.q = this.value; render(); });
+
+  function show(items, mode) { state.items = items; state.mode = mode; chips(); render(); drawCart(); setState(items.length ? "" : "Our shop is being stocked. Please check back soon, or call us at 778-737-7529.");
+    if (!items.length) $("trust").classList.add("hidden"); }
+
+  async function start() {
+    money = new Intl.NumberFormat("en-CA", { style: "currency", currency: state.currency });
+    if (qs.get("thanks")) { $("thanks").classList.remove("hidden"); cart = []; saveCart(); }
+    else loadCart();
+    if (SQUARE_STORE_URL && /^https:\/\//i.test(SQUARE_STORE_URL)) { var m = $("more"); m.href = SQUARE_STORE_URL; m.classList.remove("hidden"); }
+    if (DEMO) { $("preview").classList.remove("hidden"); show(SAMPLE, "auto"); return; }
+    if (SHOP_API) {
+      setState("Loading the shop…");
+      try {
+        var r = await fetch(SHOP_API), j = await r.json();
+        if (!j.ok) throw new Error(j.error);
+        if (j.currency) { state.currency = j.currency; money = new Intl.NumberFormat("en-CA", { style: "currency", currency: j.currency }); }
+        var known = {}; j.items.forEach(function (i) { i.variations.forEach(function (v) { known[v.id] = 1; }); });
+        cart = cart.filter(function (l) { return known[l.id]; }); saveCart();    // drop anything no longer sold
+        show(j.items, "auto");
+      } catch (e) { setState("The shop could not load just now. Please try again in a minute, or call us at 778-737-7529."); $("trust").classList.add("hidden"); }
+      return;
+    }
+    if (MANUAL_ITEMS.length) {
+      show(MANUAL_ITEMS.filter(function (m) { return m && m.name && /^https:\/\//i.test(m.url || ""); }).map(function (m, i) {
+        return { id: "m" + i, name: String(m.name), category: String(m.category || "Shop"), description: String(m.description || ""), image: m.image || "", url: m.url,
+          variations: [{ id: "m" + i, name: "", cents: Math.round(parseFloat(String(m.price).replace(/[^0-9.]/g, "")) * 100) || 0 }] };
+      }), "manual"); return;
+    }
+    show([], "none");
+  }
+  start();
+
+  /* banner picture glides at its own speed while scrolling (same idea as the home page) */
+  var hero = document.querySelector(".hero"), bg = hero && hero.querySelector(".hero-bg"), mq = window.matchMedia("(prefers-reduced-motion: reduce)"), queued = false;
+  function paint() { queued = false; if (mq.matches) { bg.style.transform = ""; return; } bg.style.transform = "translate3d(0," + Math.min(hero.offsetHeight * 0.22, Math.max(0, window.pageYOffset * 0.35)).toFixed(1) + "px,0)"; }
+  if (bg) { window.addEventListener("scroll", function () { if (!queued) { queued = true; requestAnimationFrame(paint); } }, { passive: true }); paint(); }
+})();
+</script>
+</body>
+</html>

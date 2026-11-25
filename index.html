@@ -1128,6 +1128,9 @@ table.grooming-table.menu-info tbody tr.menu-sub td {
 }
 
 .button-row .call-button { margin: 0; }
+.etransfer-box { max-width: 640px; margin: 22px auto 0; padding: 14px 18px; text-align: left; background: #f3f0ff; border-left: 4px solid #7b6ee6; border-radius: 10px; color: #7b6ee6; }
+.etransfer-box p { margin: 0 0 8px; line-height: 1.5; } .etransfer-box p:last-child { margin: 0; }
+.etransfer-copy { margin-left: 8px; padding: 4px 12px; border: 2px solid #7b6ee6; border-radius: 999px; background: #fff; color: #7b6ee6; font: inherit; font-size: .85em; font-weight: 700; cursor: pointer; }
 
 .centered-content {
   text-align: center;
@@ -1475,6 +1478,7 @@ table.grooming-table.menu-info tbody tr.menu-sub td {
     <p>🛒 Whether you're picking up a durable toy for playtime, a stylish new collar for walks, or a cozy hoodie for chilly days, we treat every item choice with the same love and care you treat your dog. It's not just about what they play with or wear—it's about enhancing their well-being, expressing their personality, and making every day something to bark about.</p>
     <div class="centered-content">
       <div class="button-row">
+        <a href="shop.html" class="call-button" id="shopPageBtn" style="display:none">Browse the Shop</a>
         <a href="tel:+17787377529" class="call-button">Call Us Now</a>
         <a href="#waiver" class="call-button">Complete Online Waiver</a>
       </div>
@@ -1645,6 +1649,11 @@ table.grooming-table.menu-info tbody tr.menu-sub td {
     <a href="#" class="call-button" id="payDepositBtn" style="display:none">Pay Grooming Deposit</a>
     <a href="tel:+17787377529" class="call-button">Call Us Now</a>
     <a href="#waiver" class="call-button">Complete Online Waiver</a>
+  </div>
+  <div class="etransfer-box" id="etransferBox" style="display:none">
+    <p><strong>Prefer to pay your deposit by Interac e-Transfer?</strong> Send it to <strong id="etransferAddr"></strong>
+      <button type="button" id="etransferCopy" class="etransfer-copy">Copy address</button></p>
+    <p>Please put your name and your dog's name in the message. Your deposit is confirmed once our team sees it.</p>
   </div>
 </div>
 
@@ -2141,11 +2150,29 @@ table.grooming-table.menu-info tbody tr.menu-sub td {
 
   /* ---------- Grooming deposit: link out to the payment page hosted by Square ----------
      Paste the Square payment link between the quotes. While it is empty, the button stays hidden. */
+  /* Shop page: change false to true on the day the shop is ready to open. Until then the button stays hidden. */
+  var SHOP_PAGE_LIVE = false;
+  var shopBtn = document.getElementById('shopPageBtn');
+  if (shopBtn && SHOP_PAGE_LIVE) shopBtn.style.display = '';
+
   var SQUARE_DEPOSIT_URL = "";
   var payBtn = document.getElementById('payDepositBtn');
   if (payBtn && SQUARE_DEPOSIT_URL) {
     payBtn.href = SQUARE_DEPOSIT_URL; payBtn.target = '_blank'; payBtn.rel = 'noopener';
     payBtn.style.display = '';
+  }
+  /* Interac e-Transfer: type the business's e-Transfer email between the quotes to show the box. Empty = hidden. */
+  var ETRANSFER_EMAIL = "";
+  var etBox = document.getElementById('etransferBox');
+  if (etBox && ETRANSFER_EMAIL) {
+    document.getElementById('etransferAddr').textContent = ETRANSFER_EMAIL;
+    etBox.style.display = '';
+    document.getElementById('etransferCopy').addEventListener('click', function () {
+      var btn = this;
+      function done() { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy address'; }, 2000); }
+      try { navigator.clipboard.writeText(ETRANSFER_EMAIL).then(done, function () { btn.textContent = 'Select and copy it above'; }); }
+      catch (e) { btn.textContent = 'Select and copy it above'; }
+    });
   }
 
   /* ---------- Footer year ---------- */
